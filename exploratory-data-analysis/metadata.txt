@@ -1,4 +1,4 @@
-Metadata of article
+Metadata of publication.
 type: Type of publication. Options are []
 id: Unique integer identifier of publication.
 attributes: Metadata of publication, the list consists of the following attributes:
@@ -24,175 +24,47 @@ attributes: Metadata of publication, the list consists of the following attribut
     external_article_id: If the publication is sent to the national broadcasting organisation, this is an integer. If there is no such id or the publication is not sent elsewhere, this is null.
     is_breaking: Binary to show importance in frontend. Often a temporary variable that is quickly set to false.
     visible_just_in: Binary to show importance in frontend. Often a temporary variable that is quickly set to false.
-    hide_most_read": false,
-    simplified_article_id": 0,
+    hide_most_read: Binary to show in 'most read' section on webpage.
+    simplified_article_id: Unique integer ID of simplified article. If no such version is available, set to 0.
     throughput_delay": 1,
-    external_url": "",
-    episode_id": 0,
-    is_external_url": false,
-    available_languages": []
-relationships":
-    authors":
-        data": 
-                type": "author",
-                id": 64"
-    categories":
-        data":
-                type": "article-category",
-                id": "2"
-    image":
-        data":
-            type": "image-article",
-            id": "573571"
-    region":
-        data":
-            type": "region",
-            id": "45"
+    external_url: If the publication is sent to the NOS, this shows the url of the NOS publication. If it is not exported, this is an empty string.
+    episode_id: If the publication is part of a series, this is an integer with the episode number. If it is not part of a series, this is 0.
+    is_external_url: Binary to show if there is an external url available.
+    available_languages: List of languages the article is available in. Will usually be a list containing Arabic ("ar"), German ("de"), English ("en"), Spanish ("es"), French ("fr"), Polish ("pl"), Turkish ("tr"), Ukrainian ("uk")
+relationships: Shows connections to other larger pieces of metadata, such as author and images.
+
 
 Contents of article
+There are several possible types here. For now, onlt the textual ones are covered. Other types are for example "image-video", "stream", "video", "image-item", "region", and "block-carousel".
 
-type": "image-video",
-id": "573569",
-attributes":
-    title": "Bruinvissen bij SOS Dolfijn",
-    caption": "",
-    alt_text": "",
-    author": "NH",
-    clearance": true,
-    changed": "2026-03-11T18:37:51+00:00",
-    crop": "https://media.nhnieuws.nl/images/573569.ca1311f.jpg"
-
-type": "stream",
-id": "731143",
-attributes": 
-    stream_path": "2026/03/11/69b1b3fe35eae69b1b3fe35eb0.mp4",
-    status": null,
-    enabled": true,
-    duration": "0",
-    metadata": 
-        is_portrait": false
-    deleted": false,
-    changed": "2026-03-11T18:27:13+00:00",
-    m3u8": "https://takeoff.jetstre.am/?account=nhnieuws&file=2026%2F03%2F11%2F69b1b3fe35eae69b1b3fe35eb0.smil&type=streaming&service=wowza&protocol=https&output=playlist.m3u8",
-    stream_url": "https://rtvnh-video.s3.amazonaws.com/2026/03/11/69b1b3fe35eae69b1b3fe35eb0.mp4"
-
-type": "video",
-id": "267042",
-attributes":
-    workflow": 0,
-    title": "Gestrande bruinvissen maken het goed en zwemmen zelfstandig bij SOS Dolfijn",
-    friendly_title": "Gestrande bruinvissen maken het goed en zwemmen zelfstandig bij SOS Dolfijn",
-    subtitle": "",
-    description": "Het laatste nieuws uit Noord-Holland, 24 uur per dag, zeven dagen per week.",
-    author": "NH Nieuws",
-    status": null,
-    show_ads": true,
-    clearance": true,
-    external_video_id": 0,
-    is_portrait": false,
-    deleted": false,
-    changed": "2026-03-11T18:45:27+00:00"
-            
-type": "image-item",
-id": "573570",
-attributes": 
-    title": "Jeroen Hoekendijk, woordvoerder SOS Dolfijn",
-    caption": "",
-    alt_text": "Een bebaarde man met kort bruin haar glimlacht zachtjes binnenshuis. Hij draagt een blauw overhemd en op de achtergrond houten balken, ramen en vage details van het interieur.",
-    author": "NH",
-    clearance": true,
-    changed": "2026-03-11T18:45:27+00:00",
-    crop": "https://media.nhnieuws.nl/images/573570.370166a.jpg"
-
-type": "block-header",
-id": "2694158",
-attributes": 
-    deleted": false,
-    changed": "2026-03-11T18:36:07+00:00"
-
-relationships":
-    videos":
-        data": []
-type": "block-intro",
-id": "2693697",
-attributes": 
-    text": "<p>De gestrande bruinvissen die afgelopen donderdag binnenkwamen bij SOS Dolfijn maken het goed. De dieren strandden op Vlieland en werden met een dolfijnenambulance vervoerd naar de opvang in Anna Paulowna. \"Inmiddels is de situatie een stuk verbeterd\", zegt woordvoerder Jeroen Hoekendijk.&nbsp;</p>",
-    deleted": false,
-    changed": "2026-03-11T18:36:07+00:00"
-
-type": "block-video",
-id": "2141085",
-attributes": 
-    deleted": false,
-    changed": "2026-03-11T18:46:33+00:00"
-
-type": "block-text",
-id": "7399755",
-attributes": 
-    text": "<p>Als we langskomen om een reportage te maken is het niet mogelijk in het bassin te filmen. Er zijn strenge quarantaineregels om zowel dier als mens te beschermen. \"Maar het goede nieuws is dat sinds vanochtend het strengste quarantaineniveau een stapje is verlaagd\", aldus de woordvoerder.</p>\n<h2>Zwemmen en eten</h2>\n<p>Toen de dieren binnenkwamen konden ze niet zelfstandig zwemmen of eten. Toch viel het vrijwillig dierenverzorger Jeroen Bosman niet tegen, vertelde hij eerder aan NH: \"Ik heb ze veel slechter binnen zien komen.\"&nbsp;</p>\n<p>Hij en andere vrijwilligers moesten de bruinvissen 24 uur per dag ondersteunen, want ze hebben geen kieuwen en moeten dus om de zoveel tijd boven komen om te ademen. Vis moest in de bek gelegd worden, want ze waren natuurlijk gewend om achter levende vis te gaan.</p>\n<p><em>Tekst loopt door onder de foto's.</em></p>",
-    deleted": false,
-    changed": "2026-03-11T18:36:07+00:00"
-
-type": "block-carousel",
-id": "288411",
-attributes": 
-    deleted": false,
-    changed": "2026-03-11T18:36:07+00:00"
+type: "block-text"
+id: Unique integer ID for a text block.
+attributes: 
+    text: HTML of text block.
+    deleted: Binary marker to show if the text has been deleted from the publication
+    changed: Date of last changes made to the text.
 
 
-type": "block-article",
-id": "777015",
-attributes":
-    title": "Lees ook",
-    deleted": false,
-    changed": "2026-03-11T18:36:07+00:00",
-    articles": []
-
-type": "block-info",
-id": "closing-2085043",
-attributes": 
-    text": "<p><strong>\ud83d\udcac </strong><strong>Wil je niets missen uit de Noordkop?</strong></p>\n<ul>\n<li>Tip ons met foto's, filmpjes en verhalen via <strong><a href=\"mailto:noordkop@nhmedia.nl\" target=\"_blank\" rel=\"noopener\">noordkop@nhmedia.nl</a></strong> of whatsapp <a href=\"https://api.whatsapp.com/send?phone=31630093003\" target=\"_blank\" rel=\"noopener\"><strong>06 30 09 30 03</strong></a></li>\n<li>Abonneer je op ons&nbsp;<strong><a href=\"https://whatsapp.com/channel/0029VaMzhviIHphCKMSz0U44\">Whatsappkanaal</a></strong> voor het laatste nieuws uit de regio&nbsp;</li>\n<li>Blijf op de hoogte via onze Facebookgroep <a href=\"https://www.facebook.com/groups/620023785504808\" target=\"_blank\" rel=\"noopener\" data-saferedirecturl=\"https://www.google.com/url?q=https://www.facebook.com/groups/620023785504808&amp;source=gmail&amp;ust=1592934161744000&amp;usg=AFQjCNFveQ9EKnRdlPQwVa3lJWnUl-qx4g\"><strong>Nieuws uit de Noordkop en Texe</strong>l</a>. Reageer, discussieer en deel jouw nieuws</li>\n<li>Volg de laatste berichtgeving altijd via <strong><a href=\"http://nhnieuws.nl/Noordkop\" target=\"_blank\" rel=\"noopener\" data-saferedirecturl=\"https://www.google.com/url?q=http://NHNieuws.nl/Noordkop&amp;source=gmail&amp;ust=1592934161744000&amp;usg=AFQjCNGrHgltO-E-Ly5ja6GkhPXlatbbiQ\">NHNieuws.nl/Noordkop</a></strong></li>\n</ul>\n<p>Tikfout gezien? Laat het ons weten via <strong><a href=\"mailto:tikfout@nhmedia.nl\">tikfout@nhmedia.nl</a></strong></p>",
-    color": "#dcf8c6",
-    changed": "2026-03-11T18:46:33+00:00",
-    deleted": false
-
-type": "author",
-id": "264",
-attributes": 
-    name": "Tom van Midden",
-    bio": "",
-    socials": [],
-    deleted": false,
-    changed": "2026-02-25T16:23:11+00:00"
-
-type": "article-category",
-id": "2",
-attributes": 
-    name": "Nieuws",
-    friendly_name": "Nieuws",
-    slug": "nieuws",
-    highlighted": true,
-    is_visible": false,
-    secondary_menu": false,
-    order": 0,
-    deleted": false,
-    changed": "2026-01-28T11:37:21+00:00",
-    enable_ordering": 1,
-    enable_highlights": 1,
-    enable_direct_to": 0,
-    enable_specials": 1,
-    enable_live_module_takeover": 1,
-    enable_greetings": 1,
-    enable_outgoing_nos": 1,
-    enable_incoming_nos": 1,
-    enable_videos": 1,
-    is_region": false
-
-type": "region",
-id": "45",
-attributes": 
-    name": "Anna Paulowna",
-    deleted": false,
-    changed": "2025-06-16T06:25:22+00:00",
-    surf_forecast": 0
-
+Metadata of publication type (article)
+type: "article-category"
+id: Integer ID refering to the type of publication
+attributes: 
+    name: "Nieuws",
+    friendly_name: "Nieuws",
+    slug: "nieuws",
+    highlighted: true,
+    is_visible: false,
+    secondary_menu: false,
+    order: 0,
+    deleted: false,
+    changed: "2026-01-28T11:37:21+00:00",
+    enable_ordering: 1,
+    enable_highlights: 1,
+    enable_direct_to: 0,
+    enable_specials: 1,
+    enable_live_module_takeover: 1,
+    enable_greetings: 1,
+    enable_outgoing_nos: 1,
+    enable_incoming_nos: 1,
+    enable_videos: 1,
+    is_region: false
