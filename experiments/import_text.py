@@ -59,6 +59,8 @@ def import_articles(flatten=True, test=False):
                         # Text is stored in two different types of blocks
                         if section["type"] in {"block-intro", "block-text"}:
 
+                            # Add if statement for outtro block (leads with 'closing')
+
                             # Clean the text with the BeautifulSoup module
                             parsed = BeautifulSoup(
                                 section["attributes"]["text"], "html.parser"

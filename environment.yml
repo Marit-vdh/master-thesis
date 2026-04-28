@@ -1,0 +1,14 @@
+name: thesis
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - pandas
+  - bs4
+  - nltk
+  - tqdm
+  - requests
+  - pip
+  - pip:
+      - openai

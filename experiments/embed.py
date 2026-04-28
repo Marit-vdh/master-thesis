@@ -15,7 +15,7 @@ def embed(client, model, input_articles, write=True, output_file="data.json"):
         _type_: _description_
     """
     response = client.embeddings.create(model=model, input=input_articles)
-    data = response.model_dump_json()
+    data = response.json()
 
     if write:
         with open(output_file, "w") as json_file:

@@ -1,1 +1,566 @@
-{"data":{"type":"article","id":"357903","attributes":{"workflow":0,"online_date":"2026-03-11T19:00:00+00:00","offline_date":null,"title":"Gestrande bruinvissen maken het goed en zwemmen zelfstandig bij SOS Dolfijn","alternative_title":"","template":"nieuws_artikel","show_ads":true,"comments":false,"not_suitable_content":false,"push_message_sent":false,"slug":"gestrande-bruinvissen-maken-het-goed-en-zwemmen-zelfstandig-bij-sos-dolfijn","image_id":573571,"region_id":45,"region_text":"Anna Paulowna","sent_to_rpo":true,"deleted":false,"changed":"2026-03-11T20:37:52+00:00","meta_description":"Gestrande bruinvissen op Vlieland herstellen goed bij SOS Dolfijn in Anna Paulowna: dieren zwemmen zelfstandig en eten weer vis. Lees het hele verhaal.","has_video":true,"external_article_id":null,"is_breaking":false,"visible_just_in":true,"hide_most_read":false,"simplified_article_id":0,"throughput_delay":1,"external_url":"","episode_id":0,"is_external_url":false,"available_languages":["ar","de","en","es","fr","pl","tr","uk"]},"relationships":{"authors":{"data":[{"type":"author","id":"264"}]},"categories":{"data":[{"type":"article-category","id":"2"},{"type":"article-category","id":"58"}]},"image":{"data":{"type":"image-article","id":"573571"}},"region":{"data":{"type":"region","id":"45"}},"blocks":{"data":[{"type":"block","id":"block_headers-2694158"},{"type":"block","id":"block_intros-2693697"},{"type":"block","id":"block_videos-2141085"},{"type":"block","id":"block_texts-7399755"},{"type":"block","id":"block_carousels-288411"},{"type":"block","id":"block_texts-7399756"},{"type":"block","id":"block_articles-777015"},{"type":"block","id":"block_closings-2085043"}]},"tags":{"data":[]}}},"included":[{"type":"image-video","id":"573569","attributes":{"title":"Bruinvissen bij SOS Dolfijn","caption":"","alt_text":"","author":"NH","clearance":true,"changed":"2026-03-11T18:37:51+00:00","crop":"https:\/\/media.nhnieuws.nl\/images\/573569.ca1311f.jpg"}},{"type":"stream","id":"731143","attributes":{"stream_path":"2026\/03\/11\/69b1b3fe35eae69b1b3fe35eb0.mp4","status":null,"enabled":true,"duration":"0","metadata":{"is_portrait":false},"deleted":false,"changed":"2026-03-11T18:27:13+00:00","m3u8":"https:\/\/takeoff.jetstre.am\/?account=nhnieuws\u0026file=2026%2F03%2F11%2F69b1b3fe35eae69b1b3fe35eb0.smil\u0026type=streaming\u0026service=wowza\u0026protocol=https\u0026output=playlist.m3u8","stream_url":"https:\/\/rtvnh-video.s3.amazonaws.com\/2026\/03\/11\/69b1b3fe35eae69b1b3fe35eb0.mp4"}},{"type":"video","id":"267042","attributes":{"workflow":0,"title":"Gestrande bruinvissen maken het goed en zwemmen zelfstandig bij SOS Dolfijn","friendly_title":"Gestrande bruinvissen maken het goed en zwemmen zelfstandig bij SOS Dolfijn","subtitle":"","description":"Het laatste nieuws uit Noord-Holland, 24 uur per dag, zeven dagen per week.","author":"NH Nieuws","status":null,"show_ads":true,"clearance":true,"external_video_id":0,"is_portrait":false,"deleted":false,"changed":"2026-03-11T18:45:27+00:00"},"relationships":{"images":{"data":[{"type":"image-video","id":"573569"}]},"streams":{"data":[{"type":"stream","id":"731143"}]}}},{"type":"image-item","id":"573570","attributes":{"title":"Jeroen Hoekendijk, woordvoerder SOS Dolfijn","caption":"","alt_text":"Een bebaarde man met kort bruin haar glimlacht zachtjes binnenshuis. Hij draagt een blauw overhemd en op de achtergrond houten balken, ramen en vage details van het interieur.","author":"NH","clearance":true,"changed":"2026-03-11T18:45:27+00:00","crop":"https:\/\/media.nhnieuws.nl\/images\/573570.370166a.jpg"}},{"type":"image-item","id":"573571","attributes":{"title":"Bruinvissen bij SOS Dolfijn","caption":"","alt_text":"Twee mensen liggen op hun buik aan de rand van een groot binnenzwembad en reiken in het water om kleine dolfijnen of bruinvissen aan te raken of ermee te communiceren. De kamer heeft witte muren en grote ramen.","author":"NH","clearance":true,"changed":"2026-03-11T18:45:30+00:00","crop":"https:\/\/media.nhnieuws.nl\/images\/573571.08f23b0.jpg"}},{"type":"image-item","id":"573213","attributes":{"title":"Gestrande bruinvissen hadden goede eerste nacht in opvangcentrum SOS Dolfijn","caption":"","alt_text":"Verschillende mensen met handschoenen aan en blauwe shirts dragen een kleine orka die op een tafel ligt in een klinische omgeving, mogelijk voor een medisch onderzoek of behandeling.","author":"SOS Dolfijn","clearance":true,"changed":"2026-03-06T15:54:28+00:00","crop":"https:\/\/media.nhnieuws.nl\/images\/573213.99cb698.jpg"}},{"type":"image-item","id":"573212","attributes":{"title":"Gestrande bruinvissen hadden goede eerste nacht in opvangcentrum SOS Dolfijn","caption":"","alt_text":"Drie mensen in wetsuits houden in een zwembad een kleine dolfijn vast, terwijl een vierde persoon knielt aan de rand en toekijkt. De ruimte lijkt binnen te zijn en ingericht voor de verzorging of rehabilitatie van zeedieren.","author":"SOS Dolfijn","clearance":true,"changed":"2026-03-10T08:39:23+00:00","crop":"https:\/\/media.nhnieuws.nl\/images\/573212.22be07c.jpg"}},{"type":"image-item","id":"573214","attributes":{"title":"Gestrande bruinvissen hadden goede eerste nacht in opvangcentrum SOS Dolfijn","caption":"","alt_text":"Close-up van een bruinvis liggend op een vlak, lichtgekleurd oppervlak, met zijn gladde, donkergrijze huid en gelaatstrekken zichtbaar. Een deel van een blauw object verschijnt in de rechterbenedenhoek.","author":"SOS Dolfijn","clearance":true,"changed":"2026-03-06T15:54:31+00:00","crop":"https:\/\/media.nhnieuws.nl\/images\/573214.d1ca066.jpg"}},{"type":"item","id":"844725","attributes":{"title":"","text":"","type":"image","deleted":false,"changed":"2026-03-11T18:40:04+00:00"},"relationships":{"image":{"data":{"type":"image-item","id":"573570"}}}},{"type":"item","id":"844726","attributes":{"title":"","text":"","type":"image","deleted":false,"changed":"2026-03-11T18:40:04+00:00"},"relationships":{"image":{"data":{"type":"image-item","id":"573571"}}}},{"type":"item","id":"844727","attributes":{"title":"","text":"","type":"image","deleted":false,"changed":"2026-03-11T18:40:04+00:00"},"relationships":{"image":{"data":{"type":"image-item","id":"573213"}}}},{"type":"item","id":"844728","attributes":{"title":"","text":"","type":"image","deleted":false,"changed":"2026-03-11T18:40:04+00:00"},"relationships":{"image":{"data":{"type":"image-item","id":"573212"}}}},{"type":"item","id":"844729","attributes":{"title":"","text":"","type":"image","deleted":false,"changed":"2026-03-11T18:40:04+00:00"},"relationships":{"image":{"data":{"type":"image-item","id":"573214"}}}},{"type":"block-header","id":"2694158","attributes":{"deleted":false,"changed":"2026-03-11T18:36:07+00:00"},"relationships":{"videos":{"data":[]}}},{"type":"block-intro","id":"2693697","attributes":{"text":"\u003Cp\u003EDe gestrande bruinvissen die afgelopen donderdag binnenkwamen bij SOS Dolfijn maken het goed. De dieren strandden op Vlieland en werden met een dolfijnenambulance vervoerd naar de opvang in Anna Paulowna. \u0022Inmiddels is de situatie een stuk verbeterd\u0022, zegt woordvoerder Jeroen Hoekendijk.\u0026nbsp;\u003C\/p\u003E","deleted":false,"changed":"2026-03-11T18:36:07+00:00"}},{"type":"block-video","id":"2141085","attributes":{"deleted":false,"changed":"2026-03-11T18:46:33+00:00"},"relationships":{"video":{"data":{"type":"video","id":"267042"}}}},{"type":"block-text","id":"7399755","attributes":{"text":"\u003Cp\u003EAls we langskomen om een reportage te maken is het niet mogelijk in het bassin te filmen. Er zijn strenge quarantaineregels om zowel dier als mens te beschermen. \u0022Maar het goede nieuws is dat sinds vanochtend het strengste quarantaineniveau een stapje is verlaagd\u0022, aldus de woordvoerder.\u003C\/p\u003E\n\u003Ch2\u003EZwemmen en eten\u003C\/h2\u003E\n\u003Cp\u003EToen de dieren binnenkwamen konden ze niet zelfstandig zwemmen of eten. Toch viel het vrijwillig dierenverzorger Jeroen Bosman niet tegen, vertelde hij eerder aan NH: \u0022Ik heb ze veel slechter binnen zien komen.\u0022\u0026nbsp;\u003C\/p\u003E\n\u003Cp\u003EHij en andere vrijwilligers moesten de bruinvissen 24 uur per dag ondersteunen, want ze hebben geen kieuwen en moeten dus om de zoveel tijd boven komen om te ademen. Vis moest in de bek gelegd worden, want ze waren natuurlijk gewend om achter levende vis te gaan.\u003C\/p\u003E\n\u003Cp\u003E\u003Cem\u003ETekst loopt door onder de foto\u0027s.\u003C\/em\u003E\u003C\/p\u003E","deleted":false,"changed":"2026-03-11T18:36:07+00:00"}},{"type":"block-carousel","id":"288411","attributes":{"deleted":false,"changed":"2026-03-11T18:36:07+00:00"},"relationships":{"items":{"data":[{"type":"item","id":"844725"},{"type":"item","id":"844726"},{"type":"item","id":"844727"},{"type":"item","id":"844728"},{"type":"item","id":"844729"}]}}},{"type":"block-text","id":"7399756","attributes":{"text":"\u003Cp\u003EInmiddels zwemmen de bruinvissen weer zelfstandig en dode visjes gaan erin als koek. De specialisten van SOS Dolfijn blijven alert, want een terugval is mogelijk zegt woordvoerder Jeroen Hoekendijk: \u0022We moeten altijd voorzichtig zijn, het blijft onvoorspelbaar. Maar de signalen die we op dit moment zien zijn positief.\u0022\u003C\/p\u003E","deleted":false,"changed":"2026-03-11T18:36:07+00:00"}},{"type":"block-article","id":"777015","attributes":{"title":"Lees ook","deleted":false,"changed":"2026-03-11T18:36:07+00:00","articles":[{"id":357756,"title":"Komende nachten spannend voor gestrande bruinvissen: \u0022Te zwak om zelf te zwemmen\u0022","slug":"komende-nachten-spannend-voor-gestrande-bruinvissen-te-zwak-om-zelf-te-zwemmen","order":0,"external":false,"image":"https:\/\/media.nhnieuws.nl\/images\/573212.22be07c.jpg"},{"id":357250,"title":"Groot verdriet over dood dolfijn Djay-Lynn: \u0022Iedereen is ontdaan en verdrietig\u0022","slug":"groot-verdriet-over-dood-dolfijn-djay-lynn-iedereen-is-ontdaan-en-verdrietig","order":1,"external":false,"image":"https:\/\/media.nhnieuws.nl\/images\/572035.291ffe0.jpg"},{"id":354457,"title":"Steeds minder gestrande bruinvissen, maar is dat een goed teken? ","slug":"steeds-minder-gestrande-bruinvissen-maar-is-dat-een-goed-teken","order":2,"external":false,"image":"https:\/\/media.nhnieuws.nl\/images\/379462.66f3abf.jpg"}]}},{"type":"block-info","id":"closing-2085043","attributes":{"text":"\u003Cp\u003E\u003Cstrong\u003E\ud83d\udcac \u003C\/strong\u003E\u003Cstrong\u003EWil je niets missen uit de Noordkop?\u003C\/strong\u003E\u003C\/p\u003E\n\u003Cul\u003E\n\u003Cli\u003ETip ons met foto\u0027s, filmpjes en verhalen via \u003Cstrong\u003E\u003Ca href=\u0022mailto:noordkop@nhmedia.nl\u0022 target=\u0022_blank\u0022 rel=\u0022noopener\u0022\u003Enoordkop@nhmedia.nl\u003C\/a\u003E\u003C\/strong\u003E of whatsapp \u003Ca href=\u0022https:\/\/api.whatsapp.com\/send?phone=31630093003\u0022 target=\u0022_blank\u0022 rel=\u0022noopener\u0022\u003E\u003Cstrong\u003E06 30 09 30 03\u003C\/strong\u003E\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003EAbonneer je op ons\u0026nbsp;\u003Cstrong\u003E\u003Ca href=\u0022https:\/\/whatsapp.com\/channel\/0029VaMzhviIHphCKMSz0U44\u0022\u003EWhatsappkanaal\u003C\/a\u003E\u003C\/strong\u003E voor het laatste nieuws uit de regio\u0026nbsp;\u003C\/li\u003E\n\u003Cli\u003EBlijf op de hoogte via onze Facebookgroep \u003Ca href=\u0022https:\/\/www.facebook.com\/groups\/620023785504808\u0022 target=\u0022_blank\u0022 rel=\u0022noopener\u0022 data-saferedirecturl=\u0022https:\/\/www.google.com\/url?q=https:\/\/www.facebook.com\/groups\/620023785504808\u0026amp;source=gmail\u0026amp;ust=1592934161744000\u0026amp;usg=AFQjCNFveQ9EKnRdlPQwVa3lJWnUl-qx4g\u0022\u003E\u003Cstrong\u003ENieuws uit de Noordkop en Texe\u003C\/strong\u003El\u003C\/a\u003E. Reageer, discussieer en deel jouw nieuws\u003C\/li\u003E\n\u003Cli\u003EVolg de laatste berichtgeving altijd via \u003Cstrong\u003E\u003Ca href=\u0022http:\/\/nhnieuws.nl\/Noordkop\u0022 target=\u0022_blank\u0022 rel=\u0022noopener\u0022 data-saferedirecturl=\u0022https:\/\/www.google.com\/url?q=http:\/\/NHNieuws.nl\/Noordkop\u0026amp;source=gmail\u0026amp;ust=1592934161744000\u0026amp;usg=AFQjCNGrHgltO-E-Ly5ja6GkhPXlatbbiQ\u0022\u003ENHNieuws.nl\/Noordkop\u003C\/a\u003E\u003C\/strong\u003E\u003C\/li\u003E\n\u003C\/ul\u003E\n\u003Cp\u003ETikfout gezien? Laat het ons weten via \u003Cstrong\u003E\u003Ca href=\u0022mailto:tikfout@nhmedia.nl\u0022\u003Etikfout@nhmedia.nl\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E","color":"#dcf8c6","changed":"2026-03-11T18:46:33+00:00","deleted":false}},{"type":"author","id":"264","attributes":{"name":"Tom van Midden","bio":"","socials":[],"deleted":false,"changed":"2026-02-25T16:23:11+00:00"}},{"type":"article-category","id":"2","attributes":{"name":"Nieuws","friendly_name":"Nieuws","slug":"nieuws","highlighted":true,"is_visible":false,"secondary_menu":false,"order":0,"deleted":false,"changed":"2026-01-28T11:37:21+00:00","enable_ordering":1,"enable_highlights":1,"enable_direct_to":0,"enable_specials":1,"enable_live_module_takeover":1,"enable_greetings":1,"enable_outgoing_nos":1,"enable_incoming_nos":1,"enable_videos":1,"is_region":false},"meta":{"online_date":null}},{"type":"article-category","id":"58","attributes":{"name":"Noordkop \u0026 Texel","friendly_name":"Noordkop \u0026 Texel","slug":"noordkop","highlighted":true,"is_visible":true,"secondary_menu":true,"order":9,"deleted":false,"changed":"2026-03-05T12:37:56+00:00","enable_ordering":1,"enable_highlights":1,"enable_direct_to":0,"enable_specials":1,"enable_live_module_takeover":1,"enable_greetings":1,"enable_outgoing_nos":0,"enable_incoming_nos":0,"enable_videos":0,"is_region":true},"meta":{"online_date":null}},{"type":"image-article","id":"573571","attributes":{"title":"Bruinvissen bij SOS Dolfijn","caption":"","alt_text":"Twee mensen liggen op hun buik aan de rand van een groot binnenzwembad en reiken in het water om kleine dolfijnen of bruinvissen aan te raken of ermee te communiceren. De kamer heeft witte muren en grote ramen.","author":"NH","clearance":true,"changed":"2026-03-11T18:45:30+00:00","crop":"https:\/\/media.nhnieuws.nl\/images\/573571.08f23b0.jpg"}},{"type":"region","id":"45","attributes":{"name":"Anna Paulowna","deleted":false,"changed":"2025-06-16T06:25:22+00:00","surf_forecast":0}},{"type":"block","id":"block_headers-2694158","attributes":{"own_table":"articles","own_id":357903,"external_table":"block_headers","external_id":2694158,"options":[],"order":0},"relationships":{"block":{"data":{"type":"block-header","id":"2694158"}}}},{"type":"block","id":"block_intros-2693697","attributes":{"own_table":"articles","own_id":357903,"external_table":"block_intros","external_id":2693697,"options":[],"order":1},"relationships":{"block":{"data":{"type":"block-intro","id":"2693697"}}}},{"type":"block","id":"block_videos-2141085","attributes":{"own_table":"articles","own_id":357903,"external_table":"block_videos","external_id":2141085,"options":[],"order":2},"relationships":{"block":{"data":{"type":"block-video","id":"2141085"}}}},{"type":"block","id":"block_texts-7399755","attributes":{"own_table":"articles","own_id":357903,"external_table":"block_texts","external_id":7399755,"options":[],"order":3},"relationships":{"block":{"data":{"type":"block-text","id":"7399755"}}}},{"type":"block","id":"block_carousels-288411","attributes":{"own_table":"articles","own_id":357903,"external_table":"block_carousels","external_id":288411,"options":[],"order":4},"relationships":{"block":{"data":{"type":"block-carousel","id":"288411"}}}},{"type":"block","id":"block_texts-7399756","attributes":{"own_table":"articles","own_id":357903,"external_table":"block_texts","external_id":7399756,"options":[],"order":5},"relationships":{"block":{"data":{"type":"block-text","id":"7399756"}}}},{"type":"block","id":"block_articles-777015","attributes":{"own_table":"articles","own_id":357903,"external_table":"block_articles","external_id":777015,"options":{"suggestionButtonEnabled":true},"order":6},"relationships":{"block":{"data":{"type":"block-article","id":"777015"}}}},{"type":"block","id":"block_closings-2085043","attributes":{"own_table":"articles","own_id":357903,"external_table":"block_closings","external_id":2085043,"options":[],"order":7},"relationships":{"block":{"data":{"type":"block-info","id":"closing-2085043"}}}}]}
+{
+  "data": {
+    "type": "article",
+    "id": "357903",
+    "attributes": {
+      "workflow": 0,
+      "online_date": "2026-03-11T19:00:00+00:00",
+      "offline_date": null,
+      "title": "Gestrande bruinvissen maken het goed en zwemmen zelfstandig bij SOS Dolfijn",
+      "alternative_title": "",
+      "template": "nieuws_artikel",
+      "show_ads": true,
+      "comments": false,
+      "not_suitable_content": false,
+      "push_message_sent": false,
+      "slug": "gestrande-bruinvissen-maken-het-goed-en-zwemmen-zelfstandig-bij-sos-dolfijn",
+      "image_id": 573571,
+      "region_id": 45,
+      "region_text": "Anna Paulowna",
+      "sent_to_rpo": true,
+      "deleted": false,
+      "changed": "2026-03-11T20:37:52+00:00",
+      "meta_description": "Gestrande bruinvissen op Vlieland herstellen goed bij SOS Dolfijn in Anna Paulowna: dieren zwemmen zelfstandig en eten weer vis. Lees het hele verhaal.",
+      "has_video": true,
+      "external_article_id": null,
+      "is_breaking": false,
+      "visible_just_in": true,
+      "hide_most_read": false,
+      "simplified_article_id": 0,
+      "throughput_delay": 1,
+      "external_url": "",
+      "episode_id": 0,
+      "is_external_url": false,
+      "available_languages": ["ar", "de", "en", "es", "fr", "pl", "tr", "uk"]
+    },
+    "relationships": {
+      "authors": { "data": [{ "type": "author", "id": "264" }] },
+      "categories": {
+        "data": [
+          { "type": "article-category", "id": "2" },
+          { "type": "article-category", "id": "58" }
+        ]
+      },
+      "image": { "data": { "type": "image-article", "id": "573571" } },
+      "region": { "data": { "type": "region", "id": "45" } },
+      "blocks": {
+        "data": [
+          { "type": "block", "id": "block_headers-2694158" },
+          { "type": "block", "id": "block_intros-2693697" },
+          { "type": "block", "id": "block_videos-2141085" },
+          { "type": "block", "id": "block_texts-7399755" },
+          { "type": "block", "id": "block_carousels-288411" },
+          { "type": "block", "id": "block_texts-7399756" },
+          { "type": "block", "id": "block_articles-777015" },
+          { "type": "block", "id": "block_closings-2085043" }
+        ]
+      },
+      "tags": { "data": [] }
+    }
+  },
+  "included": [
+    {
+      "type": "image-video",
+      "id": "573569",
+      "attributes": {
+        "title": "Bruinvissen bij SOS Dolfijn",
+        "caption": "",
+        "alt_text": "",
+        "author": "NH",
+        "clearance": true,
+        "changed": "2026-03-11T18:37:51+00:00",
+        "crop": "https:\/\/media.nhnieuws.nl\/images\/573569.ca1311f.jpg"
+      }
+    },
+    {
+      "type": "stream",
+      "id": "731143",
+      "attributes": {
+        "stream_path": "2026\/03\/11\/69b1b3fe35eae69b1b3fe35eb0.mp4",
+        "status": null,
+        "enabled": true,
+        "duration": "0",
+        "metadata": { "is_portrait": false },
+        "deleted": false,
+        "changed": "2026-03-11T18:27:13+00:00",
+        "m3u8": "https:\/\/takeoff.jetstre.am\/?account=nhnieuws\u0026file=2026%2F03%2F11%2F69b1b3fe35eae69b1b3fe35eb0.smil\u0026type=streaming\u0026service=wowza\u0026protocol=https\u0026output=playlist.m3u8",
+        "stream_url": "https:\/\/rtvnh-video.s3.amazonaws.com\/2026\/03\/11\/69b1b3fe35eae69b1b3fe35eb0.mp4"
+      }
+    },
+    {
+      "type": "video",
+      "id": "267042",
+      "attributes": {
+        "workflow": 0,
+        "title": "Gestrande bruinvissen maken het goed en zwemmen zelfstandig bij SOS Dolfijn",
+        "friendly_title": "Gestrande bruinvissen maken het goed en zwemmen zelfstandig bij SOS Dolfijn",
+        "subtitle": "",
+        "description": "Het laatste nieuws uit Noord-Holland, 24 uur per dag, zeven dagen per week.",
+        "author": "NH Nieuws",
+        "status": null,
+        "show_ads": true,
+        "clearance": true,
+        "external_video_id": 0,
+        "is_portrait": false,
+        "deleted": false,
+        "changed": "2026-03-11T18:45:27+00:00"
+      },
+      "relationships": {
+        "images": { "data": [{ "type": "image-video", "id": "573569" }] },
+        "streams": { "data": [{ "type": "stream", "id": "731143" }] }
+      }
+    },
+    {
+      "type": "image-item",
+      "id": "573570",
+      "attributes": {
+        "title": "Jeroen Hoekendijk, woordvoerder SOS Dolfijn",
+        "caption": "",
+        "alt_text": "Een bebaarde man met kort bruin haar glimlacht zachtjes binnenshuis. Hij draagt een blauw overhemd en op de achtergrond houten balken, ramen en vage details van het interieur.",
+        "author": "NH",
+        "clearance": true,
+        "changed": "2026-03-11T18:45:27+00:00",
+        "crop": "https:\/\/media.nhnieuws.nl\/images\/573570.370166a.jpg"
+      }
+    },
+    {
+      "type": "image-item",
+      "id": "573571",
+      "attributes": {
+        "title": "Bruinvissen bij SOS Dolfijn",
+        "caption": "",
+        "alt_text": "Twee mensen liggen op hun buik aan de rand van een groot binnenzwembad en reiken in het water om kleine dolfijnen of bruinvissen aan te raken of ermee te communiceren. De kamer heeft witte muren en grote ramen.",
+        "author": "NH",
+        "clearance": true,
+        "changed": "2026-03-11T18:45:30+00:00",
+        "crop": "https:\/\/media.nhnieuws.nl\/images\/573571.08f23b0.jpg"
+      }
+    },
+    {
+      "type": "image-item",
+      "id": "573213",
+      "attributes": {
+        "title": "Gestrande bruinvissen hadden goede eerste nacht in opvangcentrum SOS Dolfijn",
+        "caption": "",
+        "alt_text": "Verschillende mensen met handschoenen aan en blauwe shirts dragen een kleine orka die op een tafel ligt in een klinische omgeving, mogelijk voor een medisch onderzoek of behandeling.",
+        "author": "SOS Dolfijn",
+        "clearance": true,
+        "changed": "2026-03-06T15:54:28+00:00",
+        "crop": "https:\/\/media.nhnieuws.nl\/images\/573213.99cb698.jpg"
+      }
+    },
+    {
+      "type": "image-item",
+      "id": "573212",
+      "attributes": {
+        "title": "Gestrande bruinvissen hadden goede eerste nacht in opvangcentrum SOS Dolfijn",
+        "caption": "",
+        "alt_text": "Drie mensen in wetsuits houden in een zwembad een kleine dolfijn vast, terwijl een vierde persoon knielt aan de rand en toekijkt. De ruimte lijkt binnen te zijn en ingericht voor de verzorging of rehabilitatie van zeedieren.",
+        "author": "SOS Dolfijn",
+        "clearance": true,
+        "changed": "2026-03-10T08:39:23+00:00",
+        "crop": "https:\/\/media.nhnieuws.nl\/images\/573212.22be07c.jpg"
+      }
+    },
+    {
+      "type": "image-item",
+      "id": "573214",
+      "attributes": {
+        "title": "Gestrande bruinvissen hadden goede eerste nacht in opvangcentrum SOS Dolfijn",
+        "caption": "",
+        "alt_text": "Close-up van een bruinvis liggend op een vlak, lichtgekleurd oppervlak, met zijn gladde, donkergrijze huid en gelaatstrekken zichtbaar. Een deel van een blauw object verschijnt in de rechterbenedenhoek.",
+        "author": "SOS Dolfijn",
+        "clearance": true,
+        "changed": "2026-03-06T15:54:31+00:00",
+        "crop": "https:\/\/media.nhnieuws.nl\/images\/573214.d1ca066.jpg"
+      }
+    },
+    {
+      "type": "item",
+      "id": "844725",
+      "attributes": {
+        "title": "",
+        "text": "",
+        "type": "image",
+        "deleted": false,
+        "changed": "2026-03-11T18:40:04+00:00"
+      },
+      "relationships": {
+        "image": { "data": { "type": "image-item", "id": "573570" } }
+      }
+    },
+    {
+      "type": "item",
+      "id": "844726",
+      "attributes": {
+        "title": "",
+        "text": "",
+        "type": "image",
+        "deleted": false,
+        "changed": "2026-03-11T18:40:04+00:00"
+      },
+      "relationships": {
+        "image": { "data": { "type": "image-item", "id": "573571" } }
+      }
+    },
+    {
+      "type": "item",
+      "id": "844727",
+      "attributes": {
+        "title": "",
+        "text": "",
+        "type": "image",
+        "deleted": false,
+        "changed": "2026-03-11T18:40:04+00:00"
+      },
+      "relationships": {
+        "image": { "data": { "type": "image-item", "id": "573213" } }
+      }
+    },
+    {
+      "type": "item",
+      "id": "844728",
+      "attributes": {
+        "title": "",
+        "text": "",
+        "type": "image",
+        "deleted": false,
+        "changed": "2026-03-11T18:40:04+00:00"
+      },
+      "relationships": {
+        "image": { "data": { "type": "image-item", "id": "573212" } }
+      }
+    },
+    {
+      "type": "item",
+      "id": "844729",
+      "attributes": {
+        "title": "",
+        "text": "",
+        "type": "image",
+        "deleted": false,
+        "changed": "2026-03-11T18:40:04+00:00"
+      },
+      "relationships": {
+        "image": { "data": { "type": "image-item", "id": "573214" } }
+      }
+    },
+    {
+      "type": "block-header",
+      "id": "2694158",
+      "attributes": {
+        "deleted": false,
+        "changed": "2026-03-11T18:36:07+00:00"
+      },
+      "relationships": { "videos": { "data": [] } }
+    },
+    {
+      "type": "block-intro",
+      "id": "2693697",
+      "attributes": {
+        "text": "\u003Cp\u003EDe gestrande bruinvissen die afgelopen donderdag binnenkwamen bij SOS Dolfijn maken het goed. De dieren strandden op Vlieland en werden met een dolfijnenambulance vervoerd naar de opvang in Anna Paulowna. \u0022Inmiddels is de situatie een stuk verbeterd\u0022, zegt woordvoerder Jeroen Hoekendijk.\u0026nbsp;\u003C\/p\u003E",
+        "deleted": false,
+        "changed": "2026-03-11T18:36:07+00:00"
+      }
+    },
+    {
+      "type": "block-video",
+      "id": "2141085",
+      "attributes": {
+        "deleted": false,
+        "changed": "2026-03-11T18:46:33+00:00"
+      },
+      "relationships": {
+        "video": { "data": { "type": "video", "id": "267042" } }
+      }
+    },
+    {
+      "type": "block-text",
+      "id": "7399755",
+      "attributes": {
+        "text": "\u003Cp\u003EAls we langskomen om een reportage te maken is het niet mogelijk in het bassin te filmen. Er zijn strenge quarantaineregels om zowel dier als mens te beschermen. \u0022Maar het goede nieuws is dat sinds vanochtend het strengste quarantaineniveau een stapje is verlaagd\u0022, aldus de woordvoerder.\u003C\/p\u003E\n\u003Ch2\u003EZwemmen en eten\u003C\/h2\u003E\n\u003Cp\u003EToen de dieren binnenkwamen konden ze niet zelfstandig zwemmen of eten. Toch viel het vrijwillig dierenverzorger Jeroen Bosman niet tegen, vertelde hij eerder aan NH: \u0022Ik heb ze veel slechter binnen zien komen.\u0022\u0026nbsp;\u003C\/p\u003E\n\u003Cp\u003EHij en andere vrijwilligers moesten de bruinvissen 24 uur per dag ondersteunen, want ze hebben geen kieuwen en moeten dus om de zoveel tijd boven komen om te ademen. Vis moest in de bek gelegd worden, want ze waren natuurlijk gewend om achter levende vis te gaan.\u003C\/p\u003E\n\u003Cp\u003E\u003Cem\u003ETekst loopt door onder de foto\u0027s.\u003C\/em\u003E\u003C\/p\u003E",
+        "deleted": false,
+        "changed": "2026-03-11T18:36:07+00:00"
+      }
+    },
+    {
+      "type": "block-carousel",
+      "id": "288411",
+      "attributes": {
+        "deleted": false,
+        "changed": "2026-03-11T18:36:07+00:00"
+      },
+      "relationships": {
+        "items": {
+          "data": [
+            { "type": "item", "id": "844725" },
+            { "type": "item", "id": "844726" },
+            { "type": "item", "id": "844727" },
+            { "type": "item", "id": "844728" },
+            { "type": "item", "id": "844729" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "block-text",
+      "id": "7399756",
+      "attributes": {
+        "text": "\u003Cp\u003EInmiddels zwemmen de bruinvissen weer zelfstandig en dode visjes gaan erin als koek. De specialisten van SOS Dolfijn blijven alert, want een terugval is mogelijk zegt woordvoerder Jeroen Hoekendijk: \u0022We moeten altijd voorzichtig zijn, het blijft onvoorspelbaar. Maar de signalen die we op dit moment zien zijn positief.\u0022\u003C\/p\u003E",
+        "deleted": false,
+        "changed": "2026-03-11T18:36:07+00:00"
+      }
+    },
+    {
+      "type": "block-article",
+      "id": "777015",
+      "attributes": {
+        "title": "Lees ook",
+        "deleted": false,
+        "changed": "2026-03-11T18:36:07+00:00",
+        "articles": [
+          {
+            "id": 357756,
+            "title": "Komende nachten spannend voor gestrande bruinvissen: \u0022Te zwak om zelf te zwemmen\u0022",
+            "slug": "komende-nachten-spannend-voor-gestrande-bruinvissen-te-zwak-om-zelf-te-zwemmen",
+            "order": 0,
+            "external": false,
+            "image": "https:\/\/media.nhnieuws.nl\/images\/573212.22be07c.jpg"
+          },
+          {
+            "id": 357250,
+            "title": "Groot verdriet over dood dolfijn Djay-Lynn: \u0022Iedereen is ontdaan en verdrietig\u0022",
+            "slug": "groot-verdriet-over-dood-dolfijn-djay-lynn-iedereen-is-ontdaan-en-verdrietig",
+            "order": 1,
+            "external": false,
+            "image": "https:\/\/media.nhnieuws.nl\/images\/572035.291ffe0.jpg"
+          },
+          {
+            "id": 354457,
+            "title": "Steeds minder gestrande bruinvissen, maar is dat een goed teken? ",
+            "slug": "steeds-minder-gestrande-bruinvissen-maar-is-dat-een-goed-teken",
+            "order": 2,
+            "external": false,
+            "image": "https:\/\/media.nhnieuws.nl\/images\/379462.66f3abf.jpg"
+          }
+        ]
+      }
+    },
+    {
+      "type": "block-info",
+      "id": "closing-2085043",
+      "attributes": {
+        "text": "\u003Cp\u003E\u003Cstrong\u003E\ud83d\udcac \u003C\/strong\u003E\u003Cstrong\u003EWil je niets missen uit de Noordkop?\u003C\/strong\u003E\u003C\/p\u003E\n\u003Cul\u003E\n\u003Cli\u003ETip ons met foto\u0027s, filmpjes en verhalen via \u003Cstrong\u003E\u003Ca href=\u0022mailto:noordkop@nhmedia.nl\u0022 target=\u0022_blank\u0022 rel=\u0022noopener\u0022\u003Enoordkop@nhmedia.nl\u003C\/a\u003E\u003C\/strong\u003E of whatsapp \u003Ca href=\u0022https:\/\/api.whatsapp.com\/send?phone=31630093003\u0022 target=\u0022_blank\u0022 rel=\u0022noopener\u0022\u003E\u003Cstrong\u003E06 30 09 30 03\u003C\/strong\u003E\u003C\/a\u003E\u003C\/li\u003E\n\u003Cli\u003EAbonneer je op ons\u0026nbsp;\u003Cstrong\u003E\u003Ca href=\u0022https:\/\/whatsapp.com\/channel\/0029VaMzhviIHphCKMSz0U44\u0022\u003EWhatsappkanaal\u003C\/a\u003E\u003C\/strong\u003E voor het laatste nieuws uit de regio\u0026nbsp;\u003C\/li\u003E\n\u003Cli\u003EBlijf op de hoogte via onze Facebookgroep \u003Ca href=\u0022https:\/\/www.facebook.com\/groups\/620023785504808\u0022 target=\u0022_blank\u0022 rel=\u0022noopener\u0022 data-saferedirecturl=\u0022https:\/\/www.google.com\/url?q=https:\/\/www.facebook.com\/groups\/620023785504808\u0026amp;source=gmail\u0026amp;ust=1592934161744000\u0026amp;usg=AFQjCNFveQ9EKnRdlPQwVa3lJWnUl-qx4g\u0022\u003E\u003Cstrong\u003ENieuws uit de Noordkop en Texe\u003C\/strong\u003El\u003C\/a\u003E. Reageer, discussieer en deel jouw nieuws\u003C\/li\u003E\n\u003Cli\u003EVolg de laatste berichtgeving altijd via \u003Cstrong\u003E\u003Ca href=\u0022http:\/\/nhnieuws.nl\/Noordkop\u0022 target=\u0022_blank\u0022 rel=\u0022noopener\u0022 data-saferedirecturl=\u0022https:\/\/www.google.com\/url?q=http:\/\/NHNieuws.nl\/Noordkop\u0026amp;source=gmail\u0026amp;ust=1592934161744000\u0026amp;usg=AFQjCNGrHgltO-E-Ly5ja6GkhPXlatbbiQ\u0022\u003ENHNieuws.nl\/Noordkop\u003C\/a\u003E\u003C\/strong\u003E\u003C\/li\u003E\n\u003C\/ul\u003E\n\u003Cp\u003ETikfout gezien? Laat het ons weten via \u003Cstrong\u003E\u003Ca href=\u0022mailto:tikfout@nhmedia.nl\u0022\u003Etikfout@nhmedia.nl\u003C\/a\u003E\u003C\/strong\u003E\u003C\/p\u003E",
+        "color": "#dcf8c6",
+        "changed": "2026-03-11T18:46:33+00:00",
+        "deleted": false
+      }
+    },
+    {
+      "type": "author",
+      "id": "264",
+      "attributes": {
+        "name": "Tom van Midden",
+        "bio": "",
+        "socials": [],
+        "deleted": false,
+        "changed": "2026-02-25T16:23:11+00:00"
+      }
+    },
+    {
+      "type": "article-category",
+      "id": "2",
+      "attributes": {
+        "name": "Nieuws",
+        "friendly_name": "Nieuws",
+        "slug": "nieuws",
+        "highlighted": true,
+        "is_visible": false,
+        "secondary_menu": false,
+        "order": 0,
+        "deleted": false,
+        "changed": "2026-01-28T11:37:21+00:00",
+        "enable_ordering": 1,
+        "enable_highlights": 1,
+        "enable_direct_to": 0,
+        "enable_specials": 1,
+        "enable_live_module_takeover": 1,
+        "enable_greetings": 1,
+        "enable_outgoing_nos": 1,
+        "enable_incoming_nos": 1,
+        "enable_videos": 1,
+        "is_region": false
+      },
+      "meta": { "online_date": null }
+    },
+    {
+      "type": "article-category",
+      "id": "58",
+      "attributes": {
+        "name": "Noordkop \u0026 Texel",
+        "friendly_name": "Noordkop \u0026 Texel",
+        "slug": "noordkop",
+        "highlighted": true,
+        "is_visible": true,
+        "secondary_menu": true,
+        "order": 9,
+        "deleted": false,
+        "changed": "2026-03-05T12:37:56+00:00",
+        "enable_ordering": 1,
+        "enable_highlights": 1,
+        "enable_direct_to": 0,
+        "enable_specials": 1,
+        "enable_live_module_takeover": 1,
+        "enable_greetings": 1,
+        "enable_outgoing_nos": 0,
+        "enable_incoming_nos": 0,
+        "enable_videos": 0,
+        "is_region": true
+      },
+      "meta": { "online_date": null }
+    },
+    {
+      "type": "image-article",
+      "id": "573571",
+      "attributes": {
+        "title": "Bruinvissen bij SOS Dolfijn",
+        "caption": "",
+        "alt_text": "Twee mensen liggen op hun buik aan de rand van een groot binnenzwembad en reiken in het water om kleine dolfijnen of bruinvissen aan te raken of ermee te communiceren. De kamer heeft witte muren en grote ramen.",
+        "author": "NH",
+        "clearance": true,
+        "changed": "2026-03-11T18:45:30+00:00",
+        "crop": "https:\/\/media.nhnieuws.nl\/images\/573571.08f23b0.jpg"
+      }
+    },
+    {
+      "type": "region",
+      "id": "45",
+      "attributes": {
+        "name": "Anna Paulowna",
+        "deleted": false,
+        "changed": "2025-06-16T06:25:22+00:00",
+        "surf_forecast": 0
+      }
+    },
+    {
+      "type": "block",
+      "id": "block_headers-2694158",
+      "attributes": {
+        "own_table": "articles",
+        "own_id": 357903,
+        "external_table": "block_headers",
+        "external_id": 2694158,
+        "options": [],
+        "order": 0
+      },
+      "relationships": {
+        "block": { "data": { "type": "block-header", "id": "2694158" } }
+      }
+    },
+    {
+      "type": "block",
+      "id": "block_intros-2693697",
+      "attributes": {
+        "own_table": "articles",
+        "own_id": 357903,
+        "external_table": "block_intros",
+        "external_id": 2693697,
+        "options": [],
+        "order": 1
+      },
+      "relationships": {
+        "block": { "data": { "type": "block-intro", "id": "2693697" } }
+      }
+    },
+    {
+      "type": "block",
+      "id": "block_videos-2141085",
+      "attributes": {
+        "own_table": "articles",
+        "own_id": 357903,
+        "external_table": "block_videos",
+        "external_id": 2141085,
+        "options": [],
+        "order": 2
+      },
+      "relationships": {
+        "block": { "data": { "type": "block-video", "id": "2141085" } }
+      }
+    },
+    {
+      "type": "block",
+      "id": "block_texts-7399755",
+      "attributes": {
+        "own_table": "articles",
+        "own_id": 357903,
+        "external_table": "block_texts",
+        "external_id": 7399755,
+        "options": [],
+        "order": 3
+      },
+      "relationships": {
+        "block": { "data": { "type": "block-text", "id": "7399755" } }
+      }
+    },
+    {
+      "type": "block",
+      "id": "block_carousels-288411",
+      "attributes": {
+        "own_table": "articles",
+        "own_id": 357903,
+        "external_table": "block_carousels",
+        "external_id": 288411,
+        "options": [],
+        "order": 4
+      },
+      "relationships": {
+        "block": { "data": { "type": "block-carousel", "id": "288411" } }
+      }
+    },
+    {
+      "type": "block",
+      "id": "block_texts-7399756",
+      "attributes": {
+        "own_table": "articles",
+        "own_id": 357903,
+        "external_table": "block_texts",
+        "external_id": 7399756,
+        "options": [],
+        "order": 5
+      },
+      "relationships": {
+        "block": { "data": { "type": "block-text", "id": "7399756" } }
+      }
+    },
+    {
+      "type": "block",
+      "id": "block_articles-777015",
+      "attributes": {
+        "own_table": "articles",
+        "own_id": 357903,
+        "external_table": "block_articles",
+        "external_id": 777015,
+        "options": { "suggestionButtonEnabled": true },
+        "order": 6
+      },
+      "relationships": {
+        "block": { "data": { "type": "block-article", "id": "777015" } }
+      }
+    },
+    {
+      "type": "block",
+      "id": "block_closings-2085043",
+      "attributes": {
+        "own_table": "articles",
+        "own_id": 357903,
+        "external_table": "block_closings",
+        "external_id": 2085043,
+        "options": [],
+        "order": 7
+      },
+      "relationships": {
+        "block": { "data": { "type": "block-info", "id": "closing-2085043" } }
+      }
+    }
+  ]
+}
