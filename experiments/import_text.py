@@ -5,20 +5,25 @@ from bs4 import BeautifulSoup
 
 
 def import_articles(flatten=True, test=False):
-    """_summary_
+    """Load articles as strings from locally stored files. Return as a
+    dictionary if flatten is set to false, else return as a list of string.s
 
     Args:
-        flatten (bool, optional): _description_. Defaults to True.
-        test (bool, optional): _description_. Defaults to False.
+        flatten (bool, optional): flatten the dictionary to a list. Defaults to True.
+        test (bool, optional): limits the number of articles loaded to one month
+            worth of articles to allow for small batch testing. Defaults to False.
 
     Returns:
-        _type_: _description_
+        loaded articles (dict or bool): the articles loaded as strings. If they are not
+            flattened, the key is the article identifier (string), the value is the loaded
+            article. If they are flattened, only the articles are returned.
     """
 
     print("Start loading the articles")
 
     article_texts = {}
 
+    # Limit the number of articles loaded when test is set to True
     if test:
         n_folders = 1
     else:
@@ -30,6 +35,8 @@ def import_articles(flatten=True, test=False):
 
         if test:
             n_folders = 1
+
+            # Report the loaded year for reproducibility of the tests
             print(f"Loading year {year}")
         else:
             n_folders = len(os.listdir(f"../../articles/{year}"))
@@ -52,20 +59,18 @@ def import_articles(flatten=True, test=False):
 
                     article = json.load(file)
 
-                    text = ""
+                    text = []
 
                     for section in article["included"]:
 
                         # Text is stored in two different types of blocks
                         if section["type"] in {"block-intro", "block-text"}:
 
-                            # Add if statement for outtro block (leads with 'closing')
-
                             # Clean the text with the BeautifulSoup module
                             parsed = BeautifulSoup(
                                 section["attributes"]["text"], "html.parser"
                             )
-                            text += parsed.get_text()
+                            text += [parsed.get_text().replace('\n', ' ').replace('\xa0', '')]
 
                     # Add text to dictionary, remove .json extension
                     article_texts[year][month][article_name[:-5]] = text
@@ -92,4 +97,4 @@ def import_articles(flatten=True, test=False):
 
 
 if __name__ == "__main__":
-    print(import_articles())
+    print(import_articles(flatten=False, test=True)['2024']['04']['334789'])
