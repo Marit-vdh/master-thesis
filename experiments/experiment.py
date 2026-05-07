@@ -3,7 +3,7 @@ import openai
 
 from import_text import import_articles
 from embed import embed, load_embeddings
-from retrieve import retrieve
+from retrieve import cosine_similarity, retrieve
 from generator import generate_response
 
 
@@ -58,11 +58,12 @@ class Experiment:
         manual_prompt: bool = False,
         n_articles: int = 3,
         write: bool = True,
-        output_filename: str = "rag_response",
+        output_filename: str = "rag_response.txt",
     ):
         self.request_prompt(manual_prompt=manual_prompt)
 
         relevant_documents, relevant_document_ids = retrieve(
+            retriever=cosine_similarity,
             query=self.embedded_user_prompt,
             embeddings=self.embeddings,
             texts=dict(zip(self.ids, self.texts)),
@@ -85,12 +86,12 @@ class Experiment:
 
         if write:
             with open(output_filename, "w") as output_file:
-                output_file.write(f"User prompt:\n {self.user_prompt}\n")
-                output_file.write(f"Articles used:\n {relevant_document_ids}")
+                output_file.write(f"User prompt:\n{self.user_prompt}\n")
+                output_file.write(f"\nArticles used:\n{relevant_document_ids}\n")
                 output_file.write(
-                    f"{'\n'.join([f' - {chunk}' for chunk in relevant_documents])}\n"
+                    f"{'\n'.join([f'{docid} - {article}' for docid, article in zip(relevant_document_ids, relevant_documents)])}\n"
                 )
-                output_file.write(f"Response\n")
+                output_file.write(f"\nResponse:\n")
                 output_file.write(response)
 
         return response
@@ -103,4 +104,4 @@ if __name__ == "__main__":
         generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
     )
 
-    experiment.rag()
+    experiment.rag(manual_prompt=True)

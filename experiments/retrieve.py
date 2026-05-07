@@ -42,21 +42,23 @@ def euclidean_distance(a, b):
 
 
 def retrieve(
+    retriever: function,
     query: list[float],
     embeddings: dict[str, list[float]],
     texts: dict[str, str],
-    n_articles: int,
+    n_articles: int = 3,
 ) -> list[str]:
-    """_summary_
+    """Retrieve the top matching documents based on the given retrieval method.
 
     Args:
-        query (list[float]): _description_
-        embeddings (dict[str, list[float]]): _description_
-        texts (dict[str, str]): _description_
-        n_articles (int): _description_
+        retriever (function): retrieval function that works based on embeddings.
+        query (list[float]): embedded user prompt.
+        embeddings (dict[str, list[float]]): array of text embeddings to match the query with.
+        texts (dict[str, str]): original texts to return a readable output.
+        n_articles (int): number of articles to return.
 
     Returns:
-        list[str]: _description_
+        list[str]: list of articles ordered on similarity based on the retrieval method.
     """
 
     query = np.array(query)
@@ -67,7 +69,7 @@ def retrieve(
 
     for index, embedding in tqdm(embeddings.items()):
 
-        similarities[index] = cosine_similarity(query, np.array(embedding))
+        similarities[index] = retriever(query, np.array(embedding))
 
     top_embeddings = sorted(similarities, key=similarities.get, reverse=True)
 

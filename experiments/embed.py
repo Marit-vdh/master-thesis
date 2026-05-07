@@ -19,7 +19,7 @@ def embed(
         output_file (str, optional): sets the name of the output file in case write is set to true. Defaults to "data.tsv".
 
     Returns:
-        list[list[float]]: a list containing the embeddings, each represented as a list.
+        (list[list[float]]): a list containing the embeddings, each represented as a list.
     """
     print("Start embedding")
 

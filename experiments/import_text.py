@@ -4,7 +4,7 @@ import json
 from bs4 import BeautifulSoup
 
 
-def import_articles(flatten=True, test=False):
+def import_articles(flatten: bool = True, test: bool = False) -> dict[str, str] | bool:
     """Load articles as strings from locally stored files. Return as a
     dictionary if flatten is set to false, else return as a list of string.s
 
@@ -14,7 +14,7 @@ def import_articles(flatten=True, test=False):
             worth of articles to allow for small batch testing. Defaults to False.
 
     Returns:
-        loaded articles (dict or bool): the articles loaded as strings. If they are not
+        dict[str, str] | bool: the articles loaded as strings. If they are not
             flattened, the key is the article identifier (string), the value is the loaded
             article. If they are flattened, only the articles are returned.
     """
@@ -29,7 +29,7 @@ def import_articles(flatten=True, test=False):
     else:
         n_folders = len(os.listdir("../../articles/"))
 
-    for year in tqdm(os.listdir("../../articles/")[:n_folders]):
+    for year in os.listdir("../../articles/")[:n_folders]:
 
         article_texts[year] = {}
 
@@ -59,7 +59,7 @@ def import_articles(flatten=True, test=False):
 
                     article = json.load(file)
 
-                    text = ''
+                    text = ""
 
                     for section in article["included"]:
 
@@ -70,7 +70,9 @@ def import_articles(flatten=True, test=False):
                             parsed = BeautifulSoup(
                                 section["attributes"]["text"], "html.parser"
                             )
-                            text += parsed.get_text().replace('\n', ' ').replace('\xa0', '')
+                            text += (
+                                parsed.get_text().replace("\n", " ").replace("\xa0", "")
+                            )
 
                     # Add text to dictionary, remove .json extension
                     article_texts[year][month][article_name[:-5]] = text
@@ -80,7 +82,7 @@ def import_articles(flatten=True, test=False):
     if not flatten:
         return article_texts
 
-    # The embedding functions require the strings to be presented in an array. The 
+    # The embedding functions require the strings to be presented in an array. The
     # paragraphs of each article are used as separate 'tokens' to feed to the embedder.
     else:
 
