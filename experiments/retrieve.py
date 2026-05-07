@@ -71,4 +71,6 @@ def retrieve(
 
     top_embeddings = sorted(similarities, key=similarities.get, reverse=True)
 
-    return [texts[text_id] for text_id in top_embeddings[:n_articles]]
+    return [texts[text_id] for text_id in top_embeddings[:n_articles]], top_embeddings[
+        :n_articles
+    ]

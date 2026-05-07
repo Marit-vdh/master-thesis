@@ -52,7 +52,3 @@ response = generate_response(
 )
 
 print(response)
-
-
-def main():
-    run_single_experiment()
