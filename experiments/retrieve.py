@@ -23,8 +23,8 @@ def cosine_similarity(a, b):
     # Step 3: Calculate cosine similarity
     return dot_product / (magnitude_a * magnitude_b)
 
-def euclidian_distance(a, b):
-    """Calculate the euclidian distance between two arrays, which is the square
+def euclidean_distance(a, b):
+    """Calculate the Euclidean distance between two arrays, which is the square
     root of the sum of squares of the elements of the arrays.
 
     Args:
@@ -32,6 +32,6 @@ def euclidian_distance(a, b):
         b (np.array): array representing the embedding of a prompt.
 
     Returns:
-        Euclidian distance (float): Represents the distance between two points.
+        Euclidean distance (float): Represents the distance between two points.
     """
     return dist(a,b)
