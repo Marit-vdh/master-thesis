@@ -1,15 +1,17 @@
 import numpy as np
-
+from math import dist
 
 def cosine_similarity(a, b):
     """Compute the cosine similarity between two arrays.
 
     Args:
-        a (np.array): _description_
-        b (np.array): _description_
+        a (np.array): array representing the embedding of a paragraph of text.
+        b (np.array): array representing the embedding of a prompt.
 
     Returns:
-        dot product (float): _description_
+        cosine similarity (float): represents the degree of which two vectors
+        point in the same direction, creating a measure of similarity on an 
+        interval of -1 and 1.
     """
     # Step 1: Compute the dot product
     dot_product = np.dot(a, b)
@@ -20,3 +22,16 @@ def cosine_similarity(a, b):
 
     # Step 3: Calculate cosine similarity
     return dot_product / (magnitude_a * magnitude_b)
+
+def euclidian_distance(a, b):
+    """Calculate the euclidian distance between two arrays, which is the square
+    root of the sum of squares of the elements of the arrays.
+
+    Args:
+        a (np.array): array representing the embedding of a paragraph of text.
+        b (np.array): array representing the embedding of a prompt.
+
+    Returns:
+        Euclidian distance (float): Represents the distance between two points.
+    """
+    return dist(a,b)

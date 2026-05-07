@@ -59,7 +59,7 @@ def import_articles(flatten=True, test=False):
 
                     article = json.load(file)
 
-                    text = []
+                    text = ''
 
                     for section in article["included"]:
 
@@ -70,7 +70,7 @@ def import_articles(flatten=True, test=False):
                             parsed = BeautifulSoup(
                                 section["attributes"]["text"], "html.parser"
                             )
-                            text += [parsed.get_text().replace('\n', ' ').replace('\xa0', '')]
+                            text += parsed.get_text().replace('\n', ' ').replace('\xa0', '')
 
                     # Add text to dictionary, remove .json extension
                     article_texts[year][month][article_name[:-5]] = text
@@ -80,21 +80,30 @@ def import_articles(flatten=True, test=False):
     if not flatten:
         return article_texts
 
-    # The embedding functions require the strings to be presented in an array
+    # The embedding functions require the strings to be presented in an array. The 
+    # paragraphs of each article are used as separate 'tokens' to feed to the embedder.
     else:
 
         print("Start flattening the articles")
 
         strings = []
+        ids = []
+
         for year, _ in tqdm(article_texts.items()):
             for month, _ in article_texts[year].items():
                 for article_name, text in article_texts[year][month].items():
-                    strings.append(text)
+
+                    # Store the texts and article ids separately.
+                    strings += [text]
+                    ids += [article_name]
 
         print("Finished flattening the articles")
 
-        return strings
+        return ids, strings
 
 
 if __name__ == "__main__":
-    print(import_articles(flatten=False, test=True)['2024']['04']['334789'])
+    # print(import_articles(flatten=False, test=True)['2024']['04']['334789'])
+
+    ids, strings = import_articles(flatten=True, test=True)
+    print(len(ids), len(strings))
