@@ -1,19 +1,23 @@
 import json
 import requests
-import os
 
-def embed(model, input_articles, api_key, write=True, output_file="data.tsv"):
-    """Embed an array of input articles.
+def embed(model : str, 
+          input_articles : list[str], 
+          api_key : str, 
+          write: bool = True, 
+          output_file : 
+          str ="data.tsv") -> list[list[float]]:
+    """Embed a list of strings using the Nebul platform. 
 
     Args:
-        client (_type_): _description_
-        model (_type_): _description_
-        input_articles (_type_): _description_
-        write (bool, optional): _description_. Defaults to True.
-        output_file (str, optional): _description_. Defaults to 'data.tsv'.
+        model (str): the model used for embedding. Has to be a model that is available through Nebul.
+        input_articles (list[str]): strings representing the text of articles.
+        api_key (str): API key for access to the Nebul platform.
+        write (bool, optional): set to true to write to a local file. Defaults to True.
+        output_file (str, optional): sets the name of the output file in case write is set to true. Defaults to "data.tsv".
 
     Returns:
-        _type_: _description_
+        list[list[float]]: a list containing the embeddings, each represented as a list.
     """
     print("Start embedding")
 
@@ -50,7 +54,31 @@ def embed(model, input_articles, api_key, write=True, output_file="data.tsv"):
 
     return embeddings
 
-def load_embeddings(embedding_file):
-    if os.path.exists(embedding_file):
-        embedding_dict = json.load(embedding_file)
-    return embedding_dict
+def load_embeddings(embedding_file : str, 
+                    indices : list[str]) -> tuple[list[float], dict[str, list[float]]]:
+    """
+
+    Args:
+        embedding_file (str): name of the file storing the embeddings
+        indices (list[str]): article names
+
+    Returns:
+        tuple[list[float], dict[str, list[float]]]: embedded query and texts
+    """
+
+    embedding_dict = {}
+    with open(embedding_file, 'r') as embeddings:
+
+        # Store the query separately for easy access later on
+        query = embeddings.readline().split('\t')[1]
+        
+        # Store the embeddings in a dictionary where the key is the article name
+        # and the value is the embedding, creating a matching dictionary to the 
+        # unflattened version in import_text
+        i = 1
+
+        for line in embeddings:
+            split_line = line.split('\t')
+            embedding_dict[indices[i]] = json.loads(split_line[1])
+
+    return query, embedding_dict
