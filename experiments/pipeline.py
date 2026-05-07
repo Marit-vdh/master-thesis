@@ -5,15 +5,17 @@ import openai
 from import_text import import_articles
 from embed import embed, load_embeddings
 from retrieve import retrieve
+from generator import generate_response
 
 # Set global_variables
 openai.api_key = os.environ["OPENAI_API_KEY"]
 embedder = "infly/inf-retriever-v1"
+generator = "Qwen/Qwen3-30B-A3B-Instruct-2507"
 
 # Get the query from the user
-query = "Amsterdam"
-embedded_query = embed(
-    embedder, input_articles=query, api_key=openai.api_key, write=False
+user_prompt = "Amsterdam"
+embedded_prompt = embed(
+    embedder, input_articles=user_prompt, api_key=openai.api_key, write=False
 )
 
 # Load the articles from local memory
@@ -32,8 +34,25 @@ embeddings = load_embeddings("data.tsv", ids)
 
 # Retrieve the documents relevant to the query
 relevant_documents = retrieve(
-    query=embedded_query,
+    query=embedded_prompt,
     embeddings=embeddings,
     texts=dict(zip(ids, texts)),
     n_articles=3,
 )
+
+# Set up de system prompt using the relevant articles
+system_prompt = f"You are a helpful chatbot. Use only the following pieces of context to answer the question. Don't make up any new information: {'\n'.join([f' - {chunk}' for chunk in relevant_documents])}"
+
+# Generate a response
+response = generate_response(
+    api_key=openai.api_key,
+    model=generator,
+    system_prompt=system_prompt,
+    user_prompt=user_prompt,
+)
+
+print(response)
+
+
+def main():
+    run_single_experiment()
