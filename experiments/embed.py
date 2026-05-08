@@ -1,3 +1,4 @@
+import os
 import json
 import requests
 
@@ -8,8 +9,12 @@ def embed(
     api_key: str,
     write: bool = True,
     output_file: str = "data.tsv",
+    verbose: bool = True,
+    max_articles: int = 10,
 ) -> list[list[float]]:
     """Embed a list of strings using the Nebul platform.
+    Nebul has a maximum number of embeddings it can process at once, so the embedding has to
+    be done in partitions.
 
     Args:
         model (str): the model used for embedding. Has to be a model that is available through Nebul.
@@ -17,11 +22,12 @@ def embed(
         api_key (str): API key for access to the Nebul platform.
         write (bool, optional): set to true to write to a local file. Defaults to True.
         output_file (str, optional): sets the name of the output file in case write is set to true. Defaults to "data.tsv".
+        verbose (bool, optional): allows for optional reporting of intermediate status.
 
     Returns:
         (list[list[float]]): a list containing the embeddings, each represented as a list.
     """
-    print("Start embedding")
+    print("Start embedding") if verbose else None
 
     url = "https://api.inference.nebul.io/v1/embeddings"
     headers = {
@@ -29,26 +35,43 @@ def embed(
         "Content-Type": "application/json",
     }
 
-    payload = {"model": model, "input": input_articles, "normalize": True}
-
-    print("Request embeddings")
-    response = requests.post(url, headers=headers, json=payload)
-
-    print("Load embeddings as dictionary")
-    data = response.json()["data"]
-
-    embeddings = []
-    indices = []
-
-    for article in data:
-        embeddings += [article["embedding"]]
-        indices += [article["index"]]
-
     if write:
-        print("Writing embeddings to output file")
-        with open(output_file, "w") as output_file:
-            for i in range(len(embeddings)):
-                output_file.write(f"{indices[i]}\t{embeddings[i]}\n")
+        if os.path.exists(output_file):
+            os.remove(output_file)
+
+    for i in range(0, len(input_articles), max_articles):
+
+        end = (
+            i + max_articles
+            if i + max_articles < len(input_articles)
+            else len(input_articles)
+        )
+
+        article_partition = input_articles[i:end]
+
+        payload = {"model": model, "input": article_partition, "normalize": True}
+
+        print("Request embeddings") if verbose else None
+        response = requests.post(url, headers=headers, json=payload)
+
+        print("Load embeddings as dictionary") if verbose else None
+
+        data = response.json()["data"]
+
+        embeddings = []
+        indices = []
+
+        for article in data:
+            embeddings += [article["embedding"]]
+            indices += [int(article["index"]) + i]
+
+        print(len(embeddings))
+
+        if write:
+            print("Writing embeddings to output file") if verbose else None
+            with open(output_file, "a") as data_file:
+                for i in range(len(embeddings)):
+                    data_file.write(f"{indices[i]}\t{embeddings[i]}\n")
 
     return embeddings
 
