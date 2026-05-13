@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+from tqdm import tqdm
 
 
 def embed(
@@ -39,8 +40,7 @@ def embed(
         if os.path.exists(output_file):
             os.remove(output_file)
 
-    for i in range(0, len(input_articles), max_articles):
-
+    for i in tqdm(range(0, len(input_articles), max_articles)):
         end = (
             i + max_articles
             if i + max_articles < len(input_articles)
@@ -51,10 +51,7 @@ def embed(
 
         payload = {"model": model, "input": article_partition, "normalize": True}
 
-        print("Request embeddings") if verbose else None
         response = requests.post(url, headers=headers, json=payload)
-
-        print("Load embeddings as dictionary") if verbose else None
 
         data = response.json()["data"]
 
@@ -65,10 +62,7 @@ def embed(
             embeddings += [article["embedding"]]
             indices += [int(article["index"]) + i]
 
-        print(len(embeddings))
-
         if write:
-            print("Writing embeddings to output file") if verbose else None
             with open(output_file, "a") as data_file:
                 for i in range(len(embeddings)):
                     data_file.write(f"{indices[i]}\t{embeddings[i]}\n")

@@ -31,6 +31,10 @@ def import_articles(flatten: bool = True, test: bool = False) -> dict[str, str] 
 
     for year in os.listdir("../../articles/")[:n_folders]:
 
+        # Skip invisible folders
+        if year.startswith("."):
+            continue
+
         article_texts[year] = {}
 
         if test:
@@ -42,6 +46,10 @@ def import_articles(flatten: bool = True, test: bool = False) -> dict[str, str] 
             n_folders = len(os.listdir(f"../../articles/{year}"))
 
         for month in os.listdir(f"../../articles/{year}")[:n_folders]:
+
+            # Skip invisible folders
+            if month.startswith("."):
+                continue
 
             if test:
                 print(f"Loading month {month}")
@@ -63,8 +71,12 @@ def import_articles(flatten: bool = True, test: bool = False) -> dict[str, str] 
 
                     for section in article["included"]:
 
-                        # Text is stored in two different types of blocks
-                        if section["type"] in {"block-intro", "block-text"}:
+                        # Text is stored in three different types of blocks
+                        if section["type"] in {
+                            "block-intro",
+                            "block-text",
+                            "block-liveblog-text",
+                        }:
 
                             # Clean the text with the BeautifulSoup module
                             parsed = BeautifulSoup(

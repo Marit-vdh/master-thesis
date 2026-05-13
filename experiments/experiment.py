@@ -32,10 +32,11 @@ class Experiment:
             # Embed texts and load into a dictionary
             embed(
                 model=self.embedder,
-                input_articles=self.texts[:50],
+                input_articles=self.texts,
                 api_key=self.api_key,
                 write=True,
                 output_file=embedding_file,
+                max_articles=50,
             )
 
         self.embeddings = load_embeddings(
@@ -43,7 +44,14 @@ class Experiment:
         )
 
     def request_prompt(self, manual_prompt: bool = False, automatic: str = "Amsterdam"):
-        """Ask a user for a prompt and embed the prompt."""
+        """Ask a user for a prompt and embed the prompt.
+
+        Args:
+            manual_prompt (bool, optional): setting to ask for user input for the prompt through
+                the terminal. If it is set to false, the 'automatic' argument is
+                used as the prompt. Defaults to False.
+            automatic (str, optional): Prompt added in the code itself. Defaults to "Amsterdam".
+        """
 
         if manual_prompt:
             self.user_prompt = input("Please enter your prompt: ")
@@ -62,12 +70,33 @@ class Experiment:
     def rag(
         self,
         manual_prompt: bool = False,
+        automatic="Amsterdam",
         n_articles: int = 3,
         report_to_terminal: bool = False,
         write: bool = True,
         output_filename: str = "rag_response.json",
     ):
-        self.request_prompt(manual_prompt=manual_prompt)
+        """RAG pipeline with parameters for asking for a user prompt. Has option
+        to write the response to a file and/or the terminal.
+
+        Args:
+            manual_prompt (bool, optional): Setting to ask for user input for the prompt
+                through the terminal. If it is set to false, the 'automatic' argument is
+                used as the prompt. Defaults to False.
+            automatic (str, optional): Prompt added in the code itself. Defaults to "Amsterdam".
+            n_articles (int, optional): Number of articles to use for response generation.
+                Defaults to 3.
+            report_to_terminal (bool, optional): Parameter to print the prompt, used articles and
+                generator response to the terminal. Defaults to False.
+            write (bool, optional): Parameter to write the prompt, used articles and
+                generator response to the output_file in json format. Defaults to True.
+            output_filename (str, optional): Filename to write response to.
+                Defaults to "rag_response.json".
+
+        Returns:
+            str: response from generator.
+        """
+        self.request_prompt(manual_prompt=manual_prompt, automatic=automatic)
 
         relevant_documents, relevant_document_ids = retrieve(
             retriever=cosine_similarity,
@@ -116,13 +145,51 @@ class Experiment:
 
         return response
 
+    def request_multiple_prompts(
+        self,
+        prompt_file: str,
+        n_articles: int = 3,
+    ):
+        """Request multiple responses within the existing experiment from a
+        file containing the prompts.
+
+        Args:
+            prompt_file (str): a file with plaintext formatting containing a new prompt
+             on each line.
+            n_articles (int, optional): Number of articles to use for response generation.
+             Defaults to 3.
+        """
+
+        # Load the prompts
+        prompts = open(prompt_file, "r")
+
+        i = 0
+
+        for prompt in prompts:
+
+            prompt = prompt.strip()
+
+            self.rag(
+                manual_prompt=False,
+                automatic=prompt,
+                n_articles=n_articles,
+                report_to_terminal=False,
+                write=True,
+                output_filename=f"responses/prompt_{i}_response.json",
+            )
+
+            i += 1
+
 
 if __name__ == "__main__":
     experiment = Experiment(
         api_key=os.environ["OPENAI_API_KEY"],
         embedder="infly/inf-retriever-v1",
         generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
-        embed_documents=True,
+        test=False,
+        embed_documents=False,
     )
 
-    experiment.rag(manual_prompt=True, report_to_terminal=True)
+    # experiment.rag(manual_prompt=True, report_to_terminal=True)
+
+    experiment.request_multiple_prompts("prompts.csv")
