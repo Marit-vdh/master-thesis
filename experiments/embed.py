@@ -40,7 +40,7 @@ def embed(
         if os.path.exists(output_file):
             os.remove(output_file)
 
-    for i in tqdm(range(0, len(input_articles), max_articles)):
+    for i in range(0, len(input_articles), max_articles):
         end = (
             i + max_articles
             if i + max_articles < len(input_articles)
@@ -70,7 +70,9 @@ def embed(
     return embeddings
 
 
-def load_embeddings(embedding_file: str, indices: list[str]) -> dict[str, list[float]]:
+def load_embeddings(
+    embedding_file: str, indices: list[str], verbose=False
+) -> dict[str, list[float]]:
     """
 
     Args:

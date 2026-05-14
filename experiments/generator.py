@@ -9,6 +9,7 @@ def generate_response(
     user_prompt: str,
     temperature: float = 1.0,
     max_completion_tokens: int = 100,
+    verbose=False,
 ) -> str:
     """Generate a response using a model from the Nebul platform.
 
@@ -38,7 +39,7 @@ def generate_response(
         "max_completion_tokens": max_completion_tokens,
     }
 
-    print("Generating response")
+    print("Generating response") if verbose else None
 
     response = requests.post(url, headers=headers, json=payload).json()
     return response["choices"][0]["message"]["reasoning"]

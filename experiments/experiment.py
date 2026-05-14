@@ -1,6 +1,6 @@
 import os
-import openai
 import json
+from tqdm import tqdm
 
 from import_text import import_articles
 from embed import embed, load_embeddings
@@ -16,6 +16,7 @@ class Experiment:
         embedder: str,
         generator: str,
         test: bool = True,
+        verbose=False,
         embed_documents: bool = True,
         embedding_file: str = "data.tsv",
         system_prompt_setup: str = "You are a helpful chatbot. Use only the following pieces of context to answer the question. Don't make up any new information: ",
@@ -27,6 +28,8 @@ class Experiment:
         self.ids, self.texts = import_articles(flatten=True, test=test)
         self.system_prompt_setup = system_prompt_setup
 
+        print("Loading embeddings") if verbose else None
+
         if embed_documents:
 
             # Embed texts and load into a dictionary
@@ -37,13 +40,16 @@ class Experiment:
                 write=True,
                 output_file=embedding_file,
                 max_articles=50,
+                verbose=verbose,
             )
 
         self.embeddings = load_embeddings(
-            embedding_file=embedding_file, indices=self.ids
+            embedding_file=embedding_file, indices=self.ids, verbose=verbose
         )
 
-    def request_prompt(self, manual_prompt: bool = False, automatic: str = "Amsterdam"):
+    def request_prompt(
+        self, manual_prompt: bool = False, automatic: str = "Amsterdam", verbose=False
+    ):
         """Ask a user for a prompt and embed the prompt.
 
         Args:
@@ -58,7 +64,7 @@ class Experiment:
         else:
             self.user_prompt = automatic
 
-        print("Embedding user prompt")
+        print("Embedding user prompt") if verbose else None
         self.embedded_user_prompt = embed(
             model=self.embedder,
             input_articles=self.user_prompt,
@@ -75,6 +81,7 @@ class Experiment:
         report_to_terminal: bool = False,
         write: bool = True,
         output_filename: str = "rag_response.json",
+        verbose=False,
     ):
         """RAG pipeline with parameters for asking for a user prompt. Has option
         to write the response to a file and/or the terminal.
@@ -104,6 +111,7 @@ class Experiment:
             embeddings=self.embeddings,
             texts=dict(zip(self.ids, self.texts)),
             n_articles=n_articles,
+            verbose=verbose,
         )
 
         # Set up the system prompt using the relevant articles
@@ -118,6 +126,7 @@ class Experiment:
             model=self.generator,
             system_prompt=system_prompt,
             user_prompt=self.user_prompt,
+            verbose=verbose,
         )
 
         if write:
@@ -149,6 +158,7 @@ class Experiment:
         self,
         prompt_file: str,
         n_articles: int = 3,
+        verbose=False,
     ):
         """Request multiple responses within the existing experiment from a
         file containing the prompts.
@@ -165,6 +175,8 @@ class Experiment:
 
         i = 0
 
+        print("Generate responses based on prompts") if verbose else None
+
         for prompt in prompts:
 
             prompt = prompt.strip()
@@ -176,9 +188,15 @@ class Experiment:
                 report_to_terminal=False,
                 write=True,
                 output_filename=f"responses/prompt_{i}_response.json",
+                verbose=False,
             )
 
             i += 1
+
+
+class Experiments:
+    def __init__(embedders_file, retrieval_file, generator_file):
+        pass
 
 
 if __name__ == "__main__":
@@ -188,8 +206,9 @@ if __name__ == "__main__":
         generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
         test=False,
         embed_documents=False,
+        verbose=True,
     )
 
     # experiment.rag(manual_prompt=True, report_to_terminal=True)
 
-    experiment.request_multiple_prompts("prompts.csv")
+    experiment.request_multiple_prompts("prompts.csv", verbose=True)

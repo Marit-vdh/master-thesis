@@ -47,6 +47,7 @@ def retrieve(
     embeddings: dict[str, list[float]],
     texts: dict[str, str],
     n_articles: int = 3,
+    verbose=False,
 ) -> list[str]:
     """Retrieve the top matching documents based on the given retrieval method.
 
@@ -65,9 +66,9 @@ def retrieve(
 
     similarities = {}
 
-    print("Calculating similarities")
+    print("Calculating similarities") if verbose else None
 
-    for index, embedding in tqdm(embeddings.items()):
+    for index, embedding in embeddings.items():
 
         similarities[index] = retriever(query, np.array(embedding))
 

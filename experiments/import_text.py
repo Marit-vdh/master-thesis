@@ -4,7 +4,9 @@ import json
 from bs4 import BeautifulSoup
 
 
-def import_articles(flatten: bool = True, test: bool = False) -> dict[str, str] | bool:
+def import_articles(
+    flatten: bool = True, test: bool = False, verbose=False
+) -> dict[str, str] | bool:
     """Load articles as strings from locally stored files. Return as a
     dictionary if flatten is set to false, else return as a list of string.s
 
@@ -19,7 +21,7 @@ def import_articles(flatten: bool = True, test: bool = False) -> dict[str, str] 
             article. If they are flattened, only the articles are returned.
     """
 
-    print("Start loading the articles")
+    print("Start loading the articles") if verbose else None
 
     article_texts = {}
 
@@ -89,7 +91,7 @@ def import_articles(flatten: bool = True, test: bool = False) -> dict[str, str] 
                     # Add text to dictionary, remove .json extension
                     article_texts[year][month][article_name[:-5]] = text
 
-    print("Finished loading articles")
+    print("Finished loading articles") if verbose else None
 
     if not flatten:
         return article_texts
@@ -98,12 +100,12 @@ def import_articles(flatten: bool = True, test: bool = False) -> dict[str, str] 
     # paragraphs of each article are used as separate 'tokens' to feed to the embedder.
     else:
 
-        print("Start flattening the articles")
+        print("Start flattening the articles") if verbose else None
 
         strings = []
         ids = []
 
-        for year, _ in tqdm(article_texts.items()):
+        for year, _ in article_texts.items():
             for month, _ in article_texts[year].items():
                 for article_name, text in article_texts[year][month].items():
 
@@ -111,7 +113,7 @@ def import_articles(flatten: bool = True, test: bool = False) -> dict[str, str] 
                     strings += [text]
                     ids += [article_name]
 
-        print("Finished flattening the articles")
+        print("Finished flattening the articles") if verbose else None
 
         return ids, strings
 
