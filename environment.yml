@@ -2,7 +2,7 @@ name: thesis
 channels:
   - conda-forge
 dependencies:
-  - python
+  - python=3.14.4
   - numpy
   - pandas
   - bs4
@@ -11,4 +11,4 @@ dependencies:
   - requests
   - pip
   - pip:
-      - openai
+      - weaviate

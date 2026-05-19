@@ -201,7 +201,7 @@ class Experiments:
 
 if __name__ == "__main__":
     experiment = Experiment(
-        api_key=os.environ["OPENAI_API_KEY"],
+        api_key=os.environ["NEBUL_API_KEY"],
         embedder="infly/inf-retriever-v1",
         generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
         test=False,
@@ -209,6 +209,6 @@ if __name__ == "__main__":
         verbose=True,
     )
 
-    # experiment.rag(manual_prompt=True, report_to_terminal=True)
+    experiment.rag(manual_prompt=True, report_to_terminal=True)
 
     experiment.request_multiple_prompts("prompts.csv", verbose=True)

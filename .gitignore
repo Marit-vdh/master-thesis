@@ -2,3 +2,4 @@ experiments/data.json
 experiments/test.py
 experiments/data.tsv
 experiments/pipeline.py
+experiments/weaviate_test.py
