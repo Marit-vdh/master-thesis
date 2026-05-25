@@ -3,3 +3,4 @@ experiments/test.py
 experiments/data.tsv
 experiments/pipeline.py
 experiments/weaviate_test.py
+experiments/docker_compose.yml

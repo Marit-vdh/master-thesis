@@ -1,11 +1,16 @@
 import os
 import json
 from tqdm import tqdm
+from pathlib import Path
 
 from import_text import import_articles
 from embed import embed, load_embeddings
 from retrieve import cosine_similarity, retrieve
 from generator import generate_response
+
+full_directory_name = (
+    "/Users/maritvandenhelder/information_studies/thesis/master-thesis/experiments"
+)
 
 
 class Experiment:
@@ -159,6 +164,7 @@ class Experiment:
         prompt_file: str,
         n_articles: int = 3,
         verbose=False,
+        directory="responses",
     ):
         """Request multiple responses within the existing experiment from a
         file containing the prompts.
@@ -177,7 +183,7 @@ class Experiment:
 
         print("Generate responses based on prompts") if verbose else None
 
-        for prompt in prompts:
+        for prompt in tqdm(prompts):
 
             prompt = prompt.strip()
 
@@ -187,28 +193,95 @@ class Experiment:
                 n_articles=n_articles,
                 report_to_terminal=False,
                 write=True,
-                output_filename=f"responses/prompt_{i}_response.json",
+                output_filename=f"{directory}/prompt_{i}_response.json",
                 verbose=False,
             )
 
             i += 1
 
 
+def get_model_list(filename):
+    contents = []
+    with open(filename) as file:
+        for line in file:
+            contents.append(line.strip())
+    return contents
+
+
 class Experiments:
-    def __init__(embedders_file, retrieval_file, generator_file):
-        pass
+    def __init__(
+        self,
+        embedders_file: str,
+        retrieval_file: str,
+        generator_file: str,
+        prompt_file: str,
+    ):
+
+        self.embedders = get_model_list(embedders_file)
+        self.retrievers = get_model_list(retrieval_file)
+        self.generators = get_model_list(generator_file)
+        self.prompt_file = prompt_file
+
+    def run(self):
+
+        for embedder in self.embedders:
+
+            embedder_name = embedder.split("/")[1]
+
+            print(f"Using embedder {embedder_name}")
+
+            experiment = Experiment(
+                api_key=os.environ["NEBUL_API_KEY"],
+                embedder=embedder,
+                generator="",
+                test=False,
+                embed_documents=True,
+            )
+            for generator in self.generators:
+
+                generator_name = generator.split("/")[1]
+
+                print(f"Using generator: {generator_name}")
+
+                directory = (
+                    f"{full_directory_name}/results/{embedder_name}/{generator_name}"
+                )
+
+                experiment.generator = generator
+
+                # Create a directory to add the results of an individual experiment to or clear
+                # directory if it already exists
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
+
+                else:
+                    for filename in os.listdir(directory):
+                        file_path = os.path.join(directory, filename)
+
+                        # Check if it is a file (not a subdirectory)
+                        if os.path.isfile(file_path):
+                            os.remove(file_path)  # Remove the file
+
+                experiment.request_multiple_prompts(
+                    self.prompt_file, directory=directory
+                )
 
 
 if __name__ == "__main__":
-    experiment = Experiment(
-        api_key=os.environ["NEBUL_API_KEY"],
-        embedder="infly/inf-retriever-v1",
-        generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
-        test=False,
-        embed_documents=False,
-        verbose=True,
+    # experiment = Experiment(
+    #     api_key=os.environ["NEBUL_API_KEY"],
+    #     embedder="infly/inf-retriever-v1",
+    #     generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
+    #     test=False,
+    #     embed_documents=False,
+    #     verbose=True,
+    # )
+
+    # experiment.rag(manual_prompt=True, report_to_terminal=True)
+
+    # experiment.request_multiple_prompts("prompts.csv", verbose=True)
+
+    experiments = Experiments(
+        "embedders.csv", "retrievers.csv", "generators.csv", "prompts.csv"
     )
-
-    experiment.rag(manual_prompt=True, report_to_terminal=True)
-
-    experiment.request_multiple_prompts("prompts.csv", verbose=True)
+    experiments.run()
