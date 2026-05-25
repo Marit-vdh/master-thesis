@@ -27,6 +27,16 @@ def cosine_similarity(a, b):
     return (dot_product / (magnitude_a * magnitude_b))[0]
 
 
+def dot(a, b):
+    """_summary_
+
+    Args:
+        a (_type_): _description_
+        b (_type_): _description_
+    """
+    return -np.dot(a, b)
+
+
 def euclidean_distance(a, b):
     """Calculate the Euclidean distance between two arrays, which is the square
     root of the sum of squares of the elements of the arrays.
@@ -39,6 +49,10 @@ def euclidean_distance(a, b):
         (float): Represents the distance between two points.
     """
     return dist(a, b)
+
+
+def manhattan(a, b):
+    return np.sum(abs(a - b))
 
 
 def retrieve(

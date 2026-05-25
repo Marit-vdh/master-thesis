@@ -5,7 +5,7 @@ from pathlib import Path
 
 from import_text import import_articles
 from embed import embed, load_embeddings
-from retrieve import cosine_similarity, retrieve
+from retrieve import cosine_similarity, manhattan, retrieve
 from generator import generate_response
 
 full_directory_name = (
@@ -82,6 +82,7 @@ class Experiment:
         self,
         manual_prompt: bool = False,
         automatic="Amsterdam",
+        retriever: function = cosine_similarity,
         n_articles: int = 3,
         report_to_terminal: bool = False,
         write: bool = True,
@@ -111,7 +112,7 @@ class Experiment:
         self.request_prompt(manual_prompt=manual_prompt, automatic=automatic)
 
         relevant_documents, relevant_document_ids = retrieve(
-            retriever=cosine_similarity,
+            retriever=retriever,
             query=self.embedded_user_prompt,
             embeddings=self.embeddings,
             texts=dict(zip(self.ids, self.texts)),
@@ -161,7 +162,8 @@ class Experiment:
 
     def request_multiple_prompts(
         self,
-        prompt_file: str,
+        prompts: list[str],
+        retriever: function = cosine_similarity,
         n_articles: int = 3,
         verbose=False,
         directory="responses",
@@ -176,9 +178,6 @@ class Experiment:
              Defaults to 3.
         """
 
-        # Load the prompts
-        prompts = open(prompt_file, "r")
-
         i = 0
 
         print("Generate responses based on prompts") if verbose else None
@@ -190,6 +189,7 @@ class Experiment:
             self.rag(
                 manual_prompt=False,
                 automatic=prompt,
+                retriever=retriever,
                 n_articles=n_articles,
                 report_to_terminal=False,
                 write=True,
@@ -215,12 +215,14 @@ class Experiments:
         retrieval_file: str,
         generator_file: str,
         prompt_file: str,
+        distances: list[function],
     ):
 
         self.embedders = get_model_list(embedders_file)
         self.retrievers = get_model_list(retrieval_file)
         self.generators = get_model_list(generator_file)
-        self.prompt_file = prompt_file
+        self.prompt_file = get_model_list(prompt_file)
+        self.distances = distances
 
     def run(self):
 
@@ -237,34 +239,40 @@ class Experiments:
                 test=False,
                 embed_documents=True,
             )
+
+            # Run embedding-based model combinations
             for generator in self.generators:
 
                 generator_name = generator.split("/")[1]
 
                 print(f"Using generator: {generator_name}")
 
-                directory = (
-                    f"{full_directory_name}/results/{embedder_name}/{generator_name}"
-                )
+                for distance in self.distances:
 
-                experiment.generator = generator
+                    distance_name = distance.__name__
 
-                # Create a directory to add the results of an individual experiment to or clear
-                # directory if it already exists
-                if not os.path.exists(directory):
-                    os.makedirs(directory)
+                    print(f"Using distance metric {distance_name}")
 
-                else:
-                    for filename in os.listdir(directory):
-                        file_path = os.path.join(directory, filename)
+                    directory = f"{full_directory_name}/results/{embedder_name}/{generator_name}/{distance_name}"
 
-                        # Check if it is a file (not a subdirectory)
-                        if os.path.isfile(file_path):
-                            os.remove(file_path)  # Remove the file
+                    experiment.generator = generator
 
-                experiment.request_multiple_prompts(
-                    self.prompt_file, directory=directory
-                )
+                    # Create a directory to add the results of an individual experiment to or clear
+                    # directory if it already exists
+                    if not os.path.exists(directory):
+                        os.makedirs(directory)
+
+                    else:
+                        for filename in os.listdir(directory):
+                            file_path = os.path.join(directory, filename)
+
+                            # Check if it is a file (not a subdirectory)
+                            if os.path.isfile(file_path):
+                                os.remove(file_path)  # Remove the file
+
+                    experiment.request_multiple_prompts(
+                        self.prompt_file, retriever=distance, directory=directory
+                    )
 
 
 if __name__ == "__main__":
@@ -282,6 +290,10 @@ if __name__ == "__main__":
     # experiment.request_multiple_prompts("prompts.csv", verbose=True)
 
     experiments = Experiments(
-        "embedders.csv", "retrievers.csv", "generators.csv", "prompts.csv"
+        "embedders.csv",
+        "retrievers.csv",
+        "generators.csv",
+        "prompts.csv",
+        [cosine_similarity, manhattan],
     )
     experiments.run()
