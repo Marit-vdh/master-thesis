@@ -3,6 +3,8 @@ from tqdm import tqdm
 import json
 from bs4 import BeautifulSoup
 
+article_directory = "../../../articles"
+
 
 def import_articles(
     flatten: bool = True, test: bool = False, verbose=False
@@ -29,9 +31,9 @@ def import_articles(
     if test:
         n_folders = 1
     else:
-        n_folders = len(os.listdir("../../articles/"))
+        n_folders = len(os.listdir(article_directory))
 
-    for year in os.listdir("../../articles/")[:n_folders]:
+    for year in os.listdir(article_directory)[:n_folders]:
 
         # Skip invisible folders
         if year.startswith("."):
@@ -45,9 +47,9 @@ def import_articles(
             # Report the loaded year for reproducibility of the tests
             print(f"Loading year {year}")
         else:
-            n_folders = len(os.listdir(f"../../articles/{year}"))
+            n_folders = len(os.listdir(f"{article_directory}/{year}"))
 
-        for month in os.listdir(f"../../articles/{year}")[:n_folders]:
+        for month in os.listdir(f"{article_directory}/{year}")[:n_folders]:
 
             # Skip invisible folders
             if month.startswith("."):
@@ -58,11 +60,11 @@ def import_articles(
 
             article_texts[year][month] = {}
 
-            for article_name in os.listdir(f"../../articles/{year}/{month}"):
+            for article_name in os.listdir(f"{article_directory}/{year}/{month}"):
 
                 # Retrieve the flat text
                 with open(
-                    f"../../articles/{year}/{month}/{article_name}",
+                    f"{article_directory}/{year}/{month}/{article_name}",
                     mode="r",
                     encoding="utf-8",
                 ) as file:

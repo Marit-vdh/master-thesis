@@ -24,7 +24,7 @@ class Experiment:
         verbose=False,
         embed_documents: bool = True,
         embedding_file: str = "data.tsv",
-        system_prompt_setup: str = "You are a helpful chatbot. Use only the following pieces of context to answer the question. Don't make up any new information: ",
+        system_prompt_setup: str = "Je bent een behulpzame chatbot. Gebruik alleen de volgende stukken informatie bij het opstellen van het antwoord: ",
     ):
         # Set up global variables
         self.api_key = api_key
@@ -224,6 +224,18 @@ class Experiments:
         self.prompt_file = get_model_list(prompt_file)
         self.distances = distances
 
+        self.embedding_directory = f"{full_directory_name}/embeddings"
+
+        if not os.path.exists(self.embedding_directory):
+            os.makedirs(self.embedding_directory)
+        else:
+            for filename in os.listdir(self.embedding_directory):
+                file_path = os.path.join(self.embedding_directory, filename)
+
+                # Check if it is a file (not a subdirectory)
+                if os.path.isfile(file_path):
+                    os.remove(file_path)  # Remove the file
+
     def run(self):
 
         for embedder in self.embedders:
@@ -238,6 +250,7 @@ class Experiments:
                 generator="",
                 test=False,
                 embed_documents=True,
+                embedding_file=f"{self.embedding_directory}/{embedder_name}.tsv",
             )
 
             # Run embedding-based model combinations
@@ -290,10 +303,10 @@ if __name__ == "__main__":
     # experiment.request_multiple_prompts("prompts.csv", verbose=True)
 
     experiments = Experiments(
-        "embedders.csv",
-        "retrievers.csv",
-        "generators.csv",
-        "prompts.csv",
+        "../sources/embedders.csv",
+        "../sources/retrievers.csv",
+        "../sources/generators.csv",
+        "../sources/prompts.csv",
         [cosine_similarity, manhattan],
     )
     experiments.run()
