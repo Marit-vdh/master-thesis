@@ -5,3 +5,4 @@ experiments/pipeline.py
 experiments/weaviate_test.py
 experiments/docker_compose.yml
 experiments/embeddings/
+experiments/scripts/embed2.py

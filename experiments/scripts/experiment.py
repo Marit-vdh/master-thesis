@@ -21,7 +21,7 @@ class Experiment:
         embedder: str,
         generator: str,
         test: bool = True,
-        verbose=False,
+        verbose=True,
         embed_documents: bool = True,
         embedding_file: str = "data.tsv",
         system_prompt_setup: str = "Je bent een behulpzame chatbot. Gebruik alleen de volgende stukken informatie bij het opstellen van het antwoord: ",
@@ -44,7 +44,7 @@ class Experiment:
                 api_key=self.api_key,
                 write=True,
                 output_file=embedding_file,
-                max_articles=50,
+                max_articles=25,
                 verbose=verbose,
             )
 
@@ -146,6 +146,7 @@ class Experiment:
                         relevant_document_ids, relevant_documents
                     )
                 }
+
                 output["response"] = response
                 json.dump(output, output_file)
 
@@ -251,6 +252,7 @@ class Experiments:
                 test=False,
                 embed_documents=True,
                 embedding_file=f"{self.embedding_directory}/{embedder_name}.tsv",
+                verbose=True,
             )
 
             # Run embedding-based model combinations
@@ -301,7 +303,7 @@ if __name__ == "__main__":
     # experiment.rag(manual_prompt=True, report_to_terminal=True)
 
     # experiment.request_multiple_prompts("prompts.csv", verbose=True)
-
+    print(f"Running experiment..")
     experiments = Experiments(
         "../sources/embedders.csv",
         "../sources/retrievers.csv",

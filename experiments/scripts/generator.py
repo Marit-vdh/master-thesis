@@ -41,5 +41,13 @@ def generate_response(
 
     print("Generating response") if verbose else None
 
-    response = requests.post(url, headers=headers, json=payload).json()
-    return response["choices"][0]["message"]["reasoning"]
+    # Try to generate a response 4 times if an error occurs, otherwise skip the prompt
+    for _ in range(4):
+        try:
+            response = requests.post(url, headers=headers, json=payload).json()
+            return response["choices"][0]["message"]["reasoning"]
+
+        except Exception as e:
+            str_error = e
+
+    return "Failed to generate a response"
