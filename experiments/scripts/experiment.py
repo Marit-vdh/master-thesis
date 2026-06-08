@@ -32,10 +32,10 @@ class Experiment:
         self.generator = generator
         self.ids, self.texts = import_articles(flatten=True, test=test)
         self.system_prompt_setup = system_prompt_setup
-
-        print("Loading embeddings") if verbose else None
+        self.embedding_file = embedding_file
 
         if embed_documents:
+            print("Loading embeddings") if verbose else None
 
             # Embed texts and load into a dictionary
             embed(
@@ -48,9 +48,9 @@ class Experiment:
                 verbose=verbose,
             )
 
-        self.embeddings = load_embeddings(
-            embedding_file=embedding_file, indices=self.ids, verbose=verbose
-        )
+        # self.embeddings = load_embeddings(
+        #     embedding_file=embedding_file, indices=self.ids, verbose=verbose
+        # )
 
     def request_prompt(
         self, manual_prompt: bool = False, automatic: str = "Amsterdam", verbose=False
@@ -114,7 +114,9 @@ class Experiment:
         relevant_documents, relevant_document_ids = retrieve(
             retriever=retriever,
             query=self.embedded_user_prompt,
-            embeddings=self.embeddings,
+            embeddings_file=self.embedding_file,
+            indices=self.ids,
+            # embeddings=self.embeddings,
             texts=dict(zip(self.ids, self.texts)),
             n_articles=n_articles,
             verbose=verbose,
@@ -201,6 +203,17 @@ class Experiment:
             i += 1
 
 
+def get_embedders(filename):
+    contents = []
+    with open(filename) as file:
+        for line in file:
+            split_line = line.split(",")
+            load_embeddings = True if split_line[0] == "True" else False
+            model = split_line[1].strip()
+            contents.append((load_embeddings, model))
+    return contents
+
+
 def get_model_list(filename):
     contents = []
     with open(filename) as file:
@@ -219,7 +232,7 @@ class Experiments:
         distances: list[function],
     ):
 
-        self.embedders = get_model_list(embedders_file)
+        self.embedders = get_embedders(embedders_file)
         self.retrievers = get_model_list(retrieval_file)
         self.generators = get_model_list(generator_file)
         self.prompt_file = get_model_list(prompt_file)
@@ -227,19 +240,15 @@ class Experiments:
 
         self.embedding_directory = f"{full_directory_name}/embeddings"
 
+        # Create a directory for embeddings if it does not exist
         if not os.path.exists(self.embedding_directory):
             os.makedirs(self.embedding_directory)
-        else:
-            for filename in os.listdir(self.embedding_directory):
-                file_path = os.path.join(self.embedding_directory, filename)
-
-                # Check if it is a file (not a subdirectory)
-                if os.path.isfile(file_path):
-                    os.remove(file_path)  # Remove the file
 
     def run(self):
 
-        for embedder in self.embedders:
+        for embedder_tuple in self.embedders:
+            embed_documents = embedder_tuple[0]
+            embedder = embedder_tuple[1]
 
             embedder_name = embedder.split("/")[1]
 
@@ -250,7 +259,7 @@ class Experiments:
                 embedder=embedder,
                 generator="",
                 test=False,
-                embed_documents=True,
+                embed_documents=embed_documents,
                 embedding_file=f"{self.embedding_directory}/{embedder_name}.tsv",
                 verbose=True,
             )

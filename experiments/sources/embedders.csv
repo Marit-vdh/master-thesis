@@ -1,5 +1,5 @@
-BAAI/bge-m3
-Qwen/Qwen3-Embedding-8B
-infly/inf-retriever-v1
-intfloat/multilingual-e5-large-instruct
-sentence-transformers/all-MiniLM-L6-v2
+False,BAAI/bge-m3
+False,Qwen/Qwen3-Embedding-8B
+True,infly/inf-retriever-v1
+True,intfloat/multilingual-e5-large-instruct
+True,sentence-transformers/all-MiniLM-L6-v2

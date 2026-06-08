@@ -1,6 +1,7 @@
 import numpy as np
 from math import dist
 from tqdm import tqdm
+import json
 
 
 def cosine_similarity(a, b):
@@ -58,7 +59,9 @@ def manhattan(a, b):
 def retrieve(
     retriever: function,
     query: list[float],
-    embeddings: dict[str, list[float]],
+    embeddings_file,
+    indices,
+    # embeddings: dict[str, list[float]],
     texts: dict[str, str],
     n_articles: int = 3,
     verbose=False,
@@ -82,9 +85,31 @@ def retrieve(
 
     print("Calculating similarities") if verbose else None
 
-    for index, embedding in embeddings.items():
+    with open(embeddings_file) as embeddings:
 
-        similarities[index] = retriever(query, np.array(embedding))
+        for line in embeddings:
+
+            try:
+                split_line = line.split("\t")
+
+                if len(split_line) < 2:
+                    print(f"DEBUG WARNING: Skipping malformed line")
+                    continue
+
+                index = int(split_line[0])
+                vector = json.loads(split_line[1])
+
+                # Map the index back to the article name provided in 'indices'
+                article_name = indices[index]
+
+                similarities[article_name] = retriever(query, np.array(vector))
+
+            except (ValueError, IndexError, json.JSONDecodeError) as e:
+                print(f"DEBUG ERROR: Line {index} failed to parse: {e}")
+
+    # for index, embedding in embeddings.items():
+
+    #     similarities[index] = retriever(query, np.array(embedding))
 
     top_embeddings = sorted(similarities, key=similarities.get, reverse=True)
 
