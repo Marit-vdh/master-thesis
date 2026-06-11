@@ -1,5 +1,6 @@
 import json
 import requests
+import os
 
 
 def generate_response(
@@ -8,6 +9,7 @@ def generate_response(
     system_prompt: str,
     user_prompt: str,
     temperature: float = 1.0,
+    content_access: str = "content",
     max_completion_tokens: int = 100,
     verbose=False,
 ) -> str:
@@ -45,9 +47,22 @@ def generate_response(
     for _ in range(4):
         try:
             response = requests.post(url, headers=headers, json=payload).json()
-            return response["choices"][0]["message"]["reasoning"]
+            return response["choices"][0]["message"][content_access]
 
         except Exception as e:
             str_error = e
 
     return "Failed to generate a response"
+
+
+if __name__ == "__main__":
+    response = generate_response(
+        api_key=os.environ["NEBUL_API_KEY"],
+        model="Qwen/Qwen3-30B-A3B-Instruct-2507",
+        system_prompt="Je bent een behulpzame chatbot. Geef antwoord op de volgende vraag:",
+        content_access="reasoning",
+        user_prompt="Amsterdam",
+        verbose=True,
+    )
+
+    print(response)

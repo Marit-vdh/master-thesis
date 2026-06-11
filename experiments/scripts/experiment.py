@@ -44,7 +44,7 @@ class Experiment:
                 api_key=self.api_key,
                 write=True,
                 output_file=embedding_file,
-                max_articles=25,
+                max_articles=10,
                 verbose=verbose,
             )
 
@@ -83,6 +83,7 @@ class Experiment:
         manual_prompt: bool = False,
         automatic="Amsterdam",
         retriever: function = cosine_similarity,
+        content_access: str = "content",
         n_articles: int = 3,
         report_to_terminal: bool = False,
         write: bool = True,
@@ -134,6 +135,7 @@ class Experiment:
             model=self.generator,
             system_prompt=system_prompt,
             user_prompt=self.user_prompt,
+            content_access=content_access,
             verbose=verbose,
         )
 
@@ -166,6 +168,7 @@ class Experiment:
     def request_multiple_prompts(
         self,
         prompts: list[str],
+        content_access: str = "content",
         retriever: function = cosine_similarity,
         n_articles: int = 3,
         verbose=False,
@@ -193,6 +196,7 @@ class Experiment:
                 manual_prompt=False,
                 automatic=prompt,
                 retriever=retriever,
+                content_access=content_access,
                 n_articles=n_articles,
                 report_to_terminal=False,
                 write=True,
@@ -209,8 +213,18 @@ def get_embedders(filename):
         for line in file:
             split_line = line.split(",")
             load_embeddings = True if split_line[0] == "True" else False
-            model = split_line[1].strip()
-            contents.append((load_embeddings, model))
+            generate = True if split_line[1] == "True" else False
+            model = split_line[2].strip()
+            contents.append((load_embeddings, generate, model))
+    return contents
+
+
+def get_generators(filename):
+    contents = []
+    with open(filename) as file:
+        for line in file:
+            split_line = line.split(",")
+            contents.append((split_line[0], split_line[1].strip()))
     return contents
 
 
@@ -248,9 +262,15 @@ class Experiments:
 
         for embedder_tuple in self.embedders:
             embed_documents = embedder_tuple[0]
-            embedder = embedder_tuple[1]
+            generate = embedder_tuple[1]
+            embedder = embedder_tuple[2]
 
             embedder_name = embedder.split("/")[1]
+
+            # Skip generators that have already finished the experiments
+            if not generate:
+                print(f"Skipping embedder {embedder_name}")
+                continue
 
             print(f"Using embedder {embedder_name}")
 
@@ -265,9 +285,10 @@ class Experiments:
             )
 
             # Run embedding-based model combinations
-            for generator in self.generators:
+            for generator_tuple in self.generators:
 
-                generator_name = generator.split("/")[1]
+                generator_name = generator_tuple[0].split("/")[1]
+                generator_access = generator_tuple[1]
 
                 print(f"Using generator: {generator_name}")
 
@@ -279,7 +300,7 @@ class Experiments:
 
                     directory = f"{full_directory_name}/results/{embedder_name}/{generator_name}/{distance_name}"
 
-                    experiment.generator = generator
+                    experiment.generator = generator_name
 
                     # Create a directory to add the results of an individual experiment to or clear
                     # directory if it already exists
@@ -295,7 +316,10 @@ class Experiments:
                                 os.remove(file_path)  # Remove the file
 
                     experiment.request_multiple_prompts(
-                        self.prompt_file, retriever=distance, directory=directory
+                        self.prompt_file,
+                        retriever=distance,
+                        directory=directory,
+                        content_access=generator_access,
                     )
 
 
@@ -311,7 +335,6 @@ if __name__ == "__main__":
 
     # experiment.rag(manual_prompt=True, report_to_terminal=True)
 
-    # experiment.request_multiple_prompts("prompts.csv", verbose=True)
     print(f"Running experiment..")
     experiments = Experiments(
         "../sources/embedders.csv",
