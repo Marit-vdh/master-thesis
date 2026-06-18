@@ -12,3 +12,4 @@ dependencies:
   - pip
   - pip:
       - weaviate
+      - bm25s

@@ -87,6 +87,7 @@ class Experiment:
         n_articles: int = 3,
         report_to_terminal: bool = False,
         write: bool = True,
+        prompt_type: str = "question",
         output_filename: str = "rag_response.json",
         verbose=False,
     ):
@@ -117,7 +118,6 @@ class Experiment:
             query=self.embedded_user_prompt,
             embeddings_file=self.embedding_file,
             indices=self.ids,
-            # embeddings=self.embeddings,
             texts=dict(zip(self.ids, self.texts)),
             n_articles=n_articles,
             verbose=verbose,
@@ -137,6 +137,7 @@ class Experiment:
             user_prompt=self.user_prompt,
             content_access=content_access,
             verbose=verbose,
+            max_completion_tokens=250,
         )
 
         if write:
@@ -144,6 +145,7 @@ class Experiment:
                 output = {}
 
                 output["user_prompt"] = self.user_prompt
+                output["prompt_type"] = prompt_type
                 output["articles_used"] = {
                     article_id: article_text
                     for article_id, article_text in zip(
@@ -190,16 +192,17 @@ class Experiment:
 
         for prompt in tqdm(prompts):
 
-            prompt = prompt.strip()
+            prompt_text = prompt[1]
 
             self.rag(
                 manual_prompt=False,
-                automatic=prompt,
+                automatic=prompt_text,
                 retriever=retriever,
                 content_access=content_access,
                 n_articles=n_articles,
                 report_to_terminal=False,
                 write=True,
+                prompt_type=prompt[0],
                 output_filename=f"{directory}/prompt_{i}_response.json",
                 verbose=False,
             )
@@ -228,6 +231,15 @@ def get_generators(filename):
     return contents
 
 
+def get_prompts(filename):
+    contents = []
+    with open(filename) as file:
+        for line in file:
+            split_line = line.split("\t")
+            contents.append((split_line[0], split_line[1].strip()))
+    return contents
+
+
 def get_model_list(filename):
     contents = []
     with open(filename) as file:
@@ -249,7 +261,7 @@ class Experiments:
         self.embedders = get_embedders(embedders_file)
         self.retrievers = get_model_list(retrieval_file)
         self.generators = get_model_list(generator_file)
-        self.prompt_file = get_model_list(prompt_file)
+        self.prompts = get_prompts(prompt_file)
         self.distances = distances
 
         self.embedding_directory = f"{full_directory_name}/embeddings"
@@ -316,7 +328,7 @@ class Experiments:
                                 os.remove(file_path)  # Remove the file
 
                     experiment.request_multiple_prompts(
-                        self.prompt_file,
+                        self.prompts,
                         retriever=distance,
                         directory=directory,
                         content_access=generator_access,
@@ -324,23 +336,30 @@ class Experiments:
 
 
 if __name__ == "__main__":
-    # experiment = Experiment(
-    #     api_key=os.environ["NEBUL_API_KEY"],
-    #     embedder="infly/inf-retriever-v1",
-    #     generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
-    #     test=False,
-    #     embed_documents=False,
-    #     verbose=True,
-    # )
-
-    # experiment.rag(manual_prompt=True, report_to_terminal=True)
-
-    print(f"Running experiment..")
-    experiments = Experiments(
-        "../sources/embedders.csv",
-        "../sources/retrievers.csv",
-        "../sources/generators.csv",
-        "../sources/prompts.csv",
-        [cosine_similarity, manhattan],
+    experiment = Experiment(
+        api_key=os.environ["NEBUL_API_KEY"],
+        embedder="BAAI/bge-m3",
+        generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
+        test=False,
+        embed_documents=False,
+        verbose=True,
+        embedding_file="../embeddings/bge-m3.tsv",
     )
-    experiments.run()
+
+    experiment.rag(
+        manual_prompt=True,
+        retriever=manhattan,
+        report_to_terminal=True,
+        write=False,
+        verbose=True,
+    )
+
+    # print(f"Running experiment..")
+    # experiments = Experiments(
+    #     "../sources/embedders.csv",
+    #     "../sources/retrievers.csv",
+    #     "../sources/generators.csv",
+    #     "../sources/prompts.csv",
+    #     [cosine_similarity, manhattan],
+    # )
+    # experiments.run()

@@ -2,6 +2,77 @@ import numpy as np
 from math import dist
 from tqdm import tqdm
 import json
+import bm25s
+import Stemmer
+
+
+def create_index(
+    ids=None,
+    texts=None,
+    index_dir="../sources/bm25_index",
+    verbose=True,
+    load_new_index=False,
+):
+    if load_new_index:
+
+        if ids == None or texts == None:
+
+            ids, texts = import_text.import_articles(flatten=True)
+
+        corpus_records = [{"id": k, "text": v} for k, v in zip(ids, texts)]
+
+        print("Creating index") if verbose else None
+
+        # Create vocabulary of the texts in the corpus
+        tokenizer = bm25s.tokenization.Tokenizer()
+        corpus_tokens = tokenizer.tokenize(texts, return_as="tuple")
+
+        # Initiate retriever
+        retriever = bm25s.BM25(corpus=corpus_records, backend="numba")
+        retriever.index(corpus_tokens)
+
+        # Save retriever, vocabulary and stopwords for future use
+        retriever.save(index_dir)
+        tokenizer.save_vocab(index_dir)
+        tokenizer.save_stopwords(index_dir)
+
+        print("Finished creating index") if verbose else None
+
+        print(f"Saved the index to {index_dir}.") if verbose else None
+
+    else:
+        print("Loading index") if verbose else None
+
+        # Load retriever and tokenizer from files
+        retriever = bm25s.BM25.load(f"{index_dir}", load_corpus=True)
+        tokenizer = bm25s.tokenization.Tokenizer()
+        tokenizer.load_stopwords(save_dir=index_dir)
+        tokenizer.load_vocab(save_dir=index_dir)
+
+        print("Finished loading index") if verbose else None
+
+    return retriever, tokenizer
+
+
+def bm25_retriever(retriever, tokenizer, queries, k=3, print_result=False):
+    # stemmer = Stemmer.Stemmer("dutch")
+    # tokenizer = bm25s.tokenization.Tokenizer()
+    queries_tokenized = tokenizer.tokenize(queries)
+
+    print(queries_tokenized)
+
+    # Retrieve the top-k results
+    results = retriever.retrieve(queries_tokenized, k=k)
+
+    # show first results if desired
+
+    if print_result:
+        for i in range(len(queries)):
+            print(queries[i])
+            for j in range(k):
+                print(
+                    f'{results.scores[i, j]} - {results.documents[i, j]["id"]} - {results.documents[i, j]["text"]}'
+                )
 
 
 def cosine_similarity(a, b):
@@ -89,30 +160,32 @@ def retrieve(
 
         for line in embeddings:
 
-            try:
-                split_line = line.split("\t")
+            split_line = line.split("\t")
 
-                if len(split_line) < 2:
-                    print(f"DEBUG WARNING: Skipping malformed line")
-                    continue
+            index = int(split_line[0])
+            vector = json.loads(split_line[1])
 
-                index = int(split_line[0])
-                vector = json.loads(split_line[1])
+            # Map the index back to the article name provided in 'indices'
+            article_name = indices[index]
 
-                # Map the index back to the article name provided in 'indices'
-                article_name = indices[index]
-
-                similarities[article_name] = retriever(query, np.array(vector))
-
-            except (ValueError, IndexError, json.JSONDecodeError) as e:
-                print(f"DEBUG ERROR: Line {index} failed to parse: {e}")
-
-    # for index, embedding in embeddings.items():
-
-    #     similarities[index] = retriever(query, np.array(embedding))
+            similarities[article_name] = retriever(query, np.array(vector))
 
     top_embeddings = sorted(similarities, key=similarities.get, reverse=True)
 
     return [texts[text_id] for text_id in top_embeddings[:n_articles]], top_embeddings[
         :n_articles
     ]
+
+
+if __name__ == "__main__":
+    import import_text
+
+    index, tokenizer = create_index(load_new_index=False)
+
+    bm25_retriever(
+        index,
+        tokenizer=tokenizer,
+        queries=["Amsterdam", "Trekkertrek", "Bruinvis"],
+        k=3,
+        print_result=True,
+    )

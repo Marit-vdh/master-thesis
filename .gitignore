@@ -6,3 +6,4 @@ experiments/weaviate_test.py
 experiments/docker_compose.yml
 experiments/embeddings/
 experiments/scripts/embed2.py
+experiments/sources/bm25_index/

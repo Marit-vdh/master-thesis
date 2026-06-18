@@ -71,7 +71,7 @@ def import_articles(
 
                     article = json.load(file)
 
-                    text = ""
+                    text = article["data"]["attributes"]["title"] + " "
 
                     for section in article["included"]:
 
