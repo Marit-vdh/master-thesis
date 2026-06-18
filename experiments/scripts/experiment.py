@@ -5,7 +5,13 @@ from pathlib import Path
 
 from import_text import import_articles
 from embed import embed, load_embeddings
-from retrieve import cosine_similarity, manhattan, retrieve
+from retrieve import (
+    cosine_similarity,
+    manhattan,
+    retrieve_vector,
+    create_index,
+    bm25_retriever,
+)
 from generator import generate_response
 
 full_directory_name = (
@@ -22,7 +28,7 @@ class Experiment:
         generator: str,
         test: bool = True,
         verbose=True,
-        embed_documents: bool = True,
+        load_new_index: bool = True,
         embedding_file: str = "data.tsv",
         system_prompt_setup: str = "Je bent een behulpzame chatbot. Gebruik alleen de volgende stukken informatie bij het opstellen van het antwoord: ",
     ):
@@ -34,10 +40,10 @@ class Experiment:
         self.system_prompt_setup = system_prompt_setup
         self.embedding_file = embedding_file
 
-        if embed_documents:
+        if load_new_index and embedder != "BM25":
             print("Loading embeddings") if verbose else None
 
-            # Embed texts and load into a dictionary
+            # Embed texts and load to file
             embed(
                 model=self.embedder,
                 input_articles=self.texts,
@@ -48,9 +54,13 @@ class Experiment:
                 verbose=verbose,
             )
 
-        # self.embeddings = load_embeddings(
-        #     embedding_file=embedding_file, indices=self.ids, verbose=verbose
-        # )
+        elif embedder == "BM25":
+            self.retriever, self.tokenizer = create_index(
+                ids=self.ids,
+                texts=self.texts,
+                verbose=verbose,
+                load_new_index=load_new_index,
+            )
 
     def request_prompt(
         self, manual_prompt: bool = False, automatic: str = "Amsterdam", verbose=False
@@ -69,14 +79,15 @@ class Experiment:
         else:
             self.user_prompt = automatic
 
-        print("Embedding user prompt") if verbose else None
-        self.embedded_user_prompt = embed(
-            model=self.embedder,
-            input_articles=self.user_prompt,
-            api_key=self.api_key,
-            write=False,
-            verbose=False,
-        )
+        if self.embedder != "BM25":
+            print("Embedding user prompt") if verbose else None
+            self.embedded_user_prompt = embed(
+                model=self.embedder,
+                input_articles=self.user_prompt,
+                api_key=self.api_key,
+                write=False,
+                verbose=False,
+            )
 
     def rag(
         self,
@@ -113,15 +124,24 @@ class Experiment:
         """
         self.request_prompt(manual_prompt=manual_prompt, automatic=automatic)
 
-        relevant_documents, relevant_document_ids = retrieve(
-            retriever=retriever,
-            query=self.embedded_user_prompt,
-            embeddings_file=self.embedding_file,
-            indices=self.ids,
-            texts=dict(zip(self.ids, self.texts)),
-            n_articles=n_articles,
-            verbose=verbose,
-        )
+        if self.embedder == "BM25":
+            relevant_documents, relevant_document_ids = bm25_retriever(
+                retriever=self.retriever,
+                tokenizer=self.tokenizer,
+                queries=[self.user_prompt],
+                n_articles=n_articles,
+            )
+
+        else:
+            relevant_documents, relevant_document_ids = retrieve_vector(
+                retriever=retriever,
+                query=self.embedded_user_prompt,
+                embeddings_file=self.embedding_file,
+                indices=self.ids,
+                texts=dict(zip(self.ids, self.texts)),
+                n_articles=n_articles,
+                verbose=verbose,
+            )
 
         # Set up the system prompt using the relevant articles
         system_prompt = (
@@ -174,7 +194,7 @@ class Experiment:
         retriever: function = cosine_similarity,
         n_articles: int = 3,
         verbose=False,
-        directory="responses",
+        directory="../responses",
     ):
         """Request multiple responses within the existing experiment from a
         file containing the prompts.
@@ -273,7 +293,7 @@ class Experiments:
     def run(self):
 
         for embedder_tuple in self.embedders:
-            embed_documents = embedder_tuple[0]
+            load_new_index = embedder_tuple[0]
             generate = embedder_tuple[1]
             embedder = embedder_tuple[2]
 
@@ -291,12 +311,11 @@ class Experiments:
                 embedder=embedder,
                 generator="",
                 test=False,
-                embed_documents=embed_documents,
+                load_new_index=load_new_index,
                 embedding_file=f"{self.embedding_directory}/{embedder_name}.tsv",
                 verbose=True,
             )
 
-            # Run embedding-based model combinations
             for generator_tuple in self.generators:
 
                 generator_name = generator_tuple[0].split("/")[1]
@@ -304,15 +323,14 @@ class Experiments:
 
                 print(f"Using generator: {generator_name}")
 
-                for distance in self.distances:
+                directory = (
+                    f"{full_directory_name}/results/{embedder_name}/{generator_name}"
+                )
 
-                    distance_name = distance.__name__
+                experiment.generator = generator_name
 
-                    print(f"Using distance metric {distance_name}")
-
-                    directory = f"{full_directory_name}/results/{embedder_name}/{generator_name}/{distance_name}"
-
-                    experiment.generator = generator_name
+                # First use BM25 retrieval
+                if embedder_name == "BM25":
 
                     # Create a directory to add the results of an individual experiment to or clear
                     # directory if it already exists
@@ -334,23 +352,55 @@ class Experiments:
                         content_access=generator_access,
                     )
 
+                # Is embedders are used, use embedding based retrieval
+                else:
+                    for distance in self.distances:
+
+                        distance_name = distance.__name__
+
+                        print(f"Using distance metric {distance_name}")
+
+                        directory = f"{full_directory_name}/results/{embedder_name}/{generator_name}/{distance_name}"
+
+                        # Create a directory to add the results of an individual experiment to or clear
+                        # directory if it already exists
+                        if not os.path.exists(directory):
+                            os.makedirs(directory)
+
+                        else:
+                            for filename in os.listdir(directory):
+                                file_path = os.path.join(directory, filename)
+
+                                # Check if it is a file (not a subdirectory)
+                                if os.path.isfile(file_path):
+                                    os.remove(file_path)  # Remove the file
+
+                        experiment.request_multiple_prompts(
+                            self.prompts,
+                            retriever=distance,
+                            directory=directory,
+                            content_access=generator_access,
+                        )
+
 
 if __name__ == "__main__":
     experiment = Experiment(
         api_key=os.environ["NEBUL_API_KEY"],
-        embedder="BAAI/bge-m3",
+        embedder="BM25",
         generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
         test=False,
-        embed_documents=False,
+        load_new_index=False,
         verbose=True,
         embedding_file="../embeddings/bge-m3.tsv",
     )
 
-    experiment.rag(
-        manual_prompt=True,
-        retriever=manhattan,
-        report_to_terminal=True,
-        write=False,
+    experiment.request_multiple_prompts(
+        prompts=[
+            ("question", "Amsterdam"),
+            ("question", "Trekkertrek"),
+            ("question", "Bruinvis"),
+        ],
+        retriever=None,
         verbose=True,
     )
 

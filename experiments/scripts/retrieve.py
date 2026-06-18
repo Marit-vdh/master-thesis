@@ -54,25 +54,30 @@ def create_index(
     return retriever, tokenizer
 
 
-def bm25_retriever(retriever, tokenizer, queries, k=3, print_result=False):
-    # stemmer = Stemmer.Stemmer("dutch")
-    # tokenizer = bm25s.tokenization.Tokenizer()
+def bm25_retriever(retriever, tokenizer, queries, n_articles=3, print_result=False):
+
     queries_tokenized = tokenizer.tokenize(queries)
 
-    print(queries_tokenized)
-
     # Retrieve the top-k results
-    results = retriever.retrieve(queries_tokenized, k=k)
+    results = retriever.retrieve(queries_tokenized, k=n_articles)
 
     # show first results if desired
-
-    if print_result:
-        for i in range(len(queries)):
-            print(queries[i])
-            for j in range(k):
+    docs = []
+    ids = []
+    for i in range(len(queries)):
+        print(queries[i]) if print_result else None
+        for j in range(n_articles):
+            (
                 print(
                     f'{results.scores[i, j]} - {results.documents[i, j]["id"]} - {results.documents[i, j]["text"]}'
                 )
+                if print_result
+                else None
+            )
+            docs.append(results.documents[i, j]["text"])
+            ids.append(results.documents[i, j]["id"])
+
+    return docs, ids
 
 
 def cosine_similarity(a, b):
@@ -127,7 +132,7 @@ def manhattan(a, b):
     return np.sum(abs(a - b))
 
 
-def retrieve(
+def retrieve_vector(
     retriever: function,
     query: list[float],
     embeddings_file,
