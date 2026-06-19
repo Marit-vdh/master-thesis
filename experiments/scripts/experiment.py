@@ -13,6 +13,7 @@ from retrieve import (
     bm25_retriever,
 )
 from generator import generate_response
+from analyse_results import analyse_response
 
 full_directory_name = (
     "/Users/maritvandenhelder/information_studies/thesis/master-thesis/experiments"
@@ -30,7 +31,7 @@ class Experiment:
         verbose=True,
         load_new_index: bool = True,
         embedding_file: str = "data.tsv",
-        system_prompt_setup: str = "Je bent een behulpzame chatbot. Gebruik alleen de volgende stukken informatie bij het opstellen van het antwoord: ",
+        system_prompt_setup: str = "Je bent een behulpzame chatbot voor journalisten. Je antwoordt altijd in het Nederlands. Gebruik alleen de volgende stukken informatie bij het opstellen van een antwoord: ",
     ):
         # Set up global variables
         self.api_key = api_key
@@ -93,7 +94,7 @@ class Experiment:
         self,
         manual_prompt: bool = False,
         automatic="Amsterdam",
-        retriever: function = cosine_similarity,
+        retriever_func: function = cosine_similarity,
         content_access: str = "content",
         n_articles: int = 3,
         report_to_terminal: bool = False,
@@ -101,6 +102,7 @@ class Experiment:
         prompt_type: str = "question",
         output_filename: str = "rag_response.json",
         verbose=False,
+        evaluate_response=True,
     ):
         """RAG pipeline with parameters for asking for a user prompt. Has option
         to write the response to a file and/or the terminal.
@@ -134,7 +136,7 @@ class Experiment:
 
         else:
             relevant_documents, relevant_document_ids = retrieve_vector(
-                retriever=retriever,
+                retriever=retriever_func,
                 query=self.embedded_user_prompt,
                 embeddings_file=self.embedding_file,
                 indices=self.ids,
@@ -160,9 +162,18 @@ class Experiment:
             max_completion_tokens=250,
         )
 
+        if evaluate_response:
+            analyse_response()
+
         if write:
             with open(output_filename, "w") as output_file:
                 output = {}
+                output["embedder"] = self.embedder_name
+                output["generator"] = self.generator_name
+
+                output["distance_metric"] = (
+                    None if self.embedder_name == "BM25" else retriever_func.__name__
+                )
 
                 output["user_prompt"] = self.user_prompt
                 output["prompt_type"] = prompt_type
@@ -172,7 +183,6 @@ class Experiment:
                         relevant_document_ids, relevant_documents
                     )
                 }
-
                 output["response"] = response
                 json.dump(output, output_file)
 
@@ -191,7 +201,7 @@ class Experiment:
         self,
         prompts: list[str],
         content_access: str = "content",
-        retriever: function = cosine_similarity,
+        retriever_func: function = cosine_similarity,
         n_articles: int = 3,
         verbose=False,
         directory="../responses",
@@ -217,7 +227,7 @@ class Experiment:
             self.rag(
                 manual_prompt=False,
                 automatic=prompt_text,
-                retriever=retriever,
+                retriever_func=retriever_func,
                 content_access=content_access,
                 n_articles=n_articles,
                 report_to_terminal=False,
@@ -255,7 +265,7 @@ def get_prompts(filename):
     contents = []
     with open(filename) as file:
         for line in file:
-            split_line = line.split("\t")
+            split_line = line.split(",")
             contents.append((split_line[0], split_line[1].strip()))
     return contents
 
@@ -280,7 +290,7 @@ class Experiments:
 
         self.embedders = get_embedders(embedders_file)
         self.retrievers = get_model_list(retrieval_file)
-        self.generators = get_model_list(generator_file)
+        self.generators = get_generators(generator_file)
         self.prompts = get_prompts(prompt_file)
         self.distances = distances
 
@@ -308,13 +318,15 @@ class Experiments:
 
             experiment = Experiment(
                 api_key=os.environ["NEBUL_API_KEY"],
-                embedder=embedder,
+                embedder=embedder.strip("/"),
                 generator="",
                 test=False,
                 load_new_index=load_new_index,
                 embedding_file=f"{self.embedding_directory}/{embedder_name}.tsv",
                 verbose=True,
             )
+
+            experiment.embedder_name = embedder_name
 
             for generator_tuple in self.generators:
 
@@ -327,9 +339,10 @@ class Experiments:
                     f"{full_directory_name}/results/{embedder_name}/{generator_name}"
                 )
 
-                experiment.generator = generator_name
+                experiment.generator = generator_tuple[0]
+                experiment.generator_name = generator_name
 
-                # First use BM25 retrieval
+                # Use BM25 retrieval
                 if embedder_name == "BM25":
 
                     # Create a directory to add the results of an individual experiment to or clear
@@ -347,12 +360,11 @@ class Experiments:
 
                     experiment.request_multiple_prompts(
                         self.prompts,
-                        retriever=distance,
                         directory=directory,
                         content_access=generator_access,
                     )
 
-                # Is embedders are used, use embedding based retrieval
+                # If embedders are used, use embedding based retrieval
                 else:
                     for distance in self.distances:
 
@@ -377,39 +389,41 @@ class Experiments:
 
                         experiment.request_multiple_prompts(
                             self.prompts,
-                            retriever=distance,
+                            retriever_func=distance,
                             directory=directory,
                             content_access=generator_access,
                         )
 
 
 if __name__ == "__main__":
-    experiment = Experiment(
-        api_key=os.environ["NEBUL_API_KEY"],
-        embedder="BM25",
-        generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
-        test=False,
-        load_new_index=False,
-        verbose=True,
-        embedding_file="../embeddings/bge-m3.tsv",
-    )
-
-    experiment.request_multiple_prompts(
-        prompts=[
-            ("question", "Amsterdam"),
-            ("question", "Trekkertrek"),
-            ("question", "Bruinvis"),
-        ],
-        retriever=None,
-        verbose=True,
-    )
-
-    # print(f"Running experiment..")
-    # experiments = Experiments(
-    #     "../sources/embedders.csv",
-    #     "../sources/retrievers.csv",
-    #     "../sources/generators.csv",
-    #     "../sources/prompts.csv",
-    #     [cosine_similarity, manhattan],
+    # experiment = Experiment(
+    #     api_key=os.environ["NEBUL_API_KEY"],
+    #     embedder="BM25",
+    #     generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
+    #     test=False,
+    #     load_new_index=False,
+    #     verbose=True,
+    #     embedding_file="../embeddings/bge-m3.tsv",
     # )
-    # experiments.run()
+    # experiment.embedder_name = "BM25"
+    # experiment.generator_name = "Qwen3-30B-A3B-Instruct-2507"
+
+    # experiment.request_multiple_prompts(
+    #     prompts=[
+    #         ("question", "Amsterdam"),
+    #         ("question", "Trekkertrek"),
+    #         ("question", "Bruinvis"),
+    #     ],
+    #     retriever_func=None,
+    #     verbose=True,
+    # )
+
+    print(f"Running experiments..")
+    experiments = Experiments(
+        "../sources/embedders.csv",
+        "../sources/retrievers.csv",
+        "../sources/generators.csv",
+        "../sources/prompts.csv",
+        [cosine_similarity, manhattan],
+    )
+    experiments.run()

@@ -11,5 +11,6 @@ dependencies:
   - requests
   - pip
   - pip:
-      - weaviate
       - bm25s
+      - ragas
+      - vertexai

@@ -1,1 +1,1 @@
-{"user_prompt": "Regilio Simons", "articles_used": {"36854": "M", "223646": "test \r ", "12575": "I N DlE XI N DlE X"}, "response": "Deze informatie is niet beschikbaar."}
+{"embedder": "bge-m3", "generator": "Qwen3-30B-A3B-Instruct-2507", "distance_metric": "cosine_similarity", "user_prompt": "Regilio Simons", "prompt_type": "question", "articles_used": {"36854": "Groot naar halve finale 100 vlinder M", "223646": "Test test \r ", "12575": "Nieuw sport kort item 3 I N DlE XI N DlE X"}, "response": "Failed to generate a response"}
