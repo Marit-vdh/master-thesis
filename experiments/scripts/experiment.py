@@ -13,7 +13,7 @@ from retrieve import (
     bm25_retriever,
 )
 from generator import generate_response
-from analyse_results import analyse_response
+from analyse_results import analyse_rag_response
 
 full_directory_name = (
     "/Users/maritvandenhelder/information_studies/thesis/master-thesis/experiments"
@@ -159,18 +159,23 @@ class Experiment:
             user_prompt=self.user_prompt,
             content_access=content_access,
             verbose=verbose,
-            max_completion_tokens=250,
+            # max_completion_tokens=250,
         )
 
         if evaluate_response:
-            analyse_response()
+            scores = analyse_rag_response(
+                self.user_prompt, relevant_documents, response
+            )
+            print(scores)
+        else:
+            scores = {}
 
         if write:
             with open(output_filename, "w") as output_file:
                 output = {}
                 output["embedder"] = self.embedder_name
                 output["generator"] = self.generator_name
-
+                output["scores"] = scores
                 output["distance_metric"] = (
                     None if self.embedder_name == "BM25" else retriever_func.__name__
                 )
@@ -205,6 +210,7 @@ class Experiment:
         n_articles: int = 3,
         verbose=False,
         directory="../responses",
+        evaluate_response=True,
     ):
         """Request multiple responses within the existing experiment from a
         file containing the prompts.
@@ -235,6 +241,7 @@ class Experiment:
                 prompt_type=prompt[0],
                 output_filename=f"{directory}/prompt_{i}_response.json",
                 verbose=False,
+                evaluate_response=evaluate_response,
             )
 
             i += 1
@@ -396,34 +403,35 @@ class Experiments:
 
 
 if __name__ == "__main__":
-    # experiment = Experiment(
-    #     api_key=os.environ["NEBUL_API_KEY"],
-    #     embedder="BM25",
-    #     generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
-    #     test=False,
-    #     load_new_index=False,
-    #     verbose=True,
-    #     embedding_file="../embeddings/bge-m3.tsv",
-    # )
-    # experiment.embedder_name = "BM25"
-    # experiment.generator_name = "Qwen3-30B-A3B-Instruct-2507"
-
-    # experiment.request_multiple_prompts(
-    #     prompts=[
-    #         ("question", "Amsterdam"),
-    #         ("question", "Trekkertrek"),
-    #         ("question", "Bruinvis"),
-    #     ],
-    #     retriever_func=None,
-    #     verbose=True,
-    # )
-
-    print(f"Running experiments..")
-    experiments = Experiments(
-        "../sources/embedders.csv",
-        "../sources/retrievers.csv",
-        "../sources/generators.csv",
-        "../sources/prompts.csv",
-        [cosine_similarity, manhattan],
+    experiment = Experiment(
+        api_key=os.environ["NEBUL_API_KEY"],
+        embedder="BM25",
+        generator="Qwen/Qwen3-30B-A3B-Instruct-2507",
+        test=False,
+        load_new_index=False,
+        verbose=True,
+        embedding_file="../embeddings/bge-m3.tsv",
     )
-    experiments.run()
+    experiment.embedder_name = "BM25"
+    experiment.generator_name = "Qwen3-30B-A3B-Instruct-2507"
+
+    experiment.request_multiple_prompts(
+        prompts=[
+            ("question", "Amsterdam"),
+            ("question", "Trekkertrek"),
+            ("question", "Bruinvis"),
+        ],
+        retriever_func=None,
+        verbose=True,
+        evaluate_response=False,
+    )
+
+    # print(f"Running experiments..")
+    # experiments = Experiments(
+    #     "../sources/embedders.csv",
+    #     "../sources/retrievers.csv",
+    #     "../sources/generators.csv",
+    #     "../sources/prompts.csv",
+    #     [cosine_similarity, manhattan],
+    # )
+    # experiments.run()

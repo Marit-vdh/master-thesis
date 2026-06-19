@@ -10,7 +10,6 @@ def generate_response(
     user_prompt: str,
     temperature: float = 1.0,
     content_access: str = "content",
-    max_completion_tokens: int = 100,
     verbose=False,
 ) -> str:
     """Generate a response using a model from the Nebul platform.
@@ -38,7 +37,6 @@ def generate_response(
             {"role": "user", "content": user_prompt},
         ],
         "temperature": temperature,
-        "max_completion_tokens": max_completion_tokens,
     }
 
     print("Generating response") if verbose else None
