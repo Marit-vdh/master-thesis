@@ -1,25 +1,88 @@
-question,Amsterdam
-question,Vertel me over Amsterdam
-question,Gemeente Amsterdam
-question,Stad Amsterdam
-question,Haarlem
-question,Vertel me over Haarlem
-question,Gemeente Oostzaan
-question,Het Gooi
-question,Texel
-question,Schiphol
-question,SOS Dolfijn
-question,Bruinvis
-question,Zuidasdok
-question,Circuit Zandvoort
-question,Luchtalarm
-question,Rick Kruys
-question,Regilio Simons
-question,Overvalbende
-question,De Heg marineterrein
-question,Zandspektakel Julianadorp
-question,De blaffende vis Koningsdag
-question,Warmte-koudeopslag (WKO)
-question,Trekkertrek
-question,Crailoo
-question,Fotofestival
+single_term,Amsterdam
+single_term,Gemeente Amsterdam
+single_term,Haarlem
+single_term,Gemeente Oostzaan
+single_term,Het Gooi
+single_term,Texel
+single_term,Schiphol
+single_term,SOS Dolfijn
+single_term,Bruinvis
+single_term,Zuidasdok
+single_term,Circuit Zandvoort
+single_term,Luchtalarm
+single_term,Rick Kruys
+single_term,Regilio Simons
+single_term,Overvalbende
+single_term,De Heg marineterrein
+single_term,Zandspektakel Julianadorp
+single_term,De blaffende vis Koningsdag
+single_term,Warmte-koudeopslag (WKO)
+single_term,Trekkertrek
+single_term,Crailoo
+single_term,Fotofestival
+simple_question,Wat kun je me vertellen over Amsterdam?
+simple_question,Wat kun je me vertellen over Gemeente Amsterdam?
+simple_question,Wat kun je me vertellen over Haarlem?
+simple_question,Wat kun je me vertellen over Gemeente Oostzaan?
+simple_question,Wat kun je me vertellen over Het Gooi?
+simple_question,Wat kun je me vertellen over Texel?
+simple_question,Wat kun je me vertellen over Schiphol?
+simple_question,Wat kun je me vertellen over SOS Dolfijn?
+simple_question,Wat kun je me vertellen over Bruinvis?
+simple_question,Wat kun je me vertellen over Zuidasdok?
+simple_question,Wat kun je me vertellen over Circuit Zandvoort?
+simple_question,Wat kun je me vertellen over Luchtalarm?
+simple_question,Wat kun je me vertellen over Rick Kruys?
+simple_question,Wat kun je me vertellen over Regilio Simons?
+simple_question,Wat kun je me vertellen over Overvalbende?
+simple_question,Wat kun je me vertellen over De Heg marineterrein?
+simple_question,Wat kun je me vertellen over Zandspektakel Julianadorp?
+simple_question,Wat kun je me vertellen over De blaffende vis Koningsdag?
+simple_question,Wat kun je me vertellen over Warmte-koudeopslag (WKO)?
+simple_question,Wat kun je me vertellen over Trekkertrek?
+simple_question,Wat kun je me vertellen over Crailoo?
+simple_question,Wat kun je me vertellen over Fotofestival?
+context_question,Wat kun je me vertellen over de stad Amsterdam?
+context_question,Wat kun je me vertellen over de Gemeente Amsterdam?
+context_question,Wat kun je me vertellen over de stad Haarlem?
+context_question,Wat kun je me vertellen over de Gemeente Oostzaan?
+context_question,Wat kun je me vertellen over het gebied Het Gooi?
+context_question,Wat kun je me vertellen over het eiland Texel?
+context_question,Wat kun je me vertellen over luchthaven Schiphol?
+context_question,Wat kun je me vertellen over de stichting SOS Dolfijn?
+context_question,Wat kun je me vertellen over Bruinvissen in Noord-Holland?
+context_question,Wat kun je me vertellen over het project Zuidasdok?
+context_question,Wat kun je me vertellen over het formule 1 Circuit Zandvoort?
+context_question,Wat kun je me vertellen over het opheffen van het Luchtalarm?
+context_question,Wat kun je me vertellen over de persoon Rick Kruys?
+context_question,Wat kun je me vertellen over de persoon Regilio Simons?
+context_question,Wat kun je me vertellen over Overvalbendes in Noord-Holland?
+context_question,Wat kun je me vertellen over het kunstproject De Heg bij het marineterrein?
+context_question,Wat kun je me vertellen over het evenement Zandspektakel Julianadorp?
+context_question,Wat kun je me vertellen over het cafe De blaffende vis Koningsdag?
+context_question,Wat kun je me vertellen over huizen met Warmte-koudeopslag (WKO) in Noord-Holland?
+context_question,Wat kun je me vertellen over het evenement Trekkertrek?
+context_question,Wat kun je me vertellen over het natuurgebied Crailoo?
+context_question,Wat kun je me vertellen over Fotofestivals in Noord-Holland?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over de stad Amsterdam?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over de Gemeente Amsterdam?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over de stad Haarlem?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over de Gemeente Oostzaan?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over het gebied Het Gooi?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over het eiland Texel?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over luchthaven Schiphol?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over de stichting SOS Dolfijn?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over Bruinvissen in Noord-Holland?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over het project Zuidasdok?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over het formule 1 Circuit Zandvoort?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over het opheffen van het Luchtalarm?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over de persoon Rick Kruys?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over de persoon Regilio Simons?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over Overvalbendes in Noord-Holland?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over het kunstproject De Heg bij het marineterrein?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over het evenement Zandspektakel Julianadorp?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over het cafe De blaffende vis Koningsdag?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over huizen met Warmte-koudeopslag (WKO) in Noord-Holland?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over het evenement Trekkertrek?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over het natuurgebied Crailoo?
+journalist_question,Ik ben een journalist uit Noord-Holland en ik ben onderzoek aan het doen voor een artikel. Wat kun je me vertellen over Fotofestivals in Noord-Holland?

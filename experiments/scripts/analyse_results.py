@@ -129,28 +129,29 @@ if __name__ == "__main__":
 
                     results.append(result)
 
-        for generator_folder in os.listdir(f"../results/{embedder_folder}"):
-            if generator_folder.startswith("."):
-                continue
-
-            for distance_metric in os.listdir(
-                f"../results/{embedder_folder}/{generator_folder}"
-            ):
-                if distance_metric.startswith("."):
+        else:
+            for generator_folder in os.listdir(f"../results/{embedder_folder}"):
+                if generator_folder.startswith("."):
                     continue
 
-                for result_file in os.listdir(
-                    f"../results/{embedder_folder}/{generator_folder}/{distance_metric}"
+                for distance_metric in os.listdir(
+                    f"../results/{embedder_folder}/{generator_folder}"
                 ):
                     if distance_metric.startswith("."):
                         continue
 
-                    result = get_results_from_file(
-                        f"../results/{embedder_folder}/{generator_folder}/{distance_metric}/{result_file}"
-                    )
-                    print(result)
+                    for result_file in os.listdir(
+                        f"../results/{embedder_folder}/{generator_folder}/{distance_metric}"
+                    ):
+                        if distance_metric.startswith("."):
+                            continue
 
-                    results.append(result)
+                        result = get_results_from_file(
+                            f"../results/{embedder_folder}/{generator_folder}/{distance_metric}/{result_file}"
+                        )
+                        print(result)
+
+                        results.append(result)
 
     with open(f"../responses/result_eval.json", "w") as result_file:
         json.dump(results, result_file)
