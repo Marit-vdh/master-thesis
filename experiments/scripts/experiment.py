@@ -166,7 +166,6 @@ class Experiment:
             scores = analyse_rag_response(
                 self.user_prompt, relevant_documents, response
             )
-            print(scores)
         else:
             scores = {}
 
@@ -403,36 +402,36 @@ class Experiments:
 
 
 if __name__ == "__main__":
-    experiment = Experiment(
-        api_key=os.environ["NEBUL_API_KEY"],
-        embedder="BM25",
-        generator="nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16",
-        test=False,
-        load_new_index=False,
-        verbose=True,
-        embedding_file="../embeddings/bge-m3.tsv",
-    )
-    experiment.embedder_name = "BM25"
-    experiment.generator_name = "NVIDIA-Nemotron-3-Super-120B-A12B-BF16"
-
-    experiment.request_multiple_prompts(
-        prompts=[
-            ("question", "Amsterdam"),
-            ("question", "Trekkertrek"),
-            ("question", "Bruinvis"),
-        ],
-        content_access="content",
-        retriever_func=None,
-        verbose=True,
-        evaluate_response=False,
-    )
-
-    # print(f"Running experiments..")
-    # experiments = Experiments(
-    #     "../sources/embedders.csv",
-    #     "../sources/retrievers.csv",
-    #     "../sources/generators.csv",
-    #     "../sources/prompts.csv",
-    #     [cosine_similarity, manhattan],
+    # experiment = Experiment(
+    #     api_key=os.environ["NEBUL_API_KEY"],
+    #     embedder="BM25",
+    #     generator="nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16",
+    #     test=False,
+    #     load_new_index=False,
+    #     verbose=True,
+    #     embedding_file="../embeddings/bge-m3.tsv",
     # )
-    # experiments.run()
+    # experiment.embedder_name = "BM25"
+    # experiment.generator_name = "NVIDIA-Nemotron-3-Super-120B-A12B-BF16"
+
+    # experiment.request_multiple_prompts(
+    #     prompts=[
+    #         ("question", "Amsterdam"),
+    #         ("question", "Trekkertrek"),
+    #         ("question", "Bruinvis"),
+    #     ],
+    #     content_access="content",
+    #     retriever_func=None,
+    #     verbose=True,
+    #     evaluate_response=False,
+    # )
+
+    print(f"Running experiments..")
+    experiments = Experiments(
+        "../sources/embedders.csv",
+        "../sources/retrievers.csv",
+        "../sources/generators.csv",
+        "../sources/prompts.csv",
+        [cosine_similarity, manhattan],
+    )
+    experiments.run()
