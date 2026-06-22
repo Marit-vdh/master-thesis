@@ -10,6 +10,8 @@ from ragas.metrics.collections import (
     NoiseSensitivity,
     AnswerRelevancy,
     Faithfulness,
+    FactualCorrectness,
+    BleuScore,
 )
 from ragas.llms import llm_factory
 from ragas.run_config import RunConfig
@@ -20,7 +22,7 @@ import pandas as pd
 config = RunConfig(timeout=600, max_retries=5)
 
 
-def analyse_rag_response(prompt="", context=[], text=""):
+def analyse_rag_response(prompt="", context=[], reference="", text=""):
     scores = {}
     client = AsyncOpenAI(
         api_key=os.environ["NEBUL_API_KEY"],
@@ -59,15 +61,62 @@ def analyse_rag_response(prompt="", context=[], text=""):
     return scores
 
 
-def get_results_from_file(filename):
+def analyse_with_reference(
+    prompt="", reference="", response="", answer_relevancy=False
+):
+    scores = {}
+    client = AsyncOpenAI(
+        api_key=os.environ["NEBUL_API_KEY"],
+        base_url="https://api.inference.nebul.io/v1",
+    )
+    llm = llm_factory("deepseek-ai/DeepSeek-OCR", client=client)
+    embeddings = embedding_factory("openai", model="BAAI/bge-m3", client=client)
+
+    if answer_relevancy:
+        try:
+            scores["answer_relevancy"] = (
+                AnswerRelevancy(llm=llm, embeddings=embeddings)
+                .score(user_input=prompt, response=response)
+                .value
+            )
+        except:
+            scores["answer_relevancy"] = None
+
+    try:
+        scores["factual_correctness"] = (
+            FactualCorrectness(llm=llm)
+            .score(response=response, reference=reference)
+            .value
+        )
+
+    except:
+        scores["factual_correctness"] = None
+
+    try:
+        scores["bleu"] = BleuScore().score(response=response, reference=reference).value
+    except:
+        scores["bleu"] = None
+
+    return scores
+
+
+def get_results_from_file(filename, references=[]):
+    i = int(filename.split("_")[-2])
 
     with open(f"../responses/{filename}", "r") as response:
+
         response_data = json.load(response)
 
         result = analyse_rag_response(
             prompt=response_data["user_prompt"],
             context=[v for _, v in response_data["articles_used"].items()],
             text=response_data["response"],
+        )
+
+        result = result | analyse_with_reference(
+            prompt=response_data["user_prompt"],
+            reference=references[i],
+            response=response_data["response"],
         )
 
         result["user_prompt"] = response_data["user_prompt"]
@@ -79,27 +128,23 @@ def get_results_from_file(filename):
 
 
 if __name__ == "__main__":
-    # output_file = f"../responses/result_eval.json"
-    # if os.path.exists(output_file):
-    #     os.remove(output_file)
+    # print(
+    #     get_results_from_file(
+    #         "../results/BM25/Ministral-3-14B-Instruct-2512/prompt_0_response.json",
+    #         [
+    #             "Hoofdstad van Nederland; grootste stad in Noord-Holland,centrum voor cultuur,economie en toerisme."
+    #         ],
+    #     )
+    # )
 
-    # results = []
+    # Evaluate all responses
 
-    # for file in os.listdir("../responses"):
-    #     if file.startswith("."):
-    #         continue
+    # Load the references from the reference file
+    references = []
+    with open("../sources/references.txt", "r") as file:
+        for line in file:
+            references.append(line.strip())
 
-    #     result = get_results_from_file(file)
-
-    #     results.append(result)
-
-    # with open(f"../responses/result_eval.json", "w") as result_file:
-    #     json.dump(results, result_file)
-
-    # results_df = pd.DataFrame(results)
-    # print(results_df)
-
-    # Evaluate all responses with embedding-based retrieval
     output_file = f"../results/result_eval.json"
     if os.path.exists(output_file):
         os.remove(output_file)
@@ -107,10 +152,10 @@ if __name__ == "__main__":
     results = []
 
     for embedder_folder in os.listdir("../results"):
-        if embedder_folder.startswith("."):
+        if embedder_folder.startswith(".") or embedder_folder == "generation_only":
             continue
 
-        if embedder_folder == "BM25":
+        elif embedder_folder == "BM25":
             for generator_folder in os.listdir(f"../results/{embedder_folder}"):
 
                 if generator_folder.startswith("."):
@@ -123,7 +168,8 @@ if __name__ == "__main__":
                         continue
 
                     result = get_results_from_file(
-                        f"../results/{embedder_folder}/{generator_folder}/{result_file}"
+                        f"../results/{embedder_folder}/{generator_folder}/{result_file}",
+                        references=references,
                     )
                     print(result)
 
@@ -147,13 +193,14 @@ if __name__ == "__main__":
                             continue
 
                         result = get_results_from_file(
-                            f"../results/{embedder_folder}/{generator_folder}/{distance_metric}/{result_file}"
+                            f"../results/{embedder_folder}/{generator_folder}/{distance_metric}/{result_file}",
+                            references=references,
                         )
                         print(result)
 
                         results.append(result)
 
-    with open(f"../responses/result_eval.json", "w") as result_file:
+    with open(f"../results/result_eval.json", "w") as result_file:
         json.dump(results, result_file)
 
     results_df = pd.DataFrame(results)
