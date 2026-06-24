@@ -6,7 +6,38 @@ from time import sleep
 from random import uniform
 
 
-def embed(
+def embed_prompt(model, prompt, api_key):
+    url = "https://api.inference.nebul.io/v1/embeddings"
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+
+    payload = {
+        "model": model,
+        "input": prompt,
+        "normalize": True,
+        "embed_dtype": "float16",
+    }
+    for _ in range(4):
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=300)
+
+            if response.status_code != 200:
+                print(f"DEBUG ERROR: {response.status_code} - {response.text}")
+                response.raise_for_status()
+
+            return response.json()["data"][0]["embedding"]
+
+        except Exception as e:
+            str_error = e
+            print(e)
+            sleep(4)
+
+        if not str_error:
+            break
+
+    return "Failed to create embedding"
+
+
+def embed_articles(
     model: str,
     input_articles: list[str],
     api_key: str,

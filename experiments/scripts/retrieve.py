@@ -101,7 +101,7 @@ def cosine_similarity(a, b):
     magnitude_b = np.linalg.norm(b)
 
     # Calculate cosine similarity
-    return (dot_product / (magnitude_a * magnitude_b))[0]
+    return dot_product / (magnitude_a * magnitude_b)
 
 
 def dot(a, b):

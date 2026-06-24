@@ -1,3 +1,9 @@
 nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16,content
 mistralai/Ministral-3-14B-Instruct-2512,content
 Qwen/Qwen3-30B-A3B-Instruct-2507,content
+zai-org/GLM-5.2-FP8,content
+mistralai/Mistral-Large-3-675B-Instruct-2512,content
+nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-FP8,content
+zai-org/GLM-5.1-FP8,content
+Qwen/Qwen3.5-397B-A17B,content
+openai/gpt-oss-120b,content
