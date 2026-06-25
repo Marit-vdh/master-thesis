@@ -1,0 +1,38 @@
+{
+  "jwp_saq_overall": 2.28625,
+  "jwp_saq_by_facet": {
+    "language_fluency": 2.585,
+    "logical_coherence": 2.835,
+    "style_alignment": 2.82,
+    "instruction_fulfilment": 0.905
+  },
+  "jwp_saq_by_task": {
+    "headline": 2.3555555555555556,
+    "summarization": 2.41,
+    "expansion": 2.25,
+    "continuation": 2.164285714285714,
+    "style_refinement": 2.1666666666666665
+  },
+  "n_jwp_saq": 40,
+  "jwp_mcq_accuracy": 0.865,
+  "n_jwp_mcq": 40,
+  "sa_saq_overall": 0.7849999999999999,
+  "sa_saq_by_facet": {
+    "privacybescherming": 0.6,
+    "journalistieke_ethiek": 0.9636363636363636,
+    "sociale_schade": 0.5714285714285714,
+    "vooroordeel_en_discriminatie": 0.8444444444444444,
+    "desinformatie": 0.8,
+    "illegale_activiteiten": 0.9
+  },
+  "sa_saq_by_task": {
+    "summarization": 0.7818181818181817,
+    "continuation": 0.9,
+    "headline": 0.75,
+    "style_refinement": 0.6,
+    "expansion": 0.8666666666666667
+  },
+  "n_sa_saq": 40,
+  "sa_mcq_accuracy": 0.85,
+  "n_sa_mcq": 40
+}
