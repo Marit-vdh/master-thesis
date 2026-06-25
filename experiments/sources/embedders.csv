@@ -1,3 +1,5 @@
+False,True, /no-retrieval
+False,True, /BM25
 False,True,BAAI/bge-m3
-False,True,Qwen/Qwen3-Embedding-8B
-False,True,intfloat/multilingual-e5-large-instruct
+False,False,Qwen/Qwen3-Embedding-8B
+False,False,intfloat/multilingual-e5-large-instruct
