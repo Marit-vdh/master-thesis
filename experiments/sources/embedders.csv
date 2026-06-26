@@ -1,4 +1,4 @@
-False,True, /no-retrieval
+False,True, /no_retrieval
 False,True, /BM25
 False,True,BAAI/bge-m3
 False,False,Qwen/Qwen3-Embedding-8B
