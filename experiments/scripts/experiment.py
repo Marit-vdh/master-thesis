@@ -120,7 +120,7 @@ class Experiment:
                     output["distance_metric"] = (
                         None
                         if self.embedder_name in {"BM25", "no_retrieval"}
-                        else self.retriever_func.__name__
+                        else self.distance_name
                     )
                     output["instruction"] = system_prompt_setup
                     output["user_prompt"] = user_prompt
@@ -229,7 +229,7 @@ class Experiments:
 
         # Do not generate new output if the directory is in the skip file
         if directory in self.skip:
-            print(f"Skipping {experiment.embedder_name} + {experiment.generator_name}")
+            print(f"Skipping")
             return
 
         if not os.path.exists(directory):
@@ -256,11 +256,16 @@ class Experiments:
     def run(self):
 
         for embedder_tuple in self.embedders:
+
             load_new_index = embedder_tuple[0]
             generate = embedder_tuple[1]
             embedder = embedder_tuple[2]
 
             embedder_name = embedder.split("/")[1]
+
+            if embedder_name in self.skip:
+                print(f"Skipping retrieval using {embedder_name}")
+                continue
 
             # Skip generators that have already finished the experiments
             if not generate:
@@ -343,6 +348,15 @@ class Experiments:
                     experiment.relevant_docs = {}
 
                     experiment.distance_name = distance.__name__
+
+                    if (
+                        f"{experiment.embedder_name}/{experiment.distance_name}"
+                        in self.skip
+                    ):
+                        print(
+                            f"Skipping embedder {experiment.embedder_name} with distance metrics {experiment.distance_name}"
+                        )
+                        continue
 
                     print(
                         f"Retrieving relevant documents with distance metric {experiment.distance_name}"
