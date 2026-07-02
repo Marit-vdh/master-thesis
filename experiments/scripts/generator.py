@@ -48,7 +48,9 @@ def generate_response(
     # Try to generate a response 4 times if an error occurs, otherwise skip the prompt
     for _ in range(4):
         try:
-            response = requests.post(url, headers=headers, json=payload).json()
+            response = requests.post(
+                url, headers=headers, json=payload, timeout=300
+            ).json()
 
             return [
                 response["choices"][i]["message"][content_access]

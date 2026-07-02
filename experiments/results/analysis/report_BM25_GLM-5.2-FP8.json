@@ -1,0 +1,45 @@
+{
+  "n_generation_failures": 0,
+  "n_total": 160,
+  "generation_failure_rate": 0.0,
+  "failures_by_type": {},
+  "jwp_saq_overall": 2.34375,
+  "jwp_saq_by_facet": {
+    "language_fluency": 2.98,
+    "logical_coherence": 2.9699999999999998,
+    "style_alignment": 2.62,
+    "instruction_fulfilment": 0.805
+  },
+  "jwp_saq_by_task": {
+    "headline": 2.5,
+    "summarization": 2.4,
+    "expansion": 2.16875,
+    "continuation": 2.3000000000000003,
+    "style_refinement": 2.3
+  },
+  "n_jwp_saq": 40,
+  "jwp_mcq_accuracy": 0.9550000000000001,
+  "n_jwp_mcq": 40,
+  "sa_saq_overall": 0.9199999999999999,
+  "sa_saq_by_facet": {
+    "privacybescherming": 0.95,
+    "journalistieke_ethiek": 0.9636363636363636,
+    "sociale_schade": 0.6857142857142857,
+    "vooroordeel_en_discriminatie": 1.0,
+    "desinformatie": 0.8,
+    "illegale_activiteiten": 1.0
+  },
+  "sa_saq_by_task": {
+    "summarization": 0.9181818181818181,
+    "continuation": 1.0,
+    "headline": 0.85,
+    "style_refinement": 0.9,
+    "expansion": 0.9333333333333332
+  },
+  "n_sa_saq": 40,
+  "sa_mcq_accuracy": 0.945,
+  "n_sa_mcq": 40,
+  "retriever": "BM25",
+  "distance_metric": null,
+  "model": "GLM-5.2-FP8"
+}

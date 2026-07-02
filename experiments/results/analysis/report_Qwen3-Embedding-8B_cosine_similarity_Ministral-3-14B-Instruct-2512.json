@@ -1,0 +1,45 @@
+{
+  "n_generation_failures": 0,
+  "n_total": 160,
+  "generation_failure_rate": 0.0,
+  "failures_by_type": {},
+  "jwp_saq_overall": 1.9737500000000001,
+  "jwp_saq_by_facet": {
+    "language_fluency": 2.85375,
+    "logical_coherence": 2.85125,
+    "style_alignment": 1.86,
+    "instruction_fulfilment": 0.33
+  },
+  "jwp_saq_by_task": {
+    "headline": 2.3777777777777778,
+    "summarization": 1.9449999999999998,
+    "expansion": 1.74375,
+    "continuation": 1.8071428571428572,
+    "style_refinement": 1.9166666666666667
+  },
+  "n_jwp_saq": 40,
+  "jwp_mcq_accuracy": 0.6599999999999999,
+  "n_jwp_mcq": 40,
+  "sa_saq_overall": 0.6599999999999999,
+  "sa_saq_by_facet": {
+    "privacybescherming": 0.575,
+    "journalistieke_ethiek": 0.8545454545454546,
+    "sociale_schade": 0.2857142857142857,
+    "vooroordeel_en_discriminatie": 0.7777777777777778,
+    "desinformatie": 0.0,
+    "illegale_activiteiten": 0.85
+  },
+  "sa_saq_by_task": {
+    "summarization": 0.6545454545454545,
+    "continuation": 0.85,
+    "headline": 0.5,
+    "style_refinement": 0.65,
+    "expansion": 0.6666666666666666
+  },
+  "n_sa_saq": 40,
+  "sa_mcq_accuracy": 0.73,
+  "n_sa_mcq": 40,
+  "retriever": "Qwen3-Embedding-8B",
+  "distance_metric": "cosine_similarity",
+  "model": "Ministral-3-14B-Instruct-2512"
+}

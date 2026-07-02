@@ -1,0 +1,19 @@
+{
+  "embedder": "bge-m3",
+  "generator": "Nemotron-3-Nano-Omni-30B-A3B-Reasoning-FP8",
+  "distance_metric": "manhattan",
+  "instruction": "Je bent redacteur bij NH Nieuws. Breid dit bericht uit tot 200 woorden. Gebruik journalistieke stijl en voeg relevante context toe over de woningmarkt in Noord-Holland, zonder feiten te verzinnen.",
+  "user_prompt": "Woningcorporatie Intermaris heeft bekendgemaakt dat zij de komende vijf jaar 1.200 nieuwe sociale huurwoningen bouwt in West-Friesland. De eerste projecten starten in Hoorn en Enkhuizen.",
+  "articles_used": {
+    "19448": "Van Dijk 4e bij baanwielrennen MELBOURNE Ellen van Dijk is bij wereldbekerwedstrijden baanwielrennen in het Australische Melbourne als vierde ge\u00ebindigd op de individuele achtervolging.De Amsterdamse renster zette in de kwalificaties al de vierde tijd neer (3.39,558), maar verloor de strijd om het brons van de Tsjechische Lada Kozlikova. Het goud op de achtervolging ging naar de Britse Joanna Rowsell, die in de finale de Australische Josephine Tomic aftroefde.",
+    "188151": "Volleybalsters missen finale World Grand Prix BANGKOK De Nederlandse volleybalsters zijn er zaterdag in Bangkok niet in geslaagd de finale te bereiken van de World Grand Prix. Olympisch kampioen Brazili\u00eb was duidelijk te sterk voor het team van bondscoach Giovanni Guidetti: 25-18, 25-16, 25-23.Guidetti moest na de warming-up zijn opstelling nog aanpassen. Aanvoerster Maret Balkestein-Grothues had zich geblesseerd aan de knie en werd vervangen door Judith Pietersen. Zij vormde nu als passer/loper de basis met Anne Buijs (passer/loper), Robin de Kruijff en Quinta Steenbergen op midden, Lonneke Sloetjes als diagonaal, spelverdeelster Laura Dijkema en libero Kirsten Knip. Brazili\u00eb nam in de eerste set meteen een voorsprong. Bij 13-15 kwam Myrthe Schoot in het veld voor Buijs om Oranje verdedigend te versterken. Maar de olympisch kampioenen schroefden het tempo even wat op en pakten de setwinst met 18-25. De tweede set begon slecht en bij 8-2 in Braziliaans voordeel besloot Guidetti Buijs te vervangen door Celeste Plak. Met Sheila en Fabiana als uitblinksters bleef Brazili\u00eb een maatje te groot: 16-25. In de derde set kwam Oranje op voorsprong, via 3-0 werd het 18-15, maar bij 20-20 viel het toch de andere kant op. Plak werkte het eerste wedstrijdpunt nog weg maar daarna was het gebeurd: 23-25. Oranje speelt zondag nog om de derde plaats tegen de verliezer van het duel tussen Verenigde Staten en Rusland.",
+    "62877": "Huta Galung verliest van Blake NEW YORK Jesse Huta Galung heeft dinsdagavond ondanks een goed optreden in de eerste ronde van de US Open niet kunnen winnen van James Blake. De Amerikaan versloeg de 25-jarige Nederlander in vier sets. Het werd 6-4 6-2 4-6 en 6-4.Voor Huta Galung was het zijn eerste optreden ooit op de US Open. Blake neemt het in de tweede ronde op tegen de Spanjaard David Ferrer, die met 2-6 6-3 6-0 6-4 te sterk was voor de Rus Igor Andrejev. Eerder ging Thiemo de Bakker in de eerste ronde van het Amerikaanse grandslamtoernooi al onderuit. Robin Haase is daardoor de enig overgebleven Nederlandse tennisser in het mannenenkelspel in New York. De nummer 41 van de wereld neemt het woensdag op tegen de Portugees Rui Machado."
+  },
+  "response": [
+    "Failed to generate a response",
+    "Failed to generate a response",
+    "Failed to generate a response",
+    "Failed to generate a response",
+    "Failed to generate a response"
+  ]
+}

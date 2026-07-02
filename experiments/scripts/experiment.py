@@ -263,13 +263,13 @@ class Experiments:
 
             embedder_name = embedder.split("/")[1]
 
-            if embedder_name in self.skip:
+            if f"{full_directory_name}/results/{embedder_name}" in self.skip:
                 print(f"Skipping retrieval using {embedder_name}")
                 continue
 
             # Skip generators that have already finished the experiments
             if not generate:
-                print(f"Skipping embedder {embedder_name}")
+                print(f"Skipping retrieval using {embedder_name}")
                 continue
 
             experiment = Experiment(
@@ -350,11 +350,11 @@ class Experiments:
                     experiment.distance_name = distance.__name__
 
                     if (
-                        f"{experiment.embedder_name}/{experiment.distance_name}"
+                        f"{full_directory_name}/results/{experiment.embedder_name}/{experiment.distance_name}"
                         in self.skip
                     ):
                         print(
-                            f"Skipping embedder {experiment.embedder_name} with distance metrics {experiment.distance_name}"
+                            f"Skipping embedder {experiment.embedder_name} with distance metric {experiment.distance_name}"
                         )
                         continue
 

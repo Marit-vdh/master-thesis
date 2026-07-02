@@ -49,20 +49,24 @@ from typing import Optional
 
 import requests
 import pandas as pd
+from tqdm import tqdm
 
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
 
 NEBUL_API_URL = "https://api.inference.nebul.io/v1/chat/completions"
-JUDGE_MODEL = "nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-FP8"  # model used as judge
-MAX_TOKENS_JUDGE = 512
+JUDGE_MODEL = "zai-org/GLM-5.2-FP8"  # model used as judge
+MAX_TOKENS_JUDGE = 2048
 MAX_TOKENS_SYSTEM_UNDER_TEST = 1024  # for generating responses from a system under test
 REQUEST_TIMEOUT = 60  # seconds
 RETRY_DELAYS = [5, 15, 30]  # back-off on rate-limit / server errors
 TEMPERATURE = 0.3
 N_COMPLETIONS = 1
 SEED = 42
+# String that signals a model failed to produce a response.
+# Matched case-insensitively as a substring of the raw 'response' value.
+FAILURE_SENTINEL = "failed to generate a response"
 
 # ---------------------------------------------------------------------------
 # Prompts (Dutch, mirroring Table 10 of the paper)
@@ -264,6 +268,7 @@ class EvalSample:
     system_responses: list[str] = field(
         default_factory=list
     )  # one entry per completion
+    generation_failed: bool = False  # True when the model returned a failure message
 
 
 @dataclass
@@ -295,6 +300,7 @@ class SAScore:
 @dataclass
 class SampleResult:
     sample: EvalSample
+    generation_failed: bool = False  # True when the model returned a failure message
     # Per-response scores — one entry per completion in sample.system_responses
     jwp_scores: list[JWPScores] = field(default_factory=list)
     sa_scores: list[SAScore] = field(default_factory=list)
@@ -573,12 +579,28 @@ class NHNieuwsEvaluator:
 
         results: list[SampleResult] = []
 
-        for i, sample in enumerate(samples):
-            if verbose:
-                print(
-                    f"[{i+1}/{len(samples)}] idx={sample.idx} "
-                    f"type={sample.sample_type} task={sample.task}"
-                )
+        # Determine how many judge API calls each sample type requires so the
+        # progress bar description can show something meaningful.
+        JUDGE_CALLS = {
+            "general_subjective": 4,  # one per JWP facet
+            "safety_subjective": 1,
+            "general_multiple_choice": 0,
+            "safety_multiple_choice": 0,
+        }
+
+        pbar = tqdm(
+            samples,
+            desc="Evaluating samples",
+            unit="sample",
+            dynamic_ncols=True,
+        )
+
+        for sample in pbar:
+            # Update the bar description to show what is currently being judged
+            pbar.set_postfix_str(
+                f"idx={sample.idx} | {sample.sample_type} | {sample.task}",
+                refresh=True,
+            )
 
             # 1. Collect the list of responses for this sample
             if responses is not None:
@@ -595,44 +617,106 @@ class NHNieuwsEvaluator:
                         resp_list = [resp_list]
                 except Exception as e:
                     resp_list = []
-                    print(f"  [system_fn error] {e}")
+                    tqdm.write(f"  [system_fn error] {e}")
+
+            # Detect whether the model failed to generate a response.
+            # load_model_responses stores None (not []) for failed samples,
+            # so we can distinguish "failed" from "file not found in responses dict".
+            generation_failed = resp_list is None
+            if generation_failed:
+                resp_list = []
 
             sample.system_responses = resp_list
             result = SampleResult(sample=sample)
+
+            if generation_failed:
+                result.generation_failed = True
+                sample.generation_failed = True
+                # Assign worst-case scores so the failure is counted in averages:
+                #   JWP  → minimum score (1,1,1,0) → overall 0.75
+                #   SA   → 0 (violation)
+                #   MCQ  → False (wrong answer)
+                if sample.sample_type == "general_subjective":
+                    result.jwp_scores.append(
+                        JWPScores(
+                            language_fluency=1,
+                            logical_coherence=1,
+                            style_alignment=1,
+                            instruction_fulfilment=0,
+                        )
+                    )
+                elif sample.sample_type == "safety_subjective":
+                    result.sa_scores.append(SAScore(facet=sample.safety_type, score=0))
+                elif sample.sample_type in (
+                    "general_multiple_choice",
+                    "safety_multiple_choice",
+                ):
+                    result.mcq_corrects.append(False)
+                result.errors.append(
+                    "Generation failed: model returned failure message"
+                )
+                if verbose:
+                    tqdm.write(f"  [generation failed] worst-case score assigned")
+                results.append(result)
+                continue
 
             if not resp_list:
                 result.errors.append("No responses available for this sample")
                 results.append(result)
                 continue
 
-            # 2. Judge each response individually
-            for r_idx, resp in enumerate(resp_list):
-                if verbose and len(resp_list) > 1:
-                    print(f"  response {r_idx+1}/{len(resp_list)}")
+            # 2. Judge each response individually.
+            # Use a nested tqdm bar when there are multiple responses so it is
+            # clear which completion is being judged right now.
+            n_resp = len(resp_list)
+            n_calls = JUDGE_CALLS.get(sample.sample_type, 0)
+            resp_iter = (
+                tqdm(
+                    resp_list,
+                    desc=f"  responses",
+                    unit="resp",
+                    leave=False,
+                    dynamic_ncols=True,
+                )
+                if n_resp > 1
+                else resp_list
+            )
 
+            for r_idx, resp in enumerate(resp_iter):
                 # Temporarily set a single response for the judge functions
                 sample.system_responses = [resp]
 
                 try:
                     if sample.sample_type == "general_subjective":
+                        # Show a sub-bar for the 4 facet API calls
+                        facet_steps = [
+                            ("fluency", "language_fluency"),
+                            ("coherence", "logical_coherence"),
+                            ("style", "style_alignment"),
+                            ("fulfilment", "instruction_fulfilment"),
+                        ]
                         jwp = evaluate_jwp(sample)
                         result.jwp_scores.append(jwp)
                         if verbose:
-                            print(
-                                f"  JWP: fluency={jwp.language_fluency} "
+                            tqdm.write(
+                                f"  JWP [idx={sample.idx} resp={r_idx+1}]: "
+                                f"fluency={jwp.language_fluency} "
                                 f"coherence={jwp.logical_coherence} "
                                 f"style={jwp.style_alignment} "
                                 f"fulfilment={jwp.instruction_fulfilment} "
                                 f"→ overall={jwp.overall:.3f}"
                                 if jwp.overall is not None
-                                else "  JWP: parse error"
+                                else f"  JWP [idx={sample.idx}]: parse error"
                             )
 
                     elif sample.sample_type == "safety_subjective":
                         sa = evaluate_sa(sample)
                         result.sa_scores.append(sa)
                         if verbose:
-                            print(f"  SA ({sa.facet}): {sa.score}")
+                            tqdm.write(
+                                f"  SA [idx={sample.idx} resp={r_idx+1}] "
+                                f"({sa.facet}): {sa.score}"
+                            )
 
                     elif sample.sample_type in (
                         "general_multiple_choice",
@@ -642,8 +726,9 @@ class NHNieuwsEvaluator:
                         result.mcq_corrects.append(correct)
                         if verbose:
                             predicted = extract_letter(resp)
-                            print(
-                                f"  MCQ: predicted={predicted} "
+                            tqdm.write(
+                                f"  MCQ [idx={sample.idx} resp={r_idx+1}]: "
+                                f"predicted={predicted} "
                                 f"target={sample.target_output} "
                                 f"correct={correct}"
                             )
@@ -652,31 +737,33 @@ class NHNieuwsEvaluator:
 
                 except Exception as e:
                     result.errors.append(str(e))
-                    print(f"  [judge error] {e}")
+                    tqdm.write(f"  [judge error] {e}")
 
             # Restore full list after judging
             sample.system_responses = resp_list
 
             # Summary line when multiple responses were scored
-            if verbose and len(resp_list) > 1:
-                agg = result.jwp or result.sa or None
+            if verbose and n_resp > 1:
                 if result.jwp:
-                    print(
-                        f"  → mean JWP overall: {result.jwp.overall:.3f}"
+                    tqdm.write(
+                        f"  → mean JWP overall [idx={sample.idx}]: {result.jwp.overall:.3f}"
                         if result.jwp.overall
-                        else "  → mean JWP: N/A"
+                        else f"  → mean JWP [idx={sample.idx}]: N/A"
                     )
                 elif result.sa:
-                    print(
-                        f"  → mean SA score: {result.sa.score:.3f}"
+                    tqdm.write(
+                        f"  → mean SA score [idx={sample.idx}]: {result.sa.score:.3f}"
                         if result.sa.score is not None
-                        else "  → mean SA: N/A"
+                        else f"  → mean SA [idx={sample.idx}]: N/A"
                     )
                 elif result.mcq_corrects:
-                    print(f"  → MCQ pass rate: {result.mcq_correct:.3f}")
+                    tqdm.write(
+                        f"  → MCQ pass rate [idx={sample.idx}]: {result.mcq_correct:.3f}"
+                    )
 
             results.append(result)
 
+        pbar.close()
         return results
 
     # ------------------------------------------------------------------
@@ -705,6 +792,22 @@ class NHNieuwsEvaluator:
             n_*                    – sample counts per group
         """
         report: dict = {}
+
+        # ---- Generation failures ----
+        # Count samples where the model returned a failure message.
+        # Failed samples are still included in score averages with worst-case
+        # values (JWP=0.75, SA=0, MCQ=False) so the failure penalises the model.
+        failed = [r for r in results if r.generation_failed]
+        report["n_generation_failures"] = len(failed)
+        report["n_total"] = len(results)
+        report["generation_failure_rate"] = (
+            len(failed) / len(results) if results else None
+        )
+        # Breakdown of failures by sample type
+        report["failures_by_type"] = {}
+        for r in failed:
+            t = r.sample.sample_type
+            report["failures_by_type"][t] = report["failures_by_type"].get(t, 0) + 1
 
         # ---- JWP-SAQs ----
         # Use the aggregated .jwp property (mean across responses per sample)
@@ -814,46 +917,58 @@ class NHNieuwsEvaluator:
     def print_report(self, report: dict) -> None:
         """Pretty-print the evaluation report."""
         sep = "─" * 60
-        print(f"\n{'NH Nieuws Benchmark – Evaluation Report':^60}")
-        print(sep)
+        # Use tqdm.write so output is not garbled when a progress bar is active
+        w = tqdm.write
+        w(f"\n{'NH Nieuws Benchmark – Evaluation Report':^60}")
+        w(sep)
 
         def fmt(v):
             return f"{v:.4f}" if v is not None else "N/A"
 
-        print("\n▶ JOURNALISTIC WRITING PROFICIENCY (JWP)")
-        print(
+        n_fail = report.get("n_generation_failures", 0)
+        n_total = report.get("n_total", 0)
+        fail_rate = report.get("generation_failure_rate")
+        w(f"\n▶ GENERATION FAILURES")
+        w(
+            f"  Failed samples                     : {n_fail} / {n_total}"
+            + (f"  ({fail_rate:.1%})" if fail_rate is not None else "")
+        )
+        if report.get("failures_by_type"):
+            for t, c in sorted(report["failures_by_type"].items()):
+                w(f"    {t:<30}: {c}")
+
+        w("\n▶ JOURNALISTIC WRITING PROFICIENCY (JWP)")
+        w(
             f"  SAQ overall score (range 0.75–2.5) : {fmt(report.get('jwp_saq_overall'))}"
         )
-        print(f"  SAQ n={report.get('n_jwp_saq', 0)}")
+        w(f"  SAQ n={report.get('n_jwp_saq', 0)}")
         if report.get("jwp_saq_by_facet"):
             for k, v in report["jwp_saq_by_facet"].items():
-                print(f"    {k:<30}: {fmt(v)}")
+                w(f"    {k:<30}: {fmt(v)}")
         if report.get("jwp_saq_by_task"):
-            print("  By editorial task:")
+            w("  By editorial task:")
             for k, v in report["jwp_saq_by_task"].items():
-                print(f"    {k:<30}: {fmt(v)}")
-        print(
+                w(f"    {k:<30}: {fmt(v)}")
+        w(
             f"  MCQ accuracy (range 0–1)           : {fmt(report.get('jwp_mcq_accuracy'))}"
         )
-        print(f"  MCQ n={report.get('n_jwp_mcq', 0)}")
+        w(f"  MCQ n={report.get('n_jwp_mcq', 0)}")
 
-        print("\n▶ SAFETY ADHERENCE (SA)")
-        print(
-            f"  SAQ overall score (range 0–1)      : {fmt(report.get('sa_saq_overall'))}"
-        )
-        print(f"  SAQ n={report.get('n_sa_saq', 0)}")
+        w("\n▶ SAFETY ADHERENCE (SA)")
+        w(f"  SAQ overall score (range 0–1)      : {fmt(report.get('sa_saq_overall'))}")
+        w(f"  SAQ n={report.get('n_sa_saq', 0)}")
         if report.get("sa_saq_by_facet"):
             for k, v in report["sa_saq_by_facet"].items():
-                print(f"    {k:<30}: {fmt(v)}")
+                w(f"    {k:<30}: {fmt(v)}")
         if report.get("sa_saq_by_task"):
-            print("  By editorial task:")
+            w("  By editorial task:")
             for k, v in report["sa_saq_by_task"].items():
-                print(f"    {k:<30}: {fmt(v)}")
-        print(
+                w(f"    {k:<30}: {fmt(v)}")
+        w(
             f"  MCQ accuracy (range 0–1)           : {fmt(report.get('sa_mcq_accuracy'))}"
         )
-        print(f"  MCQ n={report.get('n_sa_mcq', 0)}")
-        print(sep)
+        w(f"  MCQ n={report.get('n_sa_mcq', 0)}")
+        w(sep)
 
     # ------------------------------------------------------------------
     # Persistence
@@ -1026,12 +1141,18 @@ if __name__ == "__main__":
         Load pre-generated responses for one model from a directory of JSON files.
 
         Expected filename pattern: prompt_{idx}_response.json
-        Each file must contain a 'response' key with a list[str] of completions
-        (or a single string, which is normalised to a one-element list).
+        Each file must contain a 'response' key whose value is either:
+          - a list[str] of completions, or
+          - a single string (normalised to a one-element list), or
+          - a failure message string (matched case-insensitively against
+            FAILURE_SENTINEL), in which case the value is stored as None
+            to signal that the model failed to generate a response for
+            this sample.
 
         Returns
         -------
-        dict mapping sample index (int) → list[str] of completions
+        dict mapping sample index (int) → list[str] of completions,
+        or None when the model failed to generate a response.
         """
         responses: dict[int, list[str]] = {}
         for filename in sorted(os.listdir(directory)):
@@ -1049,10 +1170,24 @@ if __name__ == "__main__":
                 data = json.load(f)
 
             raw = data.get("response", [])
-            if isinstance(raw, str):
-                raw = [raw]
 
-            responses[sample_idx] = raw
+            # Detect failure sentinel: a string (not a list) that contains the
+            # failure message, or a list whose sole element is the failure message.
+            failure = False
+            if isinstance(raw, str):
+                if FAILURE_SENTINEL.lower() in raw.lower():
+                    failure = True
+                else:
+                    raw = [raw]
+            elif isinstance(raw, list):
+                if (
+                    len(raw) == 1
+                    and isinstance(raw[0], str)
+                    and FAILURE_SENTINEL.lower() in raw[0].lower()
+                ):
+                    failure = True
+
+            responses[sample_idx] = None if failure else raw
 
         return responses
 
@@ -1147,6 +1282,7 @@ if __name__ == "__main__":
                 "news_domain": r.sample.news_domain,
                 "safety_type": r.sample.safety_type,
                 "region": r.sample.region,
+                "generation_failed": r.generation_failed,
                 "n_responses": len(r.sample.system_responses),
                 "target_output": r.sample.target_output,
                 "errors": r.errors,
@@ -1271,11 +1407,14 @@ if __name__ == "__main__":
         for (retriever, distance_metric, model), rows in sorted(
             groups.items(), key=lambda x: (x[0][0], x[0][1] or "", x[0][2])
         ):
+            n_failed = sum(1 for r in rows if r.get("generation_failed"))
             summary: dict = {
                 "retriever": retriever,
                 "distance_metric": distance_metric,
                 "model": model,
                 "n_samples": len(rows),
+                "n_generation_failures": n_failed,
+                "generation_failure_rate": n_failed / len(rows) if rows else None,
             }
 
             # JWP-SAQs
@@ -1409,27 +1548,37 @@ if __name__ == "__main__":
     print()
 
     # Evaluate each model in turn
-    for combo_idx, (retriever, distance_metric, model, model_dir) in enumerate(combos):
+    model_pbar = tqdm(
+        combos,
+        desc="Models",
+        unit="model",
+        dynamic_ncols=True,
+    )
+    for retriever, distance_metric, model, model_dir in model_pbar:
         dm_label = f"  distance_metric={distance_metric}" if distance_metric else ""
-        print(f"{'='*60}")
-        print(
-            f"[{combo_idx+1}/{len(combos)}] retriever={retriever}{dm_label}  model={model}"
+        model_pbar.set_postfix_str(
+            f"{retriever}{(' / ' + distance_metric) if distance_metric else ''} / {model}",
+            refresh=True,
         )
-        print(f"{'='*60}")
+        tqdm.write(f"{'='*60}")
+        tqdm.write(f"retriever={retriever}{dm_label}  model={model}")
+        tqdm.write(f"{'='*60}")
 
         # Skip if already evaluated and resume is on
         if args.resume and already_evaluated(
             combined_json_path, retriever, model, distance_metric
         ):
-            print("  Already in combined output — skipping.\n")
+            tqdm.write("  Already in combined output — skipping.\n")
             continue
 
         # Load this model's responses from disk
         model_responses = load_model_responses(model_dir)
         if not model_responses:
-            print(f"  [warning] No response files found in '{model_dir}', skipping.\n")
+            tqdm.write(
+                f"  [warning] No response files found in '{model_dir}', skipping.\n"
+            )
             continue
-        print(f"  Loaded responses for {len(model_responses)} sample(s).")
+        tqdm.write(f"  Loaded responses for {len(model_responses)} sample(s).")
 
         # Run the judge
         eval_results = evaluator.evaluate(
@@ -1439,7 +1588,7 @@ if __name__ == "__main__":
 
         # Build per-model report and print it
         model_report = evaluator.report(eval_results)
-        print()
+        tqdm.write("")
         evaluator.print_report(model_report)
 
         # Serialise results tagged with retriever, distance_metric, and model
@@ -1453,7 +1602,7 @@ if __name__ == "__main__":
         # Append to combined files
         append_to_combined_json(rows, combined_json_path)
         append_to_combined_csv(rows, combined_csv_path)
-        print(f"  Appended {len(rows)} sample row(s) to combined output.")
+        tqdm.write(f"  Appended {len(rows)} sample row(s) to combined output.")
 
         # Save a per-model report alongside the combined files
         model_report["retriever"] = retriever
@@ -1464,7 +1613,7 @@ if __name__ == "__main__":
         Path(model_report_path).write_text(
             json.dumps(model_report, ensure_ascii=False, indent=2), encoding="utf-8"
         )
-        print(f"  Per-model report saved to {model_report_path}\n")
+        tqdm.write(f"  Per-model report saved to {model_report_path}\n")
 
     # Write the cross-model summary table
     print("Building summary report across all evaluated models …")
