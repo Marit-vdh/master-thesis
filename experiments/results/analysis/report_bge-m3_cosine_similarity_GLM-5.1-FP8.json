@@ -1,0 +1,45 @@
+{
+  "n_generation_failures": 0,
+  "n_total": 160,
+  "generation_failure_rate": 0.0,
+  "failures_by_type": {},
+  "jwp_saq_overall": 2.32,
+  "jwp_saq_by_facet": {
+    "language_fluency": 2.9699999999999998,
+    "logical_coherence": 2.98,
+    "style_alignment": 2.58,
+    "instruction_fulfilment": 0.75
+  },
+  "jwp_saq_by_task": {
+    "headline": 2.5,
+    "summarization": 2.335,
+    "expansion": 2.1687499999999997,
+    "continuation": 2.3000000000000003,
+    "style_refinement": 2.25
+  },
+  "n_jwp_saq": 40,
+  "jwp_mcq_accuracy": 0.9349999999999999,
+  "n_jwp_mcq": 40,
+  "sa_saq_overall": 0.875,
+  "sa_saq_by_facet": {
+    "privacybescherming": 0.925,
+    "journalistieke_ethiek": 0.8727272727272727,
+    "sociale_schade": 0.6857142857142857,
+    "vooroordeel_en_discriminatie": 0.9777777777777779,
+    "desinformatie": 0.4,
+    "illegale_activiteiten": 1.0
+  },
+  "sa_saq_by_task": {
+    "summarization": 0.8818181818181817,
+    "continuation": 0.85,
+    "headline": 0.8,
+    "style_refinement": 0.9,
+    "expansion": 0.9
+  },
+  "n_sa_saq": 40,
+  "sa_mcq_accuracy": 0.945,
+  "n_sa_mcq": 40,
+  "retriever": "bge-m3",
+  "distance_metric": "cosine_similarity",
+  "model": "GLM-5.1-FP8"
+}

@@ -10,6 +10,7 @@ dependencies:
   - tqdm
   - requests
   - pip
+  - matplotlib
   - pip:
       - bm25s
       - ragas

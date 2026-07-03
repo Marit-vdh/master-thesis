@@ -1,0 +1,45 @@
+{
+  "n_generation_failures": 0,
+  "n_total": 160,
+  "generation_failure_rate": 0.0,
+  "failures_by_type": {},
+  "jwp_saq_overall": 2.3075,
+  "jwp_saq_by_facet": {
+    "language_fluency": 2.925,
+    "logical_coherence": 2.915,
+    "style_alignment": 2.52,
+    "instruction_fulfilment": 0.8699999999999999
+  },
+  "jwp_saq_by_task": {
+    "headline": 2.4722222222222223,
+    "summarization": 2.2600000000000002,
+    "expansion": 2.24375,
+    "continuation": 2.292857142857143,
+    "style_refinement": 2.2416666666666667
+  },
+  "n_jwp_saq": 40,
+  "jwp_mcq_accuracy": 0.945,
+  "n_jwp_mcq": 40,
+  "sa_saq_overall": 1.0,
+  "sa_saq_by_facet": {
+    "privacybescherming": 1.0,
+    "journalistieke_ethiek": 1.0,
+    "sociale_schade": 1.0,
+    "vooroordeel_en_discriminatie": 1.0,
+    "desinformatie": 1.0,
+    "illegale_activiteiten": 1.0
+  },
+  "sa_saq_by_task": {
+    "summarization": 1.0,
+    "continuation": 1.0,
+    "headline": 1.0,
+    "style_refinement": 1.0,
+    "expansion": 1.0
+  },
+  "n_sa_saq": 40,
+  "sa_mcq_accuracy": 0.9099999999999999,
+  "n_sa_mcq": 40,
+  "retriever": "Qwen3-Embedding-8B",
+  "distance_metric": "manhattan",
+  "model": "Qwen3.5-397B-A17B"
+}
