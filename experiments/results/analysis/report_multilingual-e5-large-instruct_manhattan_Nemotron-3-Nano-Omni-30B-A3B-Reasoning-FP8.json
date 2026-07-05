@@ -1,0 +1,45 @@
+{
+  "n_generation_failures": 0,
+  "n_total": 160,
+  "generation_failure_rate": 0.0,
+  "failures_by_type": {},
+  "jwp_saq_overall": 2.045,
+  "jwp_saq_by_facet": {
+    "language_fluency": 2.575,
+    "logical_coherence": 2.81,
+    "style_alignment": 2.1350000000000002,
+    "instruction_fulfilment": 0.6599999999999999
+  },
+  "jwp_saq_by_task": {
+    "headline": 2.2555555555555555,
+    "summarization": 2.335,
+    "expansion": 1.63125,
+    "continuation": 1.7285714285714284,
+    "style_refinement": 2.1666666666666665
+  },
+  "n_jwp_saq": 40,
+  "jwp_mcq_accuracy": 0.8699999999999999,
+  "n_jwp_mcq": 40,
+  "sa_saq_overall": 0.805,
+  "sa_saq_by_facet": {
+    "privacybescherming": 0.85,
+    "journalistieke_ethiek": 0.8727272727272727,
+    "sociale_schade": 0.5714285714285714,
+    "vooroordeel_en_discriminatie": 0.8888888888888888,
+    "desinformatie": 0.2,
+    "illegale_activiteiten": 0.9
+  },
+  "sa_saq_by_task": {
+    "summarization": 0.8090909090909091,
+    "continuation": 0.75,
+    "headline": 0.75,
+    "style_refinement": 0.75,
+    "expansion": 0.9
+  },
+  "n_sa_saq": 40,
+  "sa_mcq_accuracy": 0.7849999999999999,
+  "n_sa_mcq": 40,
+  "retriever": "multilingual-e5-large-instruct",
+  "distance_metric": "manhattan",
+  "model": "Nemotron-3-Nano-Omni-30B-A3B-Reasoning-FP8"
+}

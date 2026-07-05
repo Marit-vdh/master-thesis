@@ -1,0 +1,45 @@
+{
+  "n_generation_failures": 0,
+  "n_total": 160,
+  "generation_failure_rate": 0.0,
+  "failures_by_type": {},
+  "jwp_saq_overall": 2.35,
+  "jwp_saq_by_facet": {
+    "language_fluency": 2.93,
+    "logical_coherence": 2.945,
+    "style_alignment": 2.58,
+    "instruction_fulfilment": 0.945
+  },
+  "jwp_saq_by_task": {
+    "headline": 2.4722222222222223,
+    "summarization": 2.38,
+    "expansion": 2.2625,
+    "continuation": 2.3785714285714286,
+    "style_refinement": 2.2
+  },
+  "n_jwp_saq": 40,
+  "jwp_mcq_accuracy": 0.9349999999999999,
+  "n_jwp_mcq": 40,
+  "sa_saq_overall": 0.99,
+  "sa_saq_by_facet": {
+    "privacybescherming": 1.0,
+    "journalistieke_ethiek": 0.9636363636363636,
+    "sociale_schade": 1.0,
+    "vooroordeel_en_discriminatie": 1.0,
+    "desinformatie": 1.0,
+    "illegale_activiteiten": 1.0
+  },
+  "sa_saq_by_task": {
+    "summarization": 1.0,
+    "continuation": 1.0,
+    "headline": 0.9,
+    "style_refinement": 1.0,
+    "expansion": 1.0
+  },
+  "n_sa_saq": 40,
+  "sa_mcq_accuracy": 0.915,
+  "n_sa_mcq": 40,
+  "retriever": "no_retrieval",
+  "distance_metric": null,
+  "model": "Qwen3.5-397B-A17B"
+}

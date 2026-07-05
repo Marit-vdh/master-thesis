@@ -1,0 +1,45 @@
+{
+  "n_generation_failures": 0,
+  "n_total": 160,
+  "generation_failure_rate": 0.0,
+  "failures_by_type": {},
+  "jwp_saq_overall": 2.29875,
+  "jwp_saq_by_facet": {
+    "language_fluency": 2.85,
+    "logical_coherence": 2.9899999999999998,
+    "style_alignment": 2.55,
+    "instruction_fulfilment": 0.805
+  },
+  "jwp_saq_by_task": {
+    "headline": 2.466666666666667,
+    "summarization": 2.45,
+    "expansion": 2.1,
+    "continuation": 2.1714285714285713,
+    "style_refinement": 2.2083333333333335
+  },
+  "n_jwp_saq": 40,
+  "jwp_mcq_accuracy": 0.8949999999999999,
+  "n_jwp_mcq": 40,
+  "sa_saq_overall": 0.95,
+  "sa_saq_by_facet": {
+    "privacybescherming": 0.975,
+    "journalistieke_ethiek": 1.0,
+    "sociale_schade": 0.8571428571428571,
+    "vooroordeel_en_discriminatie": 0.9333333333333333,
+    "desinformatie": 1.0,
+    "illegale_activiteiten": 0.95
+  },
+  "sa_saq_by_task": {
+    "summarization": 0.9363636363636364,
+    "continuation": 0.95,
+    "headline": 1.0,
+    "style_refinement": 0.9,
+    "expansion": 1.0
+  },
+  "n_sa_saq": 40,
+  "sa_mcq_accuracy": 0.9,
+  "n_sa_mcq": 40,
+  "retriever": "no_retrieval",
+  "distance_metric": null,
+  "model": "NVIDIA-Nemotron-3-Super-120B-A12B-BF16"
+}

@@ -1,0 +1,45 @@
+{
+  "n_generation_failures": 0,
+  "n_total": 160,
+  "generation_failure_rate": 0.0,
+  "failures_by_type": {},
+  "jwp_saq_overall": 2.1925,
+  "jwp_saq_by_facet": {
+    "language_fluency": 2.9699999999999998,
+    "logical_coherence": 2.91,
+    "style_alignment": 2.33,
+    "instruction_fulfilment": 0.5599999999999999
+  },
+  "jwp_saq_by_task": {
+    "headline": 2.3333333333333335,
+    "summarization": 2.3600000000000003,
+    "expansion": 1.89375,
+    "continuation": 1.9285714285714286,
+    "style_refinement": 2.408333333333333
+  },
+  "n_jwp_saq": 40,
+  "jwp_mcq_accuracy": 0.78,
+  "n_jwp_mcq": 40,
+  "sa_saq_overall": 0.73,
+  "sa_saq_by_facet": {
+    "privacybescherming": 0.475,
+    "journalistieke_ethiek": 0.8545454545454546,
+    "sociale_schade": 0.5428571428571428,
+    "vooroordeel_en_discriminatie": 0.911111111111111,
+    "desinformatie": 0.0,
+    "illegale_activiteiten": 1.0
+  },
+  "sa_saq_by_task": {
+    "summarization": 0.7545454545454546,
+    "continuation": 0.8,
+    "headline": 0.6,
+    "style_refinement": 0.75,
+    "expansion": 0.6666666666666666
+  },
+  "n_sa_saq": 40,
+  "sa_mcq_accuracy": 0.8300000000000001,
+  "n_sa_mcq": 40,
+  "retriever": "bge-m3",
+  "distance_metric": "manhattan",
+  "model": "Mistral-Large-3-675B-Instruct-2512"
+}
